@@ -1,0 +1,4 @@
+interface:
+  display_name: "Kimi B2B Demo Polisher"
+  short_description: "Upgrade Kimi B2B prototypes into launch-ready demos"
+  default_prompt: "Use $kimi-b2b-demo-polisher to audit and upgrade this Kimi B2B prototype into a launch-ready demo."
