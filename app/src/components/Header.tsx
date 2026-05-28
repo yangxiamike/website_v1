@@ -143,7 +143,7 @@ export default function Header() {
               to="/request-quote"
               className="hidden sm:inline-flex items-center gap-1.5 h-[48px] px-6 bg-brand-red text-white text-sm font-semibold hover:bg-dark-red transition-colors whitespace-nowrap"
             >
-              Request for Quote
+              Request a Quote
             </Link>
             <button
               className="lg:hidden p-2 text-text-primary"
@@ -221,7 +221,7 @@ export default function Header() {
                   className="mt-4 block w-full text-center h-12 bg-brand-red text-white font-semibold text-sm leading-[48px] hover:bg-dark-red"
                   onClick={() => setMobileMenuOpen(false)}
                 >
-                  Request for Quote
+                  Request a Quote
                 </Link>
               </nav>
             </motion.div>

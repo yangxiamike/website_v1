@@ -208,7 +208,7 @@ export default function Products() {
         ctas={(
           <>
             <CTAButton to="/request-quote?source=products-hero">Request a Quote</CTAButton>
-            <CTAButton to="/request-quote?source=catalog-download" variant="ghost">Download Catalog</CTAButton>
+            <CTAButton to="/resources#downloads" variant="ghost">Download Catalog</CTAButton>
           </>
         )}
       />

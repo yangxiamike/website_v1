@@ -183,7 +183,7 @@ export default function Home() {
                   <Link to="/request-quote?source=home-hero" className="inline-flex items-center gap-2 h-[50px] px-8 bg-brand-red text-white font-semibold text-sm hover:bg-dark-red transition-colors whitespace-nowrap">
                     Request a Quote <ArrowRight className="w-4 h-4" />
                   </Link>
-                  <Link to="/request-quote?source=home-catalog-download" className="inline-flex items-center gap-2 h-[50px] px-8 border border-white/40 text-white font-medium text-sm hover:bg-white/10 transition-colors whitespace-nowrap">
+                  <Link to="/resources#downloads" className="inline-flex items-center gap-2 h-[50px] px-8 border border-white/40 text-white font-medium text-sm hover:bg-white/10 transition-colors whitespace-nowrap">
                     Download Catalog
                   </Link>
                 </div>

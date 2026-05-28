@@ -447,7 +447,7 @@ export default function RequestQuote() {
               to="/request-quote"
               className="inline-flex items-center gap-2 h-[48px] px-7 bg-white text-brand-red text-sm font-semibold hover:bg-gray-100 transition-colors flex-shrink-0"
             >
-              Request a Quote Now <ArrowRight className="w-4 h-4" />
+              Request a Quote <ArrowRight className="w-4 h-4" />
             </Link>
           </div>
         </div>

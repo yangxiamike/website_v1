@@ -68,7 +68,6 @@ export default function Factory() {
         ctas={(
           <>
             <CTAButton to="/request-quote">Request a Quote</CTAButton>
-            <CTAButton to="/request-quote?source=factory-hero" variant="ghost">Send Specs for Review</CTAButton>
           </>
         )}
       />
@@ -120,7 +119,7 @@ export default function Factory() {
       </section>
 
       {/* ═══════ INTEGRATED WORKSHOP OVERVIEW ═══════ */}
-      <section className="bg-gray-50 py-12 lg:py-16">
+      <section id="capabilities" className="bg-gray-50 py-12 lg:py-16 scroll-mt-36">
         <div className="max-w-7xl mx-auto px-4 sm:px-6">
           <div className="flex flex-col lg:flex-row gap-8 items-start">
             {/* Left: Text */}
@@ -131,7 +130,7 @@ export default function Factory() {
               <p className="text-sm text-text-secondary leading-[1.7] mb-6">
                 Our integrated manufacturing facility brings together advanced machining, assembly and testing under one roof to ensure efficiency, precision and consistent quality.
               </p>
-              <CTAButton to="/request-quote?source=factory-process">
+              <CTAButton to="/factory#capabilities">
                 View Factory Tour
               </CTAButton>
             </div>
