@@ -230,7 +230,7 @@ export default function Products() {
   );
 
   return (
-    <div>
+    <div className="pt-[80px]">
       {/* ═══════ HERO ═══════ */}
       <section className="relative bg-gray-50 overflow-hidden" style={{ minHeight: 380 }}>
         {/* Subtle industrial pattern overlay */}

@@ -92,7 +92,7 @@ export default function ProductDetail() {
 
   if (!detail) {
     return (
-      <div className="pt-[72px]">
+      <div className="pt-[80px]">
         <div className="bg-gray-50 border-b border-gray-100">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 py-3">
             <nav className="text-[13px] text-text-muted">
@@ -122,7 +122,7 @@ export default function ProductDetail() {
   }
 
   return (
-    <div className="pt-[72px]">
+    <div className="pt-[80px]">
       {/* ═══════ BREADCRUMB ═══════ */}
       <div className="bg-gray-50 border-b border-gray-100">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 py-2.5">

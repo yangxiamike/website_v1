@@ -96,7 +96,7 @@ function WorldMap() {
 
 export default function About() {
   return (
-    <div className="pt-[72px]">
+    <div className="pt-[80px]">
 
       {/* ═══════ HERO ═══════ */}
       <section className="relative overflow-hidden" style={{ minHeight: 420, maxHeight: 500 }}>

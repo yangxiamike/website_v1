@@ -156,7 +156,7 @@ export default function Home() {
     <div>
 
       {/* ═══════ HERO: true full-screen ═══════ */}
-      <section className="relative overflow-hidden" style={{ height: 'calc(100dvh - 72px)', minHeight: 560 }}>
+      <section className="relative overflow-hidden" style={{ height: 'calc(100dvh - 80px)', minHeight: 560 }}>
         {/* Background */}
         <div className="absolute inset-0">
           <img src="/images/hero-factory.png" alt="Haiyue Valve factory" className="w-full h-full object-cover" />

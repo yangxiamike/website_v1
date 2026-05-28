@@ -74,7 +74,7 @@ export default function ThankYou() {
   const config = type === 'contact' ? contactConfig : rfqConfig;
 
   return (
-    <div className="pt-[72px]">
+    <div className="pt-[80px]">
       {/* ═══════ HERO SECTION ═══════ */}
       <section className="relative overflow-hidden" style={{ minHeight: 420 }}>
         {/* Background */}

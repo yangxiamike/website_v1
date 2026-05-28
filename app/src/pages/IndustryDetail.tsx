@@ -38,7 +38,7 @@ export default function IndustryDetail() {
 
   if (!ind) {
     return (
-      <div className="pt-[72px]">
+      <div className="pt-[80px]">
         <section className="bg-white py-20">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 text-center">
             <h1 className="text-2xl font-bold text-text-primary mb-4">Industry Not Found</h1>
@@ -52,7 +52,7 @@ export default function IndustryDetail() {
   }
 
   return (
-    <div className="pt-[72px]">
+    <div className="pt-[80px]">
       {/* ═══════ BREADCRUMB ═══════ */}
       <div className="bg-gray-50 border-b border-gray-100">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 py-2.5">

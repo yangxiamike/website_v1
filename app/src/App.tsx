@@ -27,7 +27,7 @@ export default function App() {
     <>
       <ScrollToTop />
       <Header />
-      <Suspense fallback={<div className="pt-[72px] min-h-screen bg-white" />}>
+      <Suspense fallback={<div className="pt-[80px] min-h-screen bg-white" />}>
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/products" element={<Products />} />

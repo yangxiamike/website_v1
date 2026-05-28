@@ -36,11 +36,12 @@ export default function Footer() {
         <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-10 lg:gap-8">
           {/* Brand Column */}
           <div className="col-span-2 md:col-span-3 lg:col-span-1">
-            <Link to="/" className="inline-block mb-4">
-              <span className="text-2xl font-bold tracking-tight">
-                <span className="text-white">Haiyue</span>
-                <span className="text-brand-red">Valve</span>
-              </span>
+            <Link to="/" className="inline-flex mb-4">
+              <img
+                src="/images/logo-haiyue-lockup.png"
+                alt="Haiyue Valve"
+                className="h-20 w-auto"
+              />
             </Link>
             <p className="text-gray-400 text-sm leading-relaxed max-w-xs">
               Zhejiang-based industrial valve manufacturer focused on practical valve solutions for water treatment, chemical, oil & gas, HVAC and general industrial applications.

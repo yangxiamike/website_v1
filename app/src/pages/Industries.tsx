@@ -128,7 +128,7 @@ const supportItems = [
 
 export default function Industries() {
   return (
-    <div className="pt-[72px]">
+    <div className="pt-[80px]">
       {/* ═══════ HERO ═══════ */}
       <section className="relative overflow-hidden" style={{ minHeight: 360 }}>
         <div className="absolute inset-0">

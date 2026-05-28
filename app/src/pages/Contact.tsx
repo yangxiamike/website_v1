@@ -103,7 +103,7 @@ export default function Contact() {
   };
 
   return (
-    <div className="pt-[72px]">
+    <div className="pt-[80px]">
       {/* ═══════ HERO ═══════ */}
       <section className="relative overflow-hidden" style={{ minHeight: 300 }}>
         <div className="absolute inset-0">

@@ -67,15 +67,15 @@ export default function Header() {
             ? 'bg-white/95 backdrop-blur-md shadow-sm border-gray-200'
             : 'bg-white border-gray-100'
         } ${hidden ? '-translate-y-full' : 'translate-y-0'}`}
-        style={{ height: 72 }}
+        style={{ height: 80 }}
       >
         <div className="max-w-7xl mx-auto px-4 sm:px-6 h-full flex items-center justify-between gap-4">
           {/* Logo */}
           <Link to="/" className="flex-shrink-0 flex items-center gap-2.5">
             <img
-              src="/images/logo-haiyue.png"
+              src="/images/logo-haiyue-lockup.png"
               alt="Haiyue Valve"
-              className="h-10 w-auto"
+              className="h-12 sm:h-14 w-auto"
             />
           </Link>
 

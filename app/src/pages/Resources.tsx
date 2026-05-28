@@ -76,7 +76,7 @@ export default function Resources() {
   }, [location.hash]);
 
   return (
-    <div className="pt-[72px]">
+    <div className="pt-[80px]">
       {/* ═══════ HERO ═══════ */}
       <section className="relative overflow-hidden" style={{ minHeight: 320 }}>
         <div className="absolute inset-0">

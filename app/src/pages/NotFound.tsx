@@ -12,7 +12,7 @@ const helpfulLinks = [
 
 export default function NotFound() {
   return (
-    <div className="pt-[72px]">
+    <div className="pt-[80px]">
       {/* ═══════ HERO SECTION ═══════ */}
       <section className="relative overflow-hidden bg-gray-50" style={{ minHeight: 420 }}>
         {/* Very subtle valve line-art decorations */}
