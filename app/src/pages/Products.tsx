@@ -1,11 +1,13 @@
 import { useState, useMemo, useEffect } from 'react';
-import { Link, useSearchParams } from 'react-router-dom';
+import { useSearchParams } from 'react-router-dom';
 import { ArrowRight, Search, SlidersHorizontal, ChevronDown, X, ChevronLeft, ChevronRight } from 'lucide-react';
-import { productsList, filterOptions, applicationHelpers, type Product } from '../data/productsCatalog';
+import { productsList, filterOptions, applicationHelpers } from '../data/productsCatalog';
 import {
   IconWaterTreatment, IconChemicalProcessing, IconOilGas, IconGeneralPipeline,
 } from '../components/icons';
 import CTABanner from '../components/CTABanner';
+import { CTAButton, PageHero, ProductCard } from '../components/common';
+import { pageHeroes } from '../data/pageHeroes';
 
 const appIconMap: Record<string, React.FC<{ className?: string; size?: number; strokeWidth?: number }>> = {
   'Water Treatment': IconWaterTreatment,
@@ -52,36 +54,6 @@ function FilterGroup({ title, options, selected, toggle }: {
           ))}
         </div>
       )}
-    </div>
-  );
-}
-
-/* ─── Product Card ─── */
-function ProductCard({ product }: { product: Product }) {
-  return (
-    <div className="bg-white border border-gray-200 hover:border-brand-red/40 transition-all duration-300 hover:shadow-lg hover:shadow-gray-200/50 flex flex-col h-full group">
-      {/* Image */}
-      <div className="h-[200px] bg-gray-50 flex items-center justify-center p-6 border-b border-gray-100 flex-shrink-0 overflow-hidden">
-        <img
-          src={product.image}
-          alt={product.name}
-          className="max-h-full max-w-full object-contain group-hover:scale-105 transition-transform duration-500"
-        />
-      </div>
-      {/* Content */}
-      <div className="p-5 flex flex-col flex-1">
-        <h3 className="font-bold text-text-primary text-[15px] leading-snug">{product.name}</h3>
-        <p className="text-sm text-text-muted mt-2 leading-relaxed line-clamp-2 flex-1">{product.description}</p>
-        <p className="text-xs text-text-muted mt-3 font-mono bg-gray-50 px-2.5 py-1.5 w-fit">{product.specs}</p>
-        <div className="flex items-center gap-5 mt-4 pt-4 border-t border-gray-100">
-          <Link to={`/products/${product.id}`} className="inline-flex items-center gap-1.5 text-brand-red text-sm font-semibold hover:underline underline-offset-2">
-            View Details <ArrowRight className="w-3.5 h-3.5" />
-          </Link>
-          <Link to={`/request-quote?product=${product.id}`} className="inline-flex items-center gap-1.5 text-brand-red text-sm font-semibold hover:underline underline-offset-2">
-            Request Quote <ArrowRight className="w-3.5 h-3.5" />
-          </Link>
-        </div>
-      </div>
     </div>
   );
 }
@@ -231,54 +203,15 @@ export default function Products() {
 
   return (
     <div className="pt-[80px]">
-      {/* ═══════ HERO ═══════ */}
-      <section className="relative bg-gray-50 overflow-hidden" style={{ minHeight: 380 }}>
-        {/* Subtle industrial pattern overlay */}
-        <div className="absolute inset-0 opacity-[0.03]" style={{
-          backgroundImage: `url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23000000' fill-opacity='1'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E")`,
-        }} />
-        {/* Accent line */}
-        <div className="absolute top-0 left-0 right-0 h-1 bg-brand-red" />
-        <div className="relative z-10 max-w-[1280px] mx-auto px-4 sm:px-6 lg:px-8 py-10 lg:py-14">
-          <div className="grid lg:grid-cols-2 gap-8 items-center">
-            {/* Left: Text */}
-            <div>
-              <div className="inline-flex items-center gap-2 text-xs font-semibold text-brand-red uppercase tracking-wider mb-4">
-                <span className="w-6 h-px bg-brand-red" />
-                Industrial Valve Solutions
-              </div>
-              <h1 className="text-3xl lg:text-[2.75rem] font-bold text-text-primary leading-[1.1] tracking-tight">
-                Product Catalog
-              </h1>
-              <p className="text-text-secondary text-sm sm:text-base mt-4 max-w-md leading-relaxed">
-                Browse our complete range of industrial valves for water treatment, chemical processing, oil & gas, HVAC, and general pipeline applications.
-              </p>
-              <div className="flex flex-wrap gap-3 mt-7">
-                <Link
-                  to="/request-quote?source=products-hero"
-                  className="inline-flex items-center gap-2 h-[48px] px-7 bg-brand-red text-white text-sm font-semibold hover:bg-[#b91a1a] transition-colors shadow-sm shadow-brand-red/20"
-                >
-                  Request a Quote <ArrowRight className="w-4 h-4" />
-                </Link>
-                <Link to="/request-quote?source=catalog-download" className="inline-flex items-center gap-2 h-[48px] px-7 border border-gray-300 text-text-primary text-sm font-medium hover:border-brand-red hover:text-brand-red transition-colors bg-white">
-                  Download Catalog
-                </Link>
-              </div>
-            </div>
-            {/* Right: Featured Product Image */}
-            <div className="hidden lg:flex justify-end items-center">
-              <div className="relative">
-                <div className="absolute inset-0 bg-gradient-to-br from-gray-200/50 to-transparent rounded-lg" />
-                <img
-                  src="/images/prod-trunnion-ball.png"
-                  alt="Featured Industrial Valve"
-                  className="h-64 xl:h-72 object-contain drop-shadow-xl relative z-10"
-                />
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
+      <PageHero
+        {...pageHeroes.products}
+        ctas={(
+          <>
+            <CTAButton to="/request-quote?source=products-hero">Request a Quote</CTAButton>
+            <CTAButton to="/request-quote?source=catalog-download" variant="ghost">Download Catalog</CTAButton>
+          </>
+        )}
+      />
 
       {/* ═══════ MOBILE: Search Bar (above toolbar) ═══════ */}
       <div className="lg:hidden bg-white border-b border-gray-100 px-4 py-3">
@@ -377,7 +310,7 @@ export default function Products() {
 
               {/* Products Grid */}
               {pageProducts.length > 0 ? (
-                <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-6">
+                <div className="grid grid-cols-1 gap-x-6 gap-y-8 sm:grid-cols-2 xl:grid-cols-3">
                   {pageProducts.map((product) => (
                     <ProductCard key={product.id} product={product} />
                   ))}
