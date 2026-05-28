@@ -2,6 +2,8 @@ import { useMemo } from 'react';
 import { Link, useSearchParams } from 'react-router-dom';
 import { ArrowRight, Factory, Search } from 'lucide-react';
 import { caseStudies, filterCategories } from '../data/cases';
+import { PageHero } from '../components/common';
+import { pageHeroes } from '../data/pageHeroes';
 
 export default function Cases() {
   const [searchParams, setSearchParams] = useSearchParams();
@@ -22,21 +24,7 @@ export default function Cases() {
 
   return (
     <div className="pt-[80px]">
-      {/* ═══════ HERO ═══════ */}
-      <section className="relative overflow-hidden" style={{ minHeight: 320 }}>
-        <div className="absolute inset-0">
-          <img src="/images/cases-hero.jpg" alt="" className="w-full h-full object-cover" />
-          <div className="absolute inset-0 bg-gradient-to-r from-black/75 via-black/60 to-black/40" />
-        </div>
-        <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 py-16 lg:py-20">
-          <h1 className="text-3xl lg:text-[2.75rem] font-bold text-white leading-[1.1] tracking-tight">
-            Case Studies
-          </h1>
-          <p className="text-white/80 text-sm sm:text-base mt-4 max-w-lg leading-relaxed">
-            Sample valve supply scenarios across water treatment, chemical processing, oil & gas, HVAC, and industrial pipelines.
-          </p>
-        </div>
-      </section>
+      <PageHero {...pageHeroes.cases} />
 
       {/* ═══════ FILTER BAR ═══════ */}
       <section className="bg-white border-b border-gray-100">
@@ -66,7 +54,7 @@ export default function Cases() {
             {filtered.map((cs) => (
               <div
                 key={cs.id}
-                className="flex flex-col lg:flex-row gap-0 border border-gray-200 hover:border-brand-red/30 transition-all duration-300 hover:shadow-lg hover:shadow-gray-200/40 group"
+                className="flex flex-col lg:flex-row gap-0 ds-card ds-card-hover group"
               >
                 {/* Image */}
                 <div className="lg:w-[50%] flex-shrink-0 overflow-hidden">

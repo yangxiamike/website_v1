@@ -3,15 +3,8 @@ import { Link, useNavigate, useSearchParams } from 'react-router-dom';
 import { ArrowRight, Mail, Phone, MapPin, Clock } from 'lucide-react';
 import CTABanner from '../components/CTABanner';
 import { submitInquiry } from '../lib/supabase';
-
-function FormLabel({ children, required }: { children: React.ReactNode; required?: boolean }) {
-  return (
-    <label className="block text-sm font-medium text-text-primary mb-1.5">
-      {children}
-      {required && <span className="text-brand-red ml-0.5">*</span>}
-    </label>
-  );
-}
+import { CTAButton, FormLabel, PageHero, SelectInput, TextareaField, TextInput } from '../components/common';
+import { pageHeroes } from '../data/pageHeroes';
 
 const contactInfo = [
   {
@@ -104,21 +97,7 @@ export default function Contact() {
 
   return (
     <div className="pt-[80px]">
-      {/* ═══════ HERO ═══════ */}
-      <section className="relative overflow-hidden" style={{ minHeight: 300 }}>
-        <div className="absolute inset-0">
-          <img src="/images/contact-hero.jpg" alt="" className="w-full h-full object-cover" />
-          <div className="absolute inset-0 bg-gradient-to-r from-black/80 via-black/60 to-black/30" />
-        </div>
-        <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 py-14 lg:py-16">
-          <h1 className="text-3xl lg:text-[2.75rem] font-bold text-white leading-[1.1] tracking-tight">
-            Contact Haiyue Valve
-          </h1>
-          <p className="text-white/80 text-sm sm:text-base mt-4 max-w-lg leading-relaxed">
-            We're here to help with sales inquiries, technical support, factory visits, and general questions.
-          </p>
-        </div>
-      </section>
+      <PageHero {...pageHeroes.contact} />
 
       {/* ═══════ MAIN CONTACT SECTION ═══════ */}
       <section className="bg-gray-50 py-10 lg:py-14">
@@ -135,38 +114,23 @@ export default function Contact() {
                   <form onSubmit={handleSubmit} className="space-y-4">
                     <div>
                       <FormLabel required>Name</FormLabel>
-                      <input name="name" type="text" placeholder="Your name" required className="w-full h-10 px-3 text-sm border border-gray-200 bg-white focus:outline-none focus:border-brand-red transition-colors" />
+                      <TextInput name="name" placeholder="Your name" required />
                     </div>
                     <div>
                       <FormLabel required>Email</FormLabel>
-                      <input name="email" type="email" placeholder="Your email" required className="w-full h-10 px-3 text-sm border border-gray-200 bg-white focus:outline-none focus:border-brand-red transition-colors" />
+                      <TextInput name="email" type="email" placeholder="Your email" required />
                     </div>
                     <div>
                       <FormLabel required>Company</FormLabel>
-                      <input name="company" type="text" placeholder="Your company name" required className="w-full h-10 px-3 text-sm border border-gray-200 bg-white focus:outline-none focus:border-brand-red transition-colors" />
+                      <TextInput name="company" placeholder="Your company name" required />
                     </div>
                     <div>
                       <FormLabel required>Country</FormLabel>
-                      <div className="relative">
-                        <select name="country" required className="w-full h-10 px-3 text-sm border border-gray-200 bg-white focus:outline-none focus:border-brand-red transition-colors appearance-none cursor-pointer text-text-secondary">
-                          <option value="">Select your country</option>
-                          <option>China</option>
-                          <option>United States</option>
-                          <option>Germany</option>
-                          <option>Russia</option>
-                          <option>Saudi Arabia</option>
-                          <option>India</option>
-                          <option>Brazil</option>
-                          <option>Other</option>
-                        </select>
-                        <svg className="absolute right-3 top-1/2 -translate-y-1/2 w-4 h-4 text-text-muted pointer-events-none" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
-                          <path strokeLinecap="round" strokeLinejoin="round" d="M19 9l-7 7-7-7" />
-                        </svg>
-                      </div>
+                      <SelectInput name="country" placeholder="Select your country" required options={['China', 'United States', 'Germany', 'Russia', 'Saudi Arabia', 'India', 'Brazil', 'Other']} />
                     </div>
                     <div>
                       <FormLabel required>Message</FormLabel>
-                      <textarea name="message" rows={4} defaultValue={searchParams.get('topic') ? `I would like to learn more about: ${searchParams.get('topic')}` : ''} placeholder="How can we help you?" required className="w-full px-3 py-2 text-sm border border-gray-200 bg-white focus:outline-none focus:border-brand-red transition-colors resize-none" />
+                      <TextareaField name="message" rows={4} defaultValue={searchParams.get('topic') ? `I would like to learn more about: ${searchParams.get('topic')}` : ''} placeholder="How can we help you?" required />
                     </div>
                     {error && <p className="text-xs text-brand-red">{error}</p>}
                     <button
@@ -236,12 +200,7 @@ export default function Contact() {
                 <p className="text-sm text-text-secondary">Customers with detailed specifications can submit an RFQ to get a faster and more accurate quote.</p>
               </div>
             </div>
-            <Link
-              to="/request-quote"
-              className="inline-flex items-center gap-2 h-[48px] px-7 bg-brand-red text-white text-sm font-semibold hover:bg-dark-red transition-colors flex-shrink-0"
-            >
-              Request a Quote <ArrowRight className="w-4 h-4" />
-            </Link>
+            <CTAButton to="/request-quote">Request a Quote</CTAButton>
           </div>
         </div>
       </section>

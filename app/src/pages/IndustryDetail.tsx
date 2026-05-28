@@ -2,6 +2,7 @@ import { Link, useParams } from 'react-router-dom';
 import { ArrowRight, Factory, MapPin, FileText } from 'lucide-react';
 import { getIndustryDetail } from '../data/industryDetails';
 import CTABanner from '../components/CTABanner';
+import { CTAButton, PageHero, SectionHeading } from '../components/common';
 
 function SnapshotIcon({ type }: { type: string }) {
   if (type === 'valve') {
@@ -66,40 +67,23 @@ export default function IndustryDetail() {
         </div>
       </div>
 
-      {/* ═══════ HERO ═══════ */}
-      <section className="relative overflow-hidden" style={{ minHeight: 380 }}>
-        <div className="absolute inset-0">
-          <img src={ind.heroImage} alt="" className="w-full h-full object-cover" />
-          <div className="absolute inset-0 bg-gradient-to-r from-black/80 via-black/60 to-black/30" />
-        </div>
-        <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 py-14 lg:py-18">
-          <h1 className="text-3xl lg:text-[2.75rem] font-bold text-white leading-[1.1] tracking-tight">
-            {ind.heroTitle}
-          </h1>
-          <p className="text-white/80 text-sm sm:text-base mt-4 max-w-xl leading-relaxed">
-            {ind.heroSubtitle}
-          </p>
-          <div className="flex flex-wrap gap-3 mt-7">
-            <Link
-              to="/request-quote"
-              className="inline-flex items-center gap-2 h-[48px] px-7 bg-brand-red text-white text-sm font-semibold hover:bg-dark-red transition-colors"
-            >
-              Request a Quote <ArrowRight className="w-4 h-4" />
-            </Link>
-            <Link
-              to="/products"
-              className="inline-flex items-center gap-2 h-[48px] px-7 border border-white/30 text-white text-sm font-medium hover:bg-white/10 transition-colors"
-            >
-              View Recommended Valves <ArrowRight className="w-4 h-4" />
-            </Link>
-          </div>
-        </div>
-      </section>
+      <PageHero
+        title={ind.name}
+        eyebrow="Industry"
+        description={ind.heroSubtitle}
+        image={ind.heroImage}
+        ctas={(
+          <>
+            <CTAButton to="/request-quote">Request a Quote</CTAButton>
+            <CTAButton to="/products" variant="ghost">View Recommended Valves</CTAButton>
+          </>
+        )}
+      />
 
       {/* ═══════ INDUSTRY SNAPSHOT ═══════ */}
       <section className="bg-white py-10 lg:py-14">
         <div className="max-w-7xl mx-auto px-4 sm:px-6">
-          <h2 className="text-xl lg:text-2xl font-bold text-text-primary tracking-tight mb-6">Industry Snapshot</h2>
+          <SectionHeading title="Industry Snapshot" className="mb-6" />
           <div className="flex flex-col lg:flex-row gap-8">
             <div className="lg:w-[45%]">
               <p className="text-text-secondary text-sm sm:text-[15px] leading-[1.7]">{ind.snapshotText}</p>
@@ -122,7 +106,7 @@ export default function IndustryDetail() {
       {/* ═══════ APPLICATION AREAS ═══════ */}
       <section className="bg-gray-50 py-10 lg:py-14">
         <div className="max-w-7xl mx-auto px-4 sm:px-6">
-          <h2 className="text-xl lg:text-2xl font-bold text-text-primary tracking-tight mb-6">Application Areas</h2>
+          <SectionHeading title="Application Areas" className="mb-6" />
           <div className="grid sm:grid-cols-2 gap-6">
             {ind.applications.map((app, i) => (
               <div key={app.title} className={`flex gap-0 border border-gray-200 bg-white overflow-hidden ${i >= 2 ? '' : ''}`}>
@@ -142,7 +126,7 @@ export default function IndustryDetail() {
       {/* ═══════ RECOMMENDED VALVE SOLUTIONS ═══════ */}
       <section className="bg-white py-10 lg:py-14">
         <div className="max-w-7xl mx-auto px-4 sm:px-6">
-          <h2 className="text-xl lg:text-2xl font-bold text-text-primary tracking-tight mb-6">Recommended Valve Solutions</h2>
+          <SectionHeading title="Recommended Valve Solutions" className="mb-6" />
           <div className="grid sm:grid-cols-4 gap-5">
             {ind.recommendedProducts.map((rp) => (
               <div key={rp.id} className="border border-gray-200 p-5 hover:border-brand-red/30 transition-colors">
@@ -166,7 +150,7 @@ export default function IndustryDetail() {
       {/* ═══════ MATERIAL, TESTING & COMPLIANCE ═══════ */}
       <section className="bg-gray-50 py-10 lg:py-14">
         <div className="max-w-7xl mx-auto px-4 sm:px-6">
-          <h2 className="text-xl lg:text-2xl font-bold text-text-primary tracking-tight mb-6">Material, Testing & Compliance</h2>
+          <SectionHeading title="Material, Testing & Compliance" className="mb-6" />
           <div className="bg-white border border-gray-200 overflow-hidden max-w-3xl">
             <table className="w-full text-sm">
               <thead>
@@ -191,7 +175,7 @@ export default function IndustryDetail() {
       {/* ═══════ RELATED CASE STUDY ═══════ */}
       <section className="bg-white py-10 lg:py-14">
         <div className="max-w-7xl mx-auto px-4 sm:px-6">
-          <h2 className="text-xl lg:text-2xl font-bold text-text-primary tracking-tight mb-6">Related Case Study</h2>
+          <SectionHeading title="Related Case Study" className="mb-6" />
           <div className="border border-gray-200">
             <div className="aspect-[21/9] overflow-hidden">
               <img src={ind.relatedCase.image} alt={ind.relatedCase.title} className="w-full h-full object-cover" />

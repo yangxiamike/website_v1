@@ -2,6 +2,8 @@ import { Link } from 'react-router-dom';
 import { ArrowRight } from 'lucide-react';
 import { industries, products } from '../data';
 import CTABanner from '../components/CTABanner';
+import { CTAButton, IndustryCard, PageHero } from '../components/common';
+import { pageHeroes } from '../data/pageHeroes';
 
 /* Industry icons using simple SVGs */
 function WaterIcon() {
@@ -129,33 +131,15 @@ const supportItems = [
 export default function Industries() {
   return (
     <div className="pt-[80px]">
-      {/* ═══════ HERO ═══════ */}
-      <section className="relative overflow-hidden" style={{ minHeight: 360 }}>
-        <div className="absolute inset-0">
-          <img src="/images/case-oil-gas.jpg" alt="" className="w-full h-full object-cover" />
-          <div className="absolute inset-0 bg-gradient-to-r from-black/80 via-black/60 to-black/30" />
-        </div>
-        <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 py-16 lg:py-20">
-          <div className="text-brand-red text-xs font-semibold tracking-wider uppercase mb-3">INDUSTRIES</div>
-          <h1 className="text-3xl lg:text-[2.75rem] font-bold text-white leading-[1.1] tracking-tight">
-            Industries We Serve
-          </h1>
-          <p className="text-white/80 text-sm sm:text-base mt-4 max-w-md leading-relaxed">
-            Reliable valve solutions for the industries that keep the world moving.
-          </p>
-          <div className="flex flex-wrap gap-3 mt-7">
-            <Link
-              to="/request-quote"
-              className="inline-flex items-center gap-2 h-[48px] px-7 bg-brand-red text-white text-sm font-semibold hover:bg-dark-red transition-colors"
-            >
-              Request a Quote <ArrowRight className="w-4 h-4" />
-            </Link>
-            <Link to="/products" className="inline-flex items-center gap-2 h-[48px] px-7 border border-white/30 text-white text-sm font-medium hover:bg-white/10 transition-colors">
-              View Recommended Valves <ArrowRight className="w-4 h-4" />
-            </Link>
-          </div>
-        </div>
-      </section>
+      <PageHero
+        {...pageHeroes.industries}
+        ctas={(
+          <>
+            <CTAButton to="/request-quote">Request a Quote</CTAButton>
+            <CTAButton to="/products" variant="ghost">View Recommended Valves</CTAButton>
+          </>
+        )}
+      />
 
       {/* ═══════ INDUSTRY CARDS ═══════ */}
       <section className="bg-white py-12 lg:py-16">
@@ -164,31 +148,14 @@ export default function Industries() {
             {industries.map((ind) => {
               const IconComp = industryIcons[ind.id];
               return (
-                <Link
+                <IndustryCard
                   key={ind.id}
                   to={ind.route || `/industries/${ind.id}`}
-                  className="group block border border-gray-200 hover:border-brand-red/40 transition-all duration-300 hover:shadow-lg hover:shadow-gray-200/40"
-                >
-                  <div className="aspect-[16/10] overflow-hidden">
-                    <img
-                      src={ind.image}
-                      alt={ind.name}
-                      className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
-                    />
-                  </div>
-                  <div className="p-5">
-                    <div className="flex items-center gap-3 mb-2">
-                      {IconComp && <IconComp />}
-                      <h3 className="font-bold text-text-primary text-base group-hover:text-brand-red transition-colors">
-                        {ind.name}
-                      </h3>
-                    </div>
-                    <p className="text-sm text-text-secondary leading-relaxed">{ind.shortDesc}</p>
-                    <div className="mt-3 text-brand-red">
-                      <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
-                    </div>
-                  </div>
-                </Link>
+                  image={ind.image}
+                  title={ind.name}
+                  description={ind.shortDesc}
+                  icon={IconComp ? <IconComp /> : undefined}
+                />
               );
             })}
           </div>

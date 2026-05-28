@@ -47,24 +47,18 @@ type PageHeroProps = {
   className?: string;
 };
 
-export function PageHero({ title, eyebrow, description, image, ctas, className = '' }: PageHeroProps) {
+export function PageHero({ title, description, image, ctas, className = '' }: PageHeroProps) {
   return (
     <section className={`relative h-[420px] overflow-hidden ${className}`}>
       <div className="absolute inset-0">
-        <img src={image} alt="" className="w-full h-full object-cover" />
-        <div className="absolute inset-0 bg-gradient-to-r from-black/78 via-black/48 to-black/18" />
-        <div className="absolute inset-y-0 left-0 w-full bg-black/12 backdrop-blur-[2px] sm:w-[68%] lg:w-[58%]" />
-        <div className="absolute inset-y-0 left-0 w-full bg-gradient-to-r from-black/32 via-black/16 to-transparent sm:w-[72%]" />
+        <img src={image} alt="" className="h-full w-full object-cover brightness-[0.58]" />
+        <div className="absolute inset-0 bg-gradient-to-r from-black/86 via-black/68 to-black/34" />
+        <div className="absolute inset-y-0 left-0 w-full bg-gradient-to-r from-black/42 via-black/16 to-transparent sm:w-[72%]" />
       </div>
       <div className="relative z-10 flex h-full flex-col justify-center ds-container py-12">
         <div className="max-w-2xl">
-          {eyebrow && (
-            <div className="text-brand-red text-xs font-semibold tracking-[0.12em] uppercase mb-4">
-              {eyebrow}
-            </div>
-          )}
-          <h1 className="ds-page-title text-white max-w-2xl">{title}</h1>
-          <p className="text-white/86 text-sm sm:text-base mt-4 max-w-xl leading-relaxed">{description}</p>
+          <h1 className="ds-page-title max-w-2xl font-bold text-white">{title}</h1>
+          <p className="mt-4 max-w-xl text-sm font-medium leading-relaxed text-white sm:text-base">{description}</p>
           {ctas && <div className="flex flex-wrap gap-3 mt-7">{ctas}</div>}
         </div>
       </div>

@@ -1,9 +1,11 @@
 import { useState } from 'react';
 import { Link, useNavigate, useSearchParams } from 'react-router-dom';
-import { ArrowRight, Check, Phone, Mail, MapPin, Clock, ShieldCheck, FileText, Upload, HelpCircle, ChevronDown } from 'lucide-react';
+import { ArrowRight, Check, Phone, Mail, MapPin, Clock, ShieldCheck, FileText, Upload, HelpCircle } from 'lucide-react';
 import CTABanner from '../components/CTABanner';
 import { deleteRfqAttachment, submitInquiry, uploadRfqAttachment, type UploadedAttachment } from '../lib/supabase';
 import { productsList } from '../data/productsCatalog';
+import { FormLabel, PageHero, SelectInput, TextareaField, TextInput } from '../components/common';
+import { pageHeroes } from '../data/pageHeroes';
 
 const whatToPrepare = [
   'Valve type, size, pressure rating',
@@ -25,41 +27,6 @@ const materials = ['WCB', 'CF8', 'CF8M', 'CF3M', 'Duplex', 'Super Duplex', 'Othe
 const connections = ['Flanged RF', 'Flanged RTJ', 'Threaded', 'Socket Weld', 'Butt Weld', 'Wafer', 'Lug'];
 const deliveryTimes = ['Within 2 weeks', '2–4 weeks', '4–8 weeks', '8–12 weeks', '12+ weeks', 'To be discussed'];
 const incoterms = ['EXW', 'FOB', 'CIF', 'CFR', 'DAP', 'DDP'];
-
-function FormLabel({ children, required }: { children: React.ReactNode; required?: boolean }) {
-  return (
-    <label className="block text-sm font-medium text-text-primary mb-1.5">
-      {children}
-      {required && <span className="text-brand-red ml-0.5">*</span>}
-    </label>
-  );
-}
-
-function TextInput({ name, placeholder, required, type = 'text' }: { name: string; placeholder: string; required?: boolean; type?: string }) {
-  return (
-    <input
-      name={name}
-      type={type}
-      placeholder={placeholder}
-      required={required}
-      className="w-full h-10 px-3 text-sm border border-gray-200 bg-white focus:outline-none focus:border-brand-red transition-colors"
-    />
-  );
-}
-
-function SelectInput({ name, placeholder, options, required, defaultValue = '' }: { name: string; placeholder: string; options: string[]; required?: boolean; defaultValue?: string }) {
-  return (
-    <div className="relative">
-      <select name={name} required={required} defaultValue={defaultValue} className="w-full h-10 px-3 text-sm border border-gray-200 bg-white focus:outline-none focus:border-brand-red transition-colors appearance-none cursor-pointer text-text-secondary">
-        <option value="">{placeholder}</option>
-        {options.map((o) => (
-          <option key={o} value={o}>{o}</option>
-        ))}
-      </select>
-      <ChevronDown className="absolute right-3 top-1/2 -translate-y-1/2 w-4 h-4 text-text-muted pointer-events-none" />
-    </div>
-  );
-}
 
 export default function RequestQuote() {
   const navigate = useNavigate();
@@ -134,21 +101,7 @@ export default function RequestQuote() {
 
   return (
     <div className="pt-[80px]">
-      {/* ═══════ HERO ═══════ */}
-      <section className="relative overflow-hidden" style={{ minHeight: 240 }}>
-        <div className="absolute inset-0">
-          <img src="/images/cases-hero.jpg" alt="" className="w-full h-full object-cover" />
-          <div className="absolute inset-0 bg-gradient-to-r from-black/80 via-black/60 to-black/30" />
-        </div>
-        <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 py-12 lg:py-16">
-          <h1 className="text-3xl lg:text-[2.75rem] font-bold text-white leading-[1.1] tracking-tight">
-            Request a Valve Quotation
-          </h1>
-          <p className="text-white/80 text-sm sm:text-base mt-4 max-w-xl leading-relaxed">
-            Send us your valve requirements, drawings, and project specifications. Our engineering team will review and provide a competitive quotation.
-          </p>
-        </div>
-      </section>
+      <PageHero {...pageHeroes.requestQuote} />
 
       {/* ═══════ TRUST POINTS ═══════ */}
       <section className="bg-white border-b border-gray-100">
@@ -343,12 +296,7 @@ export default function RequestQuote() {
                   </div>
                   <div className="mt-4">
                     <FormLabel>Additional Notes / Message</FormLabel>
-                    <textarea
-                      rows={4}
-                      name="message"
-                      placeholder="Please provide any additional information about your requirements."
-                      className="w-full px-3 py-2 text-sm border border-gray-200 bg-white focus:outline-none focus:border-brand-red transition-colors resize-none"
-                    />
+                    <TextareaField name="message" rows={4} placeholder="Please provide any additional information about your requirements." />
                   </div>
                 </div>
 

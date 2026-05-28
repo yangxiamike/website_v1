@@ -1,6 +1,6 @@
-import { Link } from 'react-router-dom';
-import { ArrowRight } from 'lucide-react';
 import CTABanner from '../components/CTABanner';
+import { CTAButton, PageHero, SectionHeading } from '../components/common';
+import { pageHeroes } from '../data/pageHeroes';
 import { WORLD_LAND_PATH } from '../data/worldLandPath';
 
 /* ─── Milestones ─── */
@@ -98,42 +98,15 @@ export default function About() {
   return (
     <div className="pt-[80px]">
 
-      {/* ═══════ HERO ═══════ */}
-      <section className="relative overflow-hidden" style={{ minHeight: 420, maxHeight: 500 }}>
-        <div className="absolute inset-0">
-          <img src="/images/about-hero.jpg" alt="" className="w-full h-full object-cover" />
-          <div className="absolute inset-0 bg-gradient-to-r from-black/80 via-black/50 to-transparent" />
-        </div>
-        <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 py-16 lg:py-20">
-          {/* Eyebrow */}
-          <div className="flex items-center gap-1 mb-4">
-            <span className="text-red-400 text-lg font-light">[</span>
-            <span className="text-brand-red text-[11px] font-semibold tracking-[0.12em] uppercase">
-              About Haiyue Valve Industrial
-            </span>
-          </div>
-          <h1 className="text-3xl lg:text-[2.5rem] font-bold text-white leading-[1.1] tracking-tight max-w-lg">
-            About Haiyue Valve Industrial
-          </h1>
-          <p className="text-white/80 text-sm sm:text-base mt-4 max-w-md leading-relaxed">
-            Reliable valve manufacturing partner for overseas buyers, distributors, and project suppliers.
-          </p>
-          <div className="flex flex-wrap gap-3 mt-8">
-            <Link
-              to="/request-quote"
-              className="inline-flex items-center gap-2 h-[44px] px-6 bg-brand-red text-white text-sm font-semibold hover:bg-dark-red transition-colors"
-            >
-              Request a Quote <ArrowRight className="w-4 h-4" />
-            </Link>
-            <Link
-              to="/factory"
-              className="inline-flex items-center gap-2 h-[44px] px-6 border border-white/40 text-white text-sm font-medium hover:bg-white/10 transition-colors"
-            >
-              View Factory Capabilities
-            </Link>
-          </div>
-        </div>
-      </section>
+      <PageHero
+        {...pageHeroes.about}
+        ctas={(
+          <>
+            <CTAButton to="/request-quote">Request a Quote</CTAButton>
+            <CTAButton to="/factory" variant="ghost">View Factory Capabilities</CTAButton>
+          </>
+        )}
+      />
 
       {/* ═══════ COMPANY SNAPSHOT ═══════ */}
       <section className="bg-white py-14 lg:py-20">
@@ -141,12 +114,11 @@ export default function About() {
           <div className="flex flex-col lg:flex-row gap-12">
             {/* Left */}
             <div className="lg:w-[40%]">
-              <h2 className="text-xl lg:text-[1.4rem] font-bold text-text-primary tracking-tight mb-5">
-                Company Snapshot
-              </h2>
-              <p className="text-sm text-text-secondary leading-[1.7] mb-10">
-                Haiyue Valve Industrial is a Zhejiang-based valve manufacturer supplying ball valves, gate valves, globe valves, butterfly valves, check valves, and strainers for water treatment, chemical processing, HVAC, and general industrial pipeline applications.
-              </p>
+              <SectionHeading
+                title="Company Snapshot"
+                description="Haiyue Valve Industrial is a Zhejiang-based valve manufacturer supplying ball valves, gate valves, globe valves, butterfly valves, check valves, and strainers for water treatment, chemical processing, HVAC, and general industrial pipeline applications."
+                className="mb-10"
+              />
               {/* Proof Cards */}
               <div className="grid grid-cols-3 gap-4">
                 <div className="text-center p-4">

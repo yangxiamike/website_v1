@@ -55,6 +55,48 @@
   }
 }
 
+@layer components {
+  .ds-container {
+    @apply max-w-7xl mx-auto px-4 sm:px-6;
+  }
+
+  .ds-section {
+    @apply py-12 lg:py-16;
+  }
+
+  .ds-section-lg {
+    @apply py-14 lg:py-20;
+  }
+
+  .ds-page-title {
+    @apply text-3xl lg:text-[2.75rem] font-bold leading-[1.1] tracking-tight;
+  }
+
+  .ds-section-title {
+    @apply text-xl lg:text-2xl font-bold text-text-primary tracking-tight;
+  }
+
+  .ds-card {
+    @apply bg-white border border-gray-200;
+  }
+
+  .ds-card-hover {
+    @apply transition-all duration-300 hover:shadow-lg hover:shadow-gray-200/40;
+  }
+
+  .ds-card-hover:hover {
+    border-color: rgb(200 16 46 / 0.4);
+  }
+
+  .ds-input {
+    @apply w-full border border-gray-200 bg-white text-sm text-text-primary transition-colors focus:outline-none focus:border-brand-red disabled:opacity-60;
+  }
+
+  .ds-icon {
+    @apply text-brand-red flex-shrink-0;
+  }
+}
+
 /* Custom scrollbar */
 ::-webkit-scrollbar {
   width: 6px;

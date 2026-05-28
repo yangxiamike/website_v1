@@ -171,9 +171,9 @@ export default function Home() {
                 initial={{ opacity: 0, y: 30 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.8 }}
-                className="max-w-2xl"
+                className="max-w-[58rem]"
               >
-                <h1 className="text-3xl sm:text-4xl lg:text-[3.25rem] font-bold text-white leading-[1.08] tracking-tight">
+                <h1 className="max-w-[14ch] text-3xl font-bold leading-[1.04] tracking-tight text-white sm:text-[3rem] lg:text-[3.7rem]">
                   Industrial Valve Manufacturer & Export Partner
                 </h1>
                 <p className="text-white/70 text-base sm:text-lg mt-5 max-w-lg leading-relaxed">
@@ -239,8 +239,8 @@ export default function Home() {
             </div>
           </motion.div>
 
-          {/* 3×2 Product Grid */}
-          <div className="grid grid-cols-2 lg:grid-cols-3 gap-5">
+          {/* Product Grid */}
+          <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-5">
             {products.map((product, i) => (
               <motion.div
                 key={product.id}
@@ -249,28 +249,35 @@ export default function Home() {
                 viewport={{ once: true }}
                 transition={{ duration: 0.5, delay: i * 0.06 }}
               >
-                <Link to={`/products?type=${product.id}`} className="group block bg-white border border-gray-200 hover:border-brand-red/40 transition-all duration-300 hover:shadow-md">
-                  {/* Image area — light gray bg, fixed height */}
-                  <div className="h-[170px] bg-surface flex items-center justify-center p-5 border-b border-gray-100">
+                <div className="group grid grid-cols-[44%_1fr] min-h-[190px] bg-white border border-gray-200 hover:border-brand-red/40 transition-all duration-300 hover:shadow-md overflow-hidden">
+                  <Link
+                    to={`/products?type=${product.id}`}
+                    aria-label={`View ${product.name}`}
+                    className="bg-surface flex items-center justify-center p-4 border-r border-gray-100 overflow-hidden"
+                  >
                     <img
                       src={product.image}
                       alt={product.name}
-                      className="max-h-full max-w-full object-contain"
+                      className="block h-auto w-auto max-h-[170px] max-w-[94%] object-contain group-hover:scale-105 transition-transform duration-500"
                     />
-                  </div>
-                  {/* Info */}
-                  <div className="p-4">
+                  </Link>
+                  <div className="p-4 flex min-w-0 flex-col justify-center">
                     <h3 className="font-semibold text-text-primary text-[15px] group-hover:text-brand-red transition-colors">
                       {product.name}
                     </h3>
-                    <p className="text-xs text-text-muted mt-1 leading-relaxed">
+                    <p className="text-xs text-text-muted mt-2 leading-relaxed">
                       {product.size} &middot; {product.pressure}
                     </p>
+                    <p className="text-xs text-text-secondary mt-2 leading-relaxed line-clamp-2">
+                      {product.shortDesc}
+                    </p>
                     <div className="mt-3">
-                      <CardCTA>View</CardCTA>
+                      <Link to={`/products?type=${product.id}`} className="inline-block">
+                        <CardCTA>View</CardCTA>
+                      </Link>
                     </div>
                   </div>
-                </Link>
+                </div>
               </motion.div>
             ))}
           </div>

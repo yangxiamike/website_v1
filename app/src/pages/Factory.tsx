@@ -1,6 +1,6 @@
-import { Link } from 'react-router-dom';
-import { ArrowRight } from 'lucide-react';
 import CTABanner from '../components/CTABanner';
+import { CTAButton, PageHero, SectionHeading } from '../components/common';
+import { pageHeroes } from '../data/pageHeroes';
 
 const stats = [
   { value: '50,000', unit: 'm\u00B2', label: 'Workshop Area' },
@@ -63,35 +63,15 @@ const capabilities = [
 export default function Factory() {
   return (
     <div className="pt-[80px]">
-      {/* ═══════ HERO ═══════ */}
-      <section className="relative overflow-hidden" style={{ minHeight: 420 }}>
-        <div className="absolute inset-0">
-          <img src="/images/factory-cnc.jpg" alt="" className="w-full h-full object-cover" />
-          <div className="absolute inset-0 bg-gradient-to-r from-black/85 via-black/60 to-black/30" />
-        </div>
-        <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 py-16 lg:py-20">
-          <h1 className="text-3xl lg:text-[2.75rem] font-bold text-white leading-[1.1] tracking-tight max-w-lg">
-            Valve Manufacturing & Quality Control
-          </h1>
-          <p className="text-white/80 text-sm sm:text-base mt-4 max-w-md leading-relaxed">
-            Integrated manufacturing, precision machining and rigorous testing deliver reliable valve solutions built to international standards.
-          </p>
-          <div className="flex flex-wrap gap-3 mt-7">
-            <Link
-              to="/request-quote"
-              className="inline-flex items-center gap-2 h-[48px] px-7 bg-brand-red text-white text-sm font-semibold hover:bg-dark-red transition-colors"
-            >
-              Request a Quote <ArrowRight className="w-4 h-4" />
-            </Link>
-            <Link
-              to="/request-quote"
-              className="inline-flex items-center gap-2 h-[48px] px-7 border border-white/30 text-white text-sm font-medium hover:bg-white/10 transition-colors"
-            >
-              Send Specs for Review <ArrowRight className="w-4 h-4" />
-            </Link>
-          </div>
-        </div>
-      </section>
+      <PageHero
+        {...pageHeroes.factory}
+        ctas={(
+          <>
+            <CTAButton to="/request-quote">Request a Quote</CTAButton>
+            <CTAButton to="/request-quote?source=factory-hero" variant="ghost">Send Specs for Review</CTAButton>
+          </>
+        )}
+      />
 
       {/* ═══════ STATS BAR ═══════ */}
       <section className="relative z-10 -mt-10">
@@ -116,12 +96,7 @@ export default function Factory() {
           <div className="flex flex-col lg:flex-row gap-10 items-start">
             {/* Left: Text */}
             <div className="lg:w-[35%] flex-shrink-0">
-              <h2 className="text-xl lg:text-2xl font-bold text-text-primary tracking-tight mb-4">
-                Certificates & Standards
-              </h2>
-              <p className="text-sm text-text-secondary leading-[1.7]">
-                Our quality management system and products are certified by international authorities, ensuring consistent performance, safety and compliance in every delivery.
-              </p>
+              <SectionHeading title="Certificates & Standards" description="Our quality management system and products are certified by international authorities, ensuring consistent performance, safety and compliance in every delivery." />
             </div>
             {/* Right: Certificate Images */}
             <div className="lg:w-[65%] flex-shrink-0">
@@ -156,34 +131,31 @@ export default function Factory() {
               <p className="text-sm text-text-secondary leading-[1.7] mb-6">
                 Our integrated manufacturing facility brings together advanced machining, assembly and testing under one roof to ensure efficiency, precision and consistent quality.
               </p>
-              <Link
-                to="/request-quote?source=factory-process"
-                className="inline-flex items-center gap-2 h-[48px] px-7 bg-brand-red text-white text-sm font-semibold hover:bg-dark-red transition-colors"
-              >
-                View Factory Tour <ArrowRight className="w-4 h-4" />
-              </Link>
+              <CTAButton to="/request-quote?source=factory-process">
+                View Factory Tour
+              </CTAButton>
             </div>
             {/* Right: Image Grid */}
             <div className="lg:w-[65%] flex-shrink-0">
-              <div className="flex gap-3 h-80">
+              <div className="flex flex-col gap-3 sm:h-80 sm:flex-row">
                 {/* Large image */}
-                <div className="w-[60%] flex-shrink-0 overflow-hidden">
+                <div className="overflow-hidden sm:w-[60%] sm:flex-shrink-0">
                   <img
                     src="/images/factory-cnc.jpg"
                     alt="CNC Machining Workshop"
-                    className="w-full h-full object-cover"
+                    className="h-56 w-full object-cover sm:h-full"
                   />
                   <div className="bg-text-primary px-3 py-1.5">
                     <span className="text-white text-xs font-medium">CNC Machining Workshop</span>
                   </div>
                 </div>
                 {/* Two small images stacked */}
-                <div className="w-[40%] flex flex-col gap-3">
+                <div className="flex flex-col gap-3 sm:w-[40%]">
                   <div className="flex-1 overflow-hidden">
                     <img
                       src="/images/factory-assembly.jpg"
                       alt="Assembly Line"
-                      className="w-full h-full object-cover"
+                      className="h-40 w-full object-cover sm:h-full"
                     />
                     <div className="bg-text-primary px-3 py-1">
                       <span className="text-white text-[11px] font-medium">Assembly Line</span>
@@ -193,7 +165,7 @@ export default function Factory() {
                     <img
                       src="/images/factory-testing.jpg"
                       alt="Testing Area"
-                      className="w-full h-full object-cover"
+                      className="h-40 w-full object-cover sm:h-full"
                     />
                     <div className="bg-text-primary px-3 py-1">
                       <span className="text-white text-[11px] font-medium">Testing Area</span>
@@ -209,14 +181,12 @@ export default function Factory() {
       {/* ═══════ PRODUCTION PROCESS ═══════ */}
       <section className="bg-white py-12 lg:py-16">
         <div className="max-w-7xl mx-auto px-4 sm:px-6">
-          <h2 className="text-xl lg:text-2xl font-bold text-text-primary tracking-tight text-center mb-8">
-            Production Process
-          </h2>
-          <div className="grid grid-cols-5 gap-0 border border-gray-200">
+          <SectionHeading title="Production Process" align="center" className="mb-8" />
+          <div className="grid grid-cols-1 gap-0 border border-gray-200 sm:grid-cols-2 lg:grid-cols-5">
             {processSteps.map((step, i) => (
               <div
                 key={step.num}
-                className={`text-center py-6 px-3 ${i < processSteps.length - 1 ? 'border-r border-gray-200' : ''}`}
+                className={`text-center py-6 px-3 ${i < processSteps.length - 1 ? 'border-b border-gray-200 sm:border-r lg:border-b-0' : ''} ${i === 1 || i === 3 ? 'sm:border-r-0 lg:border-r' : ''}`}
               >
                 <div className="flex justify-center mb-3">{step.icon}</div>
                 <div className="text-brand-red text-xs font-bold mb-1">{step.num}</div>
@@ -230,15 +200,13 @@ export default function Factory() {
       {/* ═══════ CORE FACTORY CAPABILITIES ═══════ */}
       <section className="bg-gray-50 py-12 lg:py-16">
         <div className="max-w-7xl mx-auto px-4 sm:px-6">
-          <h2 className="text-xl lg:text-2xl font-bold text-text-primary tracking-tight mb-8">
-            Core Factory Capabilities
-          </h2>
+          <SectionHeading title="Core Factory Capabilities" className="mb-8" />
           <div className="grid sm:grid-cols-2 gap-5">
             {capabilities.map((cap) => (
-              <div key={cap.title} className="flex gap-0 border border-gray-200 bg-white overflow-hidden">
+              <div key={cap.title} className="flex flex-col gap-0 border border-gray-200 bg-white overflow-hidden sm:flex-row">
                 {/* Image */}
-                <div className="w-[40%] flex-shrink-0">
-                  <img src={cap.image} alt={cap.title} className="w-full h-full object-cover min-h-[200px]" />
+                <div className="sm:w-[40%] sm:flex-shrink-0">
+                  <img src={cap.image} alt={cap.title} className="h-44 w-full object-cover sm:h-full sm:min-h-[200px]" />
                 </div>
                 {/* Content */}
                 <div className="p-5 flex flex-col justify-center">
@@ -274,12 +242,9 @@ export default function Factory() {
                 <p className="text-white/80 text-sm">Our engineers will review and provide the best solution for your application.</p>
               </div>
             </div>
-            <Link
-              to="/request-quote"
-              className="inline-flex items-center gap-2 h-[48px] px-7 bg-white text-brand-red text-sm font-semibold hover:bg-gray-100 transition-colors flex-shrink-0"
-            >
-              Request a Quote <ArrowRight className="w-4 h-4" />
-            </Link>
+            <CTAButton to="/request-quote" variant="light">
+              Request a Quote
+            </CTAButton>
           </div>
         </div>
       </section>

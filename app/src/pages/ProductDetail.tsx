@@ -8,6 +8,7 @@ import {
 } from '../components/icons';
 import { getProductDetail } from '../data/productDetails';
 import CTABanner from '../components/CTABanner';
+import { CTAButton, SectionHeading } from '../components/common';
 
 const iconMap: Record<string, React.FC<{ className?: string; size?: number; strokeWidth?: number }>> = {
   IconReliableSealing, IconLowTorque, IconVersatileOptions, IconLongServiceLife,
@@ -29,24 +30,6 @@ function CardCTA({ children }: { children: React.ReactNode }) {
   return (
     <span className="inline-flex items-center gap-1 text-brand-red text-sm font-semibold">
       {children} <IconArrowRight size={16} strokeWidth={2} />
-    </span>
-  );
-}
-
-/* ─── Primary Button ─── */
-function PrimaryButton({ children }: { children: React.ReactNode }) {
-  return (
-    <span className="inline-flex items-center gap-2 h-[48px] px-7 bg-brand-red text-white text-sm font-semibold hover:bg-dark-red transition-colors whitespace-nowrap">
-      {children} <IconArrowRight size={18} strokeWidth={2} />
-    </span>
-  );
-}
-
-/* ─── Secondary Button ─── */
-function SecondaryButton({ children }: { children: React.ReactNode }) {
-  return (
-    <span className="inline-flex items-center gap-2 h-[48px] px-7 border border-gray-300 text-text-primary text-sm font-medium hover:border-brand-red hover:text-brand-red transition-colors whitespace-nowrap">
-      {children} <IconDownload size={18} strokeWidth={2} />
     </span>
   );
 }
@@ -156,7 +139,7 @@ export default function ProductDetail() {
 
             {/* Right: Product Info */}
             <div>
-              <h1 className="text-3xl lg:text-[2.5rem] font-bold text-text-primary tracking-tight">{detail.title}</h1>
+              <h1 className="ds-page-title text-text-primary">{detail.title}</h1>
               <p className="text-text-secondary text-sm sm:text-[15px] mt-4 leading-relaxed">{detail.description}</p>
 
               {/* Tags */}
@@ -178,16 +161,8 @@ export default function ProductDetail() {
 
               {/* Buttons */}
               <div className="flex flex-wrap gap-3 mt-8">
-                <Link to={`/request-quote?product=${detail.id}`}>
-                  <PrimaryButton>
-                    <span>Request a Quote</span>
-                  </PrimaryButton>
-                </Link>
-                <Link to={`/request-quote?source=datasheet&product=${detail.id}`}>
-                  <SecondaryButton>
-                    <span>Download Datasheet</span>
-                  </SecondaryButton>
-                </Link>
+                <CTAButton to={`/request-quote?product=${detail.id}`}>Request a Quote</CTAButton>
+                <CTAButton to={`/request-quote?source=datasheet&product=${detail.id}`} variant="secondary">Download Datasheet</CTAButton>
               </div>
             </div>
           </div>
@@ -196,12 +171,12 @@ export default function ProductDetail() {
 
       {/* ═══════ ANCHOR TABS ═══════ */}
       <div ref={tabRef} className="sticky top-0 z-40 bg-white border-b border-gray-200 shadow-sm">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 flex overflow-x-auto" style={{ scrollbarWidth: 'none' }}>
+        <div className="max-w-7xl mx-auto grid grid-cols-2 px-4 sm:px-6 sm:flex sm:overflow-x-auto" style={{ scrollbarWidth: 'none' }}>
           {tabs.map((tab) => (
             <button
               key={tab.id}
               onClick={() => scrollTo(tab.id)}
-              className={`flex-shrink-0 px-5 py-4 text-sm font-medium border-b-2 transition-colors ${
+              className={`px-4 py-4 text-center text-sm font-medium border-b-2 transition-colors sm:flex-shrink-0 sm:px-5 ${
                 activeTab === tab.id
                   ? 'border-brand-red text-brand-red'
                   : 'border-transparent text-text-secondary hover:text-text-primary'
@@ -222,13 +197,13 @@ export default function ProductDetail() {
 
               {/* ── OVERVIEW ── */}
               <section id="overview" className="scroll-mt-40 mb-14">
-                <h2 className="text-xl lg:text-2xl font-semibold text-text-primary tracking-tight">Overview</h2>
+                <SectionHeading title="Overview" />
                 <p className="text-text-secondary text-sm sm:text-[15px] mt-4 leading-[1.7]">{detail.overview}</p>
               </section>
 
               {/* ── FEATURES ── */}
               <section id="features" className="scroll-mt-40 mb-14">
-                <h2 className="text-xl lg:text-2xl font-semibold text-text-primary tracking-tight">Features & Benefits</h2>
+                <SectionHeading title="Features & Benefits" />
                 <div className="grid sm:grid-cols-2 gap-5 mt-6">
                   {detail.features.map((f) => {
                     const IconComp = iconMap[f.icon];
@@ -245,7 +220,7 @@ export default function ProductDetail() {
 
               {/* ── APPLICATIONS ── */}
               <section id="applications" className="scroll-mt-40 mb-14">
-                <h2 className="text-xl lg:text-2xl font-semibold text-text-primary tracking-tight">Applications</h2>
+                <SectionHeading title="Applications" />
                 <div className="grid sm:grid-cols-2 gap-5 mt-6">
                   {detail.applications.map((a) => {
                     const IconComp = iconMap[a.icon];
@@ -264,7 +239,7 @@ export default function ProductDetail() {
 
               {/* ── MATERIALS ── */}
               <section id="materials" className="scroll-mt-40 mb-14">
-                <h2 className="text-xl lg:text-2xl font-semibold text-text-primary tracking-tight">Materials & Options</h2>
+                <SectionHeading title="Materials & Options" />
                 <div className="mt-6 border border-gray-200">
                   {detail.materials.map((m, i) => (
                     <div
@@ -282,7 +257,7 @@ export default function ProductDetail() {
 
               {/* ── QUALITY ── */}
               <section id="quality" className="scroll-mt-40 mb-14">
-                <h2 className="text-xl lg:text-2xl font-semibold text-text-primary tracking-tight">Quality & Testing</h2>
+                <SectionHeading title="Quality & Testing" />
                 <div className="grid sm:grid-cols-2 gap-5 mt-6">
                   {detail.quality.map((q) => {
                     const IconComp = iconMap[q.icon];
@@ -301,7 +276,7 @@ export default function ProductDetail() {
 
               {/* ── DOCUMENTS ── */}
               <section id="documents" className="scroll-mt-40 mb-14">
-                <h2 className="text-xl lg:text-2xl font-semibold text-text-primary tracking-tight">Documents & Downloads</h2>
+                <SectionHeading title="Documents & Downloads" />
                 <div className="grid sm:grid-cols-3 gap-5 mt-6">
                   {detail.documents.map((doc) => (
                     <div key={doc.title} className="bg-white border border-gray-200 p-5 hover:border-brand-red/30 transition-colors">
@@ -322,7 +297,7 @@ export default function ProductDetail() {
 
               {/* ── RELATED PRODUCTS ── */}
               <section className="mb-14">
-                <h2 className="text-xl lg:text-2xl font-semibold text-text-primary tracking-tight">Related Products</h2>
+                <SectionHeading title="Related Products" />
                 <div className="grid sm:grid-cols-3 gap-5 mt-6">
                   {detail.relatedProducts.map((rp) => (
                     <Link

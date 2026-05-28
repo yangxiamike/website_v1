@@ -1,7 +1,9 @@
 import { useState, useEffect } from 'react';
-import { Link, useLocation } from 'react-router-dom';
-import { ArrowRight, ChevronDown, Download } from 'lucide-react';
+import { useLocation } from 'react-router-dom';
+import { ChevronDown } from 'lucide-react';
 import { faqs } from '../data';
+import { CTAButton, PageHero, ResourceCard, SectionHeading } from '../components/common';
+import { pageHeroes } from '../data/pageHeroes';
 
 /* ─── Scroll to section helper ─── */
 function scrollToSection(id: string) {
@@ -77,35 +79,21 @@ export default function Resources() {
 
   return (
     <div className="pt-[80px]">
-      {/* ═══════ HERO ═══════ */}
-      <section className="relative overflow-hidden" style={{ minHeight: 320 }}>
-        <div className="absolute inset-0">
-          <img src="/images/resources-hero.jpg" alt="" className="w-full h-full object-cover" />
-          <div className="absolute inset-0 bg-gradient-to-r from-black/80 via-black/60 to-black/30" />
-        </div>
-        <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 py-14 lg:py-16">
-          <h1 className="text-3xl lg:text-[2.5rem] font-bold text-white leading-[1.1] tracking-tight">
-            Resources & Technical Downloads
-          </h1>
-          <p className="text-white/80 text-sm sm:text-base mt-4 max-w-xl leading-relaxed">
-            Access catalogs, datasheets, technical articles and FAQs to support valve selection, installation and project communication.
-          </p>
-        </div>
-      </section>
+      <PageHero {...pageHeroes.resources} />
 
       {/* ═══════ ANCHOR TABS ═══════ */}
       <section className="bg-white border-b border-gray-100 sticky top-0 z-40">
         <div className="max-w-7xl mx-auto px-4 sm:px-6">
-          <div className="flex overflow-x-auto" style={{ scrollbarWidth: 'thin' }}>
+          <div className="grid grid-cols-2 sm:flex sm:overflow-x-auto" style={{ scrollbarWidth: 'thin' }}>
             {tabs.map((tab) => (
               <button
                 key={tab.id}
                 onClick={() => scrollToSection(tab.id)}
-                className={`flex-shrink-0 flex items-center gap-2 px-5 py-4 text-sm font-medium border-b-2 transition-colors ${
+                className={`flex items-center justify-center gap-2 px-4 py-4 text-center text-sm font-medium border-b-2 transition-colors sm:flex-shrink-0 sm:px-5 ${
                   activeSection === tab.id
                     ? 'border-brand-red text-brand-red'
                     : 'border-transparent text-text-secondary hover:text-text-primary'
-                }`}
+                } ${tab.id === 'downloads' ? 'col-span-2 sm:col-span-1' : ''}`}
               >
                 {tab.icon}
                 {tab.label}
@@ -118,36 +106,22 @@ export default function Resources() {
       {/* ═══════ CATALOGS & DATASHEETS ═══════ */}
       <section id="downloads" className="bg-white py-10 lg:py-14 scroll-mt-36">
         <div className="max-w-7xl mx-auto px-4 sm:px-6">
-          <h2 className="text-xl lg:text-2xl font-bold text-text-primary tracking-tight mb-2">
-            Catalogs & Datasheets
-          </h2>
-          <p className="text-sm text-text-secondary mb-6">
-            Product catalogs, technical datasheets, certificates, and installation guides.
-          </p>
+          <SectionHeading title="Catalogs & Datasheets" description="Product catalogs, technical datasheets, certificates, and installation guides." className="mb-6" />
           {/* Horizontal scroll container */}
           <div className="grid grid-cols-1 sm:flex gap-5 sm:overflow-x-auto pb-4" style={{ scrollbarWidth: 'thin' }}>
             {downloads.map((dl) => (
-              <Link
+              <ResourceCard
                 key={dl.title}
+                title={dl.title}
+                meta={dl.size}
+                image={dl.image}
                 to={`/request-quote?source=${encodeURIComponent(dl.title)}`}
-                className="w-full sm:flex-shrink-0 sm:w-[260px] border border-gray-200 hover:border-brand-red/30 transition-all cursor-pointer group"
-              >
-                <div className="aspect-[4/3] overflow-hidden bg-gray-50">
-                  <img src={dl.image} alt={dl.title} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" />
-                </div>
-                <div className="p-4">
+                badge={(
                   <span className={`inline-block px-2 py-0.5 text-[10px] font-semibold tracking-wider ${dl.typeColor} mb-2`}>
                     {dl.type}
                   </span>
-                  <h4 className="font-semibold text-text-primary text-sm leading-snug mb-3">
-                    {dl.title}
-                  </h4>
-                  <div className="flex items-center justify-between">
-                    <span className="text-xs text-text-muted">{dl.size}</span>
-                    <Download className="w-4 h-4 text-brand-red" />
-                  </div>
-                </div>
-              </Link>
+                )}
+              />
             ))}
           </div>
         </div>
@@ -156,34 +130,16 @@ export default function Resources() {
       {/* ═══════ TECHNICAL ARTICLES ═══════ */}
       <section id="articles" className="bg-gray-50 py-10 lg:py-14 scroll-mt-36">
         <div className="max-w-7xl mx-auto px-4 sm:px-6">
-          <h2 className="text-xl lg:text-2xl font-bold text-text-primary tracking-tight mb-2">
-            Technical Articles
-          </h2>
-          <p className="text-sm text-text-secondary mb-6">
-            Expert insights and practical guidance on valve selection, operation, and maintenance.
-          </p>
+          <SectionHeading title="Technical Articles" description="Expert insights and practical guidance on valve selection, operation, and maintenance." className="mb-6" />
           <div className="grid grid-cols-1 sm:flex gap-5 sm:overflow-x-auto pb-4" style={{ scrollbarWidth: 'thin' }}>
             {articles.map((article) => (
-              <Link
+              <ResourceCard
                 key={article.title}
+                title={article.title}
+                meta={`${article.date} · ${article.readTime}`}
+                image={article.image}
                 to={`/contact?topic=${encodeURIComponent(article.title)}`}
-                className="w-full sm:flex-shrink-0 sm:w-[320px] bg-white border border-gray-200 hover:border-brand-red/30 transition-all cursor-pointer group"
-              >
-                <div className="aspect-[16/10] overflow-hidden">
-                  <img src={article.image} alt={article.title} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" />
-                </div>
-                <div className="p-4">
-                  <h4 className="font-semibold text-text-primary text-sm leading-snug mb-2 group-hover:text-brand-red transition-colors">
-                    {article.title}
-                  </h4>
-                  <p className="text-xs text-text-muted mb-3">
-                    {article.date} · {article.readTime}
-                  </p>
-                  <span className="inline-flex items-center gap-1 text-brand-red text-xs font-semibold">
-                    Read More <ArrowRight className="w-3 h-3" />
-                  </span>
-                </div>
-              </Link>
+              />
             ))}
           </div>
         </div>
@@ -192,10 +148,7 @@ export default function Resources() {
       {/* ═══════ FAQs ═══════ */}
       <section id="faqs" className="bg-white py-10 lg:py-14 scroll-mt-36">
         <div className="max-w-7xl mx-auto px-4 sm:px-6">
-          <h2 className="text-xl lg:text-2xl font-bold text-text-primary tracking-tight mb-2">FAQs</h2>
-          <p className="text-sm text-text-secondary mb-6">
-            Answers to common questions about our products, services, and processes.
-          </p>
+          <SectionHeading title="FAQs" description="Answers to common questions about our products, services, and processes." className="mb-6" />
           <div className="max-w-3xl space-y-0">
             {faqs.slice(0, 6).map((faq, i) => (
               <div key={i} className="border-b border-gray-100">
@@ -233,18 +186,8 @@ export default function Resources() {
               </div>
             </div>
             <div className="flex flex-wrap gap-3 flex-shrink-0 justify-center sm:justify-end">
-              <Link
-                to="/contact"
-                className="inline-flex items-center gap-2 h-[40px] px-5 border border-gray-300 text-text-primary text-sm font-medium hover:border-brand-red hover:text-brand-red transition-colors whitespace-nowrap"
-              >
-                Contact Support <ArrowRight className="w-4 h-4" />
-              </Link>
-              <Link
-                to="/request-quote"
-                className="inline-flex items-center gap-2 h-[40px] px-5 bg-brand-red text-white text-sm font-semibold hover:bg-dark-red transition-colors whitespace-nowrap"
-              >
-                Request a Quote <ArrowRight className="w-4 h-4" />
-              </Link>
+              <CTAButton to="/contact" variant="secondary" size="sm">Contact Support</CTAButton>
+              <CTAButton to="/request-quote" size="sm">Request a Quote</CTAButton>
             </div>
           </div>
         </div>

@@ -2,6 +2,7 @@ import { Link, useParams } from 'react-router-dom';
 import { ArrowRight, Shield, TrendingUp, Clock, Route } from 'lucide-react';
 import { getCaseById } from '../data/cases';
 import CTABanner from '../components/CTABanner';
+import { PageHero, SectionHeading } from '../components/common';
 
 const iconMap: Record<string, React.ReactNode> = {
   shield: <Shield className="w-8 h-8 text-brand-red" />,
@@ -44,22 +45,12 @@ export default function CaseDetail() {
         </div>
       </div>
 
-      {/* ═══════ HERO ═══════ */}
-      <section className="relative overflow-hidden" style={{ minHeight: 380 }}>
-        <div className="absolute inset-0">
-          <img src={cs.heroImage} alt="" className="w-full h-full object-cover" />
-          <div className="absolute inset-0 bg-gradient-to-r from-black/80 via-black/60 to-black/30" />
-        </div>
-        <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 py-14 lg:py-18">
-          <h1 className="text-3xl lg:text-[2.75rem] font-bold text-white leading-[1.1] tracking-tight max-w-2xl">
-            {cs.title}
-          </h1>
-          <p className="text-white/80 text-lg mt-3 font-medium">{cs.subtitle}</p>
-          <p className="text-white/70 text-sm mt-4 max-w-xl leading-relaxed">
-            {cs.description}
-          </p>
-        </div>
-      </section>
+      <PageHero
+        title={cs.title}
+        eyebrow="Case"
+        description={`${cs.subtitle}. ${cs.description}`}
+        image={cs.heroImage}
+      />
 
       {/* ═══════ PROJECT SNAPSHOT ROW ═══════ */}
       <section className="bg-white border-b border-gray-100">
@@ -120,7 +111,7 @@ export default function CaseDetail() {
         <div className="max-w-7xl mx-auto px-4 sm:px-6">
           <div className="grid lg:grid-cols-2 gap-8 items-center">
             <div>
-              <h2 className="text-xl lg:text-2xl font-bold text-text-primary tracking-tight">Project Background</h2>
+              <SectionHeading title="Project Background" />
               <p className="text-text-secondary text-sm sm:text-[15px] mt-4 leading-[1.7]">{cs.backgroundText}</p>
             </div>
             <div className="overflow-hidden">
@@ -133,7 +124,7 @@ export default function CaseDetail() {
       {/* ═══════ PROJECT CHALLENGES ═══════ */}
       <section className="bg-gray-50 py-10 lg:py-14">
         <div className="max-w-7xl mx-auto px-4 sm:px-6">
-          <h2 className="text-xl lg:text-2xl font-bold text-text-primary tracking-tight">Project Challenges</h2>
+          <SectionHeading title="Project Challenges" />
           <div className="grid sm:grid-cols-3 gap-5 mt-6">
             {cs.challenges.map((ch, i) => (
               <div key={ch.title} className="bg-white border border-gray-200 p-6">
@@ -153,7 +144,7 @@ export default function CaseDetail() {
       {/* ═══════ VALVE SOLUTION ═══════ */}
       <section className="bg-white py-10 lg:py-14">
         <div className="max-w-7xl mx-auto px-4 sm:px-6">
-          <h2 className="text-xl lg:text-2xl font-bold text-text-primary tracking-tight">Valve Solution</h2>
+          <SectionHeading title="Valve Solution" />
           <div className="grid lg:grid-cols-2 gap-8 mt-6">
             <p className="text-text-secondary text-sm sm:text-[15px] leading-[1.7]">{cs.solutionText}</p>
             <div className="space-y-4">
@@ -177,7 +168,7 @@ export default function CaseDetail() {
       <section className="bg-gray-50 py-10 lg:py-14">
         <div className="max-w-7xl mx-auto px-4 sm:px-6">
           <div className="flex items-center justify-between mb-6">
-            <h2 className="text-xl lg:text-2xl font-bold text-text-primary tracking-tight">Products Used</h2>
+            <SectionHeading title="Products Used" />
             <Link to="/products" className="text-brand-red text-sm font-semibold hover:underline inline-flex items-center gap-1">
               View All Products <ArrowRight className="w-4 h-4" />
             </Link>
@@ -207,7 +198,7 @@ export default function CaseDetail() {
       {/* ═══════ RESULT / OUTCOME ═══════ */}
       <section className="bg-white py-10 lg:py-14">
         <div className="max-w-7xl mx-auto px-4 sm:px-6">
-          <h2 className="text-xl lg:text-2xl font-bold text-text-primary tracking-tight">Result / Outcome</h2>
+          <SectionHeading title="Result / Outcome" />
           <div className="grid sm:grid-cols-3 gap-5 mt-6">
             {cs.results.map((r) => (
               <div key={r.label} className="bg-white border border-gray-200 p-6">
@@ -227,7 +218,7 @@ export default function CaseDetail() {
       <section className="bg-gray-50 py-10 lg:py-14">
         <div className="max-w-7xl mx-auto px-4 sm:px-6">
           <div className="flex items-center justify-between mb-6">
-            <h2 className="text-xl lg:text-2xl font-bold text-text-primary tracking-tight">Related Industry</h2>
+            <SectionHeading title="Related Industry" />
             <Link to="/industries" className="text-brand-red text-sm font-semibold hover:underline inline-flex items-center gap-1">
               View All Industries <ArrowRight className="w-4 h-4" />
             </Link>
