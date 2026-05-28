@@ -1,6 +1,7 @@
 import { Link } from 'react-router-dom';
 import { ArrowRight } from 'lucide-react';
 import CTABanner from '../components/CTABanner';
+import { WORLD_LAND_PATH } from '../data/worldLandPath';
 
 /* ─── Milestones ─── */
 const milestones = [
@@ -39,84 +40,54 @@ const exportFeatures = [
 /* ─── Refined World Map SVG ─── */
 function WorldMap() {
   return (
-    <svg viewBox="0 0 900 440" className="w-full h-full" xmlns="http://www.w3.org/2000/svg">
-      {/* Detailed continental outlines */}
-      <g fill="#E8EAED" stroke="#D1D5DB" strokeWidth="0.5">
-        {/* North America */}
-        <path d="M55,35 L120,28 L175,32 L220,48 L255,70 L270,95 L260,125 L245,140 L230,155 L210,168 L185,172 L160,168 L130,158 L100,145 L75,120 L55,90 L42,60 Z" />
-        {/* Alaska */}
-        <path d="M25,30 L55,28 L60,42 L45,48 L30,45 Z" />
-        {/* Greenland */}
-        <path d="M280,22 L320,18 L340,35 L330,52 L300,48 L285,38 Z" />
-        {/* South America */}
-        <path d="M185,215 L235,208 L265,225 L280,255 L275,290 L260,330 L245,355 L225,365 L205,350 L190,310 L180,270 L178,240 Z" />
-        {/* Europe */}
-        <path d="M410,55 L445,48 L480,55 L505,72 L515,95 L510,118 L495,132 L470,130 L445,120 L425,105 L412,85 Z" />
-        {/* UK */}
-        <path d="M390,68 L405,65 L410,78 L400,85 L392,78 Z" />
-        {/* Scandinavia */}
-        <path d="M460,30 L480,28 L490,45 L485,62 L470,58 L458,45 Z" />
-        {/* Africa */}
-        <path d="M420,145 L465,138 L505,155 L525,180 L535,210 L530,250 L515,290 L495,315 L470,320 L445,305 L425,270 L415,230 L412,190 Z" />
-        {/* Madagascar */}
-        <path d="M540,270 L550,268 L555,285 L548,295 L540,285 Z" />
-        {/* Russia / North Asia */}
-        <path d="M520,28 L620,18 L720,28 L780,48 L820,72 L840,95 L835,120 L810,140 L770,155 L720,160 L670,155 L620,140 L575,115 L540,85 L525,58 Z" />
-        {/* Middle East */}
-        <path d="M505,130 L535,125 L555,140 L560,158 L545,170 L520,165 L508,150 Z" />
-        {/* India */}
-        <path d="M620,140 L660,135 L680,155 L685,180 L675,205 L655,215 L635,200 L622,175 Z" />
-        {/* Southeast Asia */}
-        <path d="M680,165 L710,158 L730,170 L740,190 L725,205 L700,198 L685,185 Z" />
-        {/* China */}
-        <path d="M640,95 L690,88 L735,95 L758,115 L755,140 L735,155 L700,152 L665,140 L642,120 Z" />
-        {/* Korea */}
-        <path d="M738,108 L752,105 L758,118 L748,125 L740,118 Z" />
-        {/* Japan */}
-        <path d="M768,85 L785,82 L792,100 L785,115 L775,108 Z" />
-        {/* Indonesia / islands */}
-        <path d="M680,225 L720,220 L745,230 L740,245 L710,240 L685,235 Z" />
-        <path d="M750,240 L775,235 L785,248 L775,258 L755,252 Z" />
-        {/* Philippines */}
-        <path d="M745,175 L758,172 L762,188 L752,198 L744,188 Z" />
-        {/* Australia */}
-        <path d="M720,280 L780,272 L810,280 L825,300 L820,325 L800,340 L765,345 L735,335 L718,310 Z" />
-        {/* New Zealand */}
-        <path d="M840,320 L855,318 L860,335 L850,345 L838,335 Z" />
-        {/* Papua New Guinea */}
-        <path d="M780,255 L810,250 L818,265 L805,275 L785,268 Z" />
+    <svg
+      viewBox="0 0 900 440"
+      className="block w-full h-auto"
+      xmlns="http://www.w3.org/2000/svg"
+      role="img"
+      aria-labelledby="export-map-title export-map-desc"
+    >
+      <title id="export-map-title">Haiyue Valve export reach map</title>
+      <desc id="export-map-desc">A world map showing connection lines from Asia Pacific to Europe, Middle East, Africa, South America, and Australia.</desc>
+      {/* Natural Earth world land outline */}
+      <g fill="#E6E8EC" stroke="#D1D5DB" strokeWidth="0.8" strokeLinejoin="round">
+        <path d={WORLD_LAND_PATH} />
       </g>
-
       {/* Dashed connection lines from Asia Pacific hub */}
-      <g stroke="#DC2626" strokeWidth="1.2" strokeDasharray="5 4" opacity="0.45" fill="none">
-        <line x1="730" y1="170" x2="490" y2="100" />
-        <line x1="730" y1="170" x2="530" y2="165" />
-        <line x1="730" y1="170" x2="480" y2="245" />
-        <line x1="730" y1="170" x2="260" y2="285" />
-        <line x1="730" y1="170" x2="800" y2="310" />
+      <g stroke="#C8102E" strokeWidth="1.2" strokeDasharray="5 5" opacity="0.42" fill="none">
+        <path d="M730 170 C655 145 575 120 490 100" />
+        <path d="M730 170 C665 172 600 169 530 165" />
+        <path d="M730 170 C645 188 560 218 480 245" />
+        <path d="M730 170 C575 195 415 238 260 285" />
+        <path d="M730 170 C748 215 775 260 800 310" />
       </g>
 
       {/* Region pins */}
       <g>
         {/* Europe */}
-        <circle cx="490" cy="100" r="5.5" fill="#DC2626" />
-        <circle cx="490" cy="100" r="10" fill="none" stroke="#DC2626" strokeWidth="1" opacity="0.3" />
+        <circle cx="490" cy="100" r="11" fill="#C8102E" opacity="0.15" />
+        <circle cx="490" cy="100" r="5.5" fill="#C8102E" />
+        <circle cx="490" cy="100" r="10" fill="none" stroke="#C8102E" strokeWidth="1" opacity="0.3" />
         <text x="505" y="104" fontSize="12" fill="#374151" fontWeight="500" fontFamily="system-ui">Europe</text>
         {/* Middle East */}
-        <circle cx="530" cy="165" r="5.5" fill="#DC2626" />
-        <circle cx="530" cy="165" r="10" fill="none" stroke="#DC2626" strokeWidth="1" opacity="0.3" />
+        <circle cx="530" cy="165" r="11" fill="#C8102E" opacity="0.15" />
+        <circle cx="530" cy="165" r="5.5" fill="#C8102E" />
+        <circle cx="530" cy="165" r="10" fill="none" stroke="#C8102E" strokeWidth="1" opacity="0.3" />
         <text x="545" y="169" fontSize="12" fill="#374151" fontWeight="500" fontFamily="system-ui">Middle East</text>
         {/* Africa */}
-        <circle cx="480" cy="245" r="5.5" fill="#DC2626" />
-        <circle cx="480" cy="245" r="10" fill="none" stroke="#DC2626" strokeWidth="1" opacity="0.3" />
+        <circle cx="480" cy="245" r="11" fill="#C8102E" opacity="0.15" />
+        <circle cx="480" cy="245" r="5.5" fill="#C8102E" />
+        <circle cx="480" cy="245" r="10" fill="none" stroke="#C8102E" strokeWidth="1" opacity="0.3" />
         <text x="495" y="249" fontSize="12" fill="#374151" fontWeight="500" fontFamily="system-ui">Africa</text>
         {/* Asia Pacific (hub - larger) */}
-        <circle cx="730" cy="170" r="7" fill="#DC2626" />
-        <circle cx="730" cy="170" r="13" fill="none" stroke="#DC2626" strokeWidth="1.5" opacity="0.35" />
+        <circle cx="730" cy="170" r="16" fill="#C8102E" opacity="0.16" />
+        <circle cx="730" cy="170" r="7" fill="#C8102E" />
+        <circle cx="730" cy="170" r="13" fill="none" stroke="#C8102E" strokeWidth="1.5" opacity="0.35" />
         <text x="748" y="174" fontSize="12" fill="#374151" fontWeight="500" fontFamily="system-ui">Asia Pacific</text>
         {/* South America */}
-        <circle cx="260" cy="285" r="5.5" fill="#DC2626" />
-        <circle cx="260" cy="285" r="10" fill="none" stroke="#DC2626" strokeWidth="1" opacity="0.3" />
+        <circle cx="260" cy="285" r="11" fill="#C8102E" opacity="0.15" />
+        <circle cx="260" cy="285" r="5.5" fill="#C8102E" />
+        <circle cx="260" cy="285" r="10" fill="none" stroke="#C8102E" strokeWidth="1" opacity="0.3" />
         <text x="200" y="289" fontSize="12" fill="#374151" fontWeight="500" fontFamily="system-ui">South America</text>
       </g>
     </svg>
@@ -292,7 +263,9 @@ export default function About() {
             </div>
             {/* Right: World Map */}
             <div className="lg:w-[62%]">
-              <WorldMap />
+              <div className="w-full min-h-[260px] sm:min-h-[320px] lg:min-h-[360px] flex items-center">
+                <WorldMap />
+              </div>
             </div>
           </div>
         </div>
