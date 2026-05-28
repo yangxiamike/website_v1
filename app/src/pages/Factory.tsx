@@ -157,7 +157,7 @@ export default function Factory() {
                 Our integrated manufacturing facility brings together advanced machining, assembly and testing under one roof to ensure efficiency, precision and consistent quality.
               </p>
               <Link
-                to="/contact"
+                to="/request-quote?source=factory-process"
                 className="inline-flex items-center gap-2 h-[48px] px-7 bg-brand-red text-white text-sm font-semibold hover:bg-dark-red transition-colors"
               >
                 View Factory Tour <ArrowRight className="w-4 h-4" />

@@ -7,7 +7,7 @@ export const company = {
   location: 'Wenzhou, Zhejiang, China',
   address: 'No. 88, Coastal Industrial Road, Longwan District, Wenzhou, Zhejiang, China',
   employees: '~85',
-  email: 'sales@haiyuevalve.example',
+  email: 'sales@haiyuevalve.com',
   whatsapp: '+86 138 0000 0000',
   phone: '+86 577 0000 0000',
   hours: 'Mon–Fri, 9:00–18:00 China Time',

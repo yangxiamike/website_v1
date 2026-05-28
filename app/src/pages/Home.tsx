@@ -51,7 +51,7 @@ const whyCards = [
 /* ═══ Case Studies Data ═══ */
 const caseStudiesData = [
   {
-    id: 'water',
+    id: 'municipal-water-supply-infrastructure',
     title: 'Municipal Water Supply Infrastructure',
     description: 'Supplied resilient seated gate valves and butterfly valves for a municipal water treatment facility upgrade. Products manufactured to EN standards with pressure test reports.',
     image: '/images/industry-water.jpg',
@@ -59,7 +59,7 @@ const caseStudiesData = [
     products: ['Gate Valve', 'Butterfly Valve'],
   },
   {
-    id: 'chemical',
+    id: 'chemical-processing-pipeline-upgrade',
     title: 'Chemical Processing Pipeline Upgrade',
     description: 'Provided stainless steel ball valves and check valves for chemical fluid handling lines. Materials selected per medium compatibility requirements.',
     image: '/images/industry-chemical.jpg',
@@ -67,7 +67,7 @@ const caseStudiesData = [
     products: ['Ball Valve', 'Check Valve'],
   },
   {
-    id: 'oilgas',
+    id: 'oil-gas-valve-supply-project',
     title: 'Oil & Gas Valve Supply Project',
     description: 'Delivered a batch of flanged ball valves and globe valves for an oil refinery maintenance project. Coordinated pressure class and end connection requirements.',
     image: '/images/industry-oil-gas.jpg',
@@ -116,9 +116,12 @@ function ScrollTrack({ children }: { children: React.ReactNode }) {
   useEffect(() => {
     const el = ref.current;
     if (!el) return;
+    const frame = window.requestAnimationFrame(update);
     el.addEventListener('scroll', update, { passive: true });
-    update();
-    return () => el.removeEventListener('scroll', update);
+    return () => {
+      window.cancelAnimationFrame(frame);
+      el.removeEventListener('scroll', update);
+    };
   }, []);
 
   const scroll = (dir: number) => {
@@ -177,12 +180,12 @@ export default function Home() {
                   Ball, gate, globe, butterfly, check valves and strainers for water treatment, chemical, oil & gas, and HVAC applications.
                 </p>
                 <div className="flex flex-wrap gap-3 mt-7">
-                  <Link to="/contact" className="inline-flex items-center gap-2 h-[50px] px-8 bg-brand-red text-white font-semibold text-sm hover:bg-dark-red transition-colors">
+                  <Link to="/request-quote?source=home-hero" className="inline-flex items-center gap-2 h-[50px] px-8 bg-brand-red text-white font-semibold text-sm hover:bg-dark-red transition-colors whitespace-nowrap">
                     Request a Quote <ArrowRight className="w-4 h-4" />
                   </Link>
-                  <button className="inline-flex items-center gap-2 h-[50px] px-8 border border-white/40 text-white font-medium text-sm hover:bg-white/10 transition-colors">
+                  <Link to="/request-quote?source=home-catalog-download" className="inline-flex items-center gap-2 h-[50px] px-8 border border-white/40 text-white font-medium text-sm hover:bg-white/10 transition-colors whitespace-nowrap">
                     Download Catalog
-                  </button>
+                  </Link>
                 </div>
               </motion.div>
             </div>
@@ -190,19 +193,25 @@ export default function Home() {
 
           {/* ═══════ Info Bar — centered, 84% width, heavy stats ═══════ */}
           <div className="flex justify-center pb-6 px-4">
-            <div className="w-[84%] max-w-6xl bg-white shadow-lg">
-              <div className="flex overflow-x-auto" style={{ scrollbarWidth: 'none' }}>
+            <div className="w-full sm:w-[84%] max-w-6xl bg-white shadow-lg">
+              <div className="grid grid-cols-2 sm:flex sm:overflow-x-auto" style={{ scrollbarWidth: 'none' }}>
                 {heroStats.map((stat, i) => (
                   <div
                     key={stat.label}
-                    className={`flex-shrink-0 flex-1 min-w-[150px] flex items-center gap-3.5 px-5 sm:px-7 ${
-                      i < heroStats.length - 1 ? 'border-r border-gray-100' : ''
+                    className={`flex-1 flex items-center gap-3 px-4 sm:gap-3.5 sm:px-7 ${
+                      i < heroStats.length - 1 ? 'sm:border-r sm:border-gray-100' : ''
+                    } ${
+                      i % 2 === 0 && i < heroStats.length - 1 ? 'border-r border-gray-100' : ''
+                    } ${
+                      i < heroStats.length - 1 ? 'border-b border-gray-100 sm:border-b-0' : ''
+                    } ${
+                      i === heroStats.length - 1 ? 'col-span-2 justify-center border-r-0 sm:justify-start' : ''
                     }`}
-                    style={{ height: 120 }}
+                    style={{ minHeight: 104 }}
                   >
                     <stat.icon className="w-8 h-8 text-brand-red flex-shrink-0" strokeWidth={1.5} />
                     <div>
-                      <div className="text-[32px] font-bold text-text-primary leading-none">{stat.value}</div>
+                      <div className="text-2xl sm:text-[32px] font-bold text-text-primary leading-none">{stat.value}</div>
                       <div className="text-[13px] font-medium text-text-secondary mt-1 leading-tight">{stat.label}</div>
                       <div className="text-[11px] text-text-muted leading-tight">{stat.desc}</div>
                     </div>
@@ -291,7 +300,7 @@ export default function Home() {
               {industries.map((industry) => (
                 <Link
                   key={industry.id}
-                  to="/industries"
+                  to={industry.route || `/industries/${industry.id}`}
                   className="group relative flex-shrink-0 w-[85vw] sm:w-[45vw] lg:w-[calc(33.333%-14px)] overflow-hidden"
                   style={{ height: 400 }}
                 >
@@ -392,11 +401,11 @@ export default function Home() {
             <div>
               <h2 className="text-2xl lg:text-3xl font-semibold text-text-primary tracking-tight">Case Studies</h2>
               <p className="text-text-secondary text-sm sm:text-base mt-2 max-w-xl">
-                Real project examples showing how Haiyue Valve supports different industrial applications.
+                Sample project scenarios showing how Haiyue Valve supports different industrial applications.
               </p>
             </div>
             <div className="hidden sm:block">
-              <SectionCTA to="/industries">View All Cases</SectionCTA>
+              <SectionCTA to="/cases">View All Cases</SectionCTA>
             </div>
           </motion.div>
 
@@ -409,7 +418,7 @@ export default function Home() {
                 viewport={{ once: true }}
                 transition={{ duration: 0.5, delay: i * 0.07 }}
               >
-                <Link to="/industries" className="group block bg-white border border-gray-200 hover:border-brand-red/40 transition-all duration-300 hover:shadow-md h-full flex flex-col">
+                <Link to={`/cases/${cs.id}`} className="group block bg-white border border-gray-200 hover:border-brand-red/40 transition-all duration-300 hover:shadow-md h-full flex flex-col">
                   {/* Image — fixed height */}
                   <div className="h-[240px] overflow-hidden flex-shrink-0">
                     <img
@@ -442,7 +451,7 @@ export default function Home() {
           </div>
 
           <div className="sm:hidden mt-6">
-            <SectionCTA to="/industries">View All Cases</SectionCTA>
+            <SectionCTA to="/cases">View All Cases</SectionCTA>
           </div>
         </div>
       </section>

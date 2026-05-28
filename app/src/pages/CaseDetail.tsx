@@ -236,7 +236,7 @@ export default function CaseDetail() {
             {cs.relatedIndustries.map((ri) => (
               <Link
                 key={ri.slug}
-                to={`/industries`}
+                to={`/industries/${ri.slug}`}
                 className="group relative overflow-hidden h-44"
               >
                 <img src={ri.image} alt={ri.name} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" />

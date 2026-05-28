@@ -1,6 +1,8 @@
-import { Link, useNavigate } from 'react-router-dom';
+import { useState } from 'react';
+import { Link, useNavigate, useSearchParams } from 'react-router-dom';
 import { ArrowRight, Mail, Phone, MapPin, Clock } from 'lucide-react';
 import CTABanner from '../components/CTABanner';
+import { submitInquiry } from '../lib/supabase';
 
 function FormLabel({ children, required }: { children: React.ReactNode; required?: boolean }) {
   return (
@@ -15,7 +17,7 @@ const contactInfo = [
   {
     icon: <Mail className="w-5 h-5 text-brand-red" />,
     title: 'Sales Email',
-    content: 'sales@haiyuevalve.example',
+    content: 'sales@haiyuevalve.com',
   },
   {
     icon: <Phone className="w-5 h-5 text-brand-red" />,
@@ -44,6 +46,7 @@ const purposeCards = [
     ),
     title: 'Sales Inquiry',
     desc: 'Get product information, pricing, and lead time details.',
+    href: '/request-quote?source=sales-inquiry',
   },
   {
     icon: (
@@ -53,6 +56,7 @@ const purposeCards = [
     ),
     title: 'Technical Support',
     desc: 'Our engineers are ready to help with technical questions.',
+    href: '/contact?topic=Technical%20Support',
   },
   {
     icon: (
@@ -62,11 +66,41 @@ const purposeCards = [
     ),
     title: 'Factory Visit',
     desc: 'Schedule a visit to our factory and see our capabilities firsthand.',
+    href: '/contact?topic=Factory%20Visit',
   },
 ];
 
 export default function Contact() {
   const navigate = useNavigate();
+  const [searchParams] = useSearchParams();
+  const [submitting, setSubmitting] = useState(false);
+  const [error, setError] = useState('');
+
+  const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+    setError('');
+    setSubmitting(true);
+
+    const formData = new FormData(event.currentTarget);
+    try {
+      await submitInquiry({
+        type: 'contact',
+        contact: {
+          name: formData.get('name'),
+          email: formData.get('email'),
+          company: formData.get('company'),
+          country: formData.get('country'),
+        },
+        message: formData.get('message'),
+        source_path: `${window.location.pathname}${window.location.search}`,
+      });
+      navigate('/thank-you?type=contact');
+    } catch (err) {
+      setError(err instanceof Error ? err.message : 'Could not submit your message. Please try again.');
+    } finally {
+      setSubmitting(false);
+    }
+  };
 
   return (
     <div className="pt-[72px]">
@@ -98,23 +132,23 @@ export default function Contact() {
                   Fill out the form below and our team will get back to you as soon as possible.
                 </p>
 
-                  <form onSubmit={(e) => { e.preventDefault(); navigate('/thank-you?type=contact'); }} className="space-y-4">
+                  <form onSubmit={handleSubmit} className="space-y-4">
                     <div>
                       <FormLabel required>Name</FormLabel>
-                      <input type="text" placeholder="Your name" required className="w-full h-10 px-3 text-sm border border-gray-200 bg-white focus:outline-none focus:border-brand-red transition-colors" />
+                      <input name="name" type="text" placeholder="Your name" required className="w-full h-10 px-3 text-sm border border-gray-200 bg-white focus:outline-none focus:border-brand-red transition-colors" />
                     </div>
                     <div>
                       <FormLabel required>Email</FormLabel>
-                      <input type="email" placeholder="Your email" required className="w-full h-10 px-3 text-sm border border-gray-200 bg-white focus:outline-none focus:border-brand-red transition-colors" />
+                      <input name="email" type="email" placeholder="Your email" required className="w-full h-10 px-3 text-sm border border-gray-200 bg-white focus:outline-none focus:border-brand-red transition-colors" />
                     </div>
                     <div>
                       <FormLabel required>Company</FormLabel>
-                      <input type="text" placeholder="Your company name" required className="w-full h-10 px-3 text-sm border border-gray-200 bg-white focus:outline-none focus:border-brand-red transition-colors" />
+                      <input name="company" type="text" placeholder="Your company name" required className="w-full h-10 px-3 text-sm border border-gray-200 bg-white focus:outline-none focus:border-brand-red transition-colors" />
                     </div>
                     <div>
                       <FormLabel required>Country</FormLabel>
                       <div className="relative">
-                        <select required className="w-full h-10 px-3 text-sm border border-gray-200 bg-white focus:outline-none focus:border-brand-red transition-colors appearance-none cursor-pointer text-text-secondary">
+                        <select name="country" required className="w-full h-10 px-3 text-sm border border-gray-200 bg-white focus:outline-none focus:border-brand-red transition-colors appearance-none cursor-pointer text-text-secondary">
                           <option value="">Select your country</option>
                           <option>China</option>
                           <option>United States</option>
@@ -132,16 +166,18 @@ export default function Contact() {
                     </div>
                     <div>
                       <FormLabel required>Message</FormLabel>
-                      <textarea rows={4} placeholder="How can we help you?" required className="w-full px-3 py-2 text-sm border border-gray-200 bg-white focus:outline-none focus:border-brand-red transition-colors resize-none" />
+                      <textarea name="message" rows={4} defaultValue={searchParams.get('topic') ? `I would like to learn more about: ${searchParams.get('topic')}` : ''} placeholder="How can we help you?" required className="w-full px-3 py-2 text-sm border border-gray-200 bg-white focus:outline-none focus:border-brand-red transition-colors resize-none" />
                     </div>
+                    {error && <p className="text-xs text-brand-red">{error}</p>}
                     <button
                       type="submit"
+                      disabled={submitting}
                       className="inline-flex items-center gap-2 h-[40px] px-6 bg-brand-red text-white text-sm font-semibold hover:bg-dark-red transition-colors"
                     >
-                      Send Message <ArrowRight className="w-4 h-4" />
+                      {submitting ? 'Sending...' : 'Send Message'} <ArrowRight className="w-4 h-4" />
                     </button>
                     <p className="text-[11px] text-text-muted mt-2">
-                      By submitting this form, you agree to our <a href="#" className="text-brand-red hover:underline">Privacy Policy</a>.
+                      By submitting this form, you agree to our <Link to="/resources#faqs" className="text-brand-red hover:underline">Privacy Policy</Link>.
                     </p>
                   </form>
               </div>
@@ -170,17 +206,18 @@ export default function Contact() {
       {/* ═══════ CONTACT PURPOSE CARDS ═══════ */}
       <section className="bg-white py-10 lg:py-14">
         <div className="max-w-7xl mx-auto px-4 sm:px-6">
-          <div className="grid grid-cols-3 gap-5">
+          <div className="grid md:grid-cols-3 gap-5">
             {purposeCards.map((card) => (
-              <div
+              <Link
                 key={card.title}
+                to={card.href}
                 className="bg-white border border-gray-200 p-6 hover:border-brand-red/30 transition-colors cursor-pointer group"
               >
                 <div className="mb-3">{card.icon}</div>
                 <h3 className="font-semibold text-text-primary text-sm mb-2">{card.title}</h3>
                 <p className="text-xs text-text-secondary leading-relaxed mb-3">{card.desc}</p>
                 <ArrowRight className="w-4 h-4 text-brand-red group-hover:translate-x-1 transition-transform" />
-              </div>
+              </Link>
             ))}
           </div>
         </div>

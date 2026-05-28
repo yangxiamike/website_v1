@@ -1,44 +1,51 @@
+import { lazy, Suspense } from 'react';
 import { Routes, Route } from 'react-router-dom';
 import ScrollToTop from './components/ScrollToTop';
 import Header from './components/Header';
 import Footer from './components/Footer';
-import Home from './pages/Home';
-import Products from './pages/Products';
-import ProductDetail from './pages/ProductDetail';
-import Industries from './pages/Industries';
-import IndustryDetail from './pages/IndustryDetail';
-import Factory from './pages/Factory';
-import About from './pages/About';
-import Resources from './pages/Resources';
-import Contact from './pages/Contact';
-import Cases from './pages/Cases';
-import CaseDetail from './pages/CaseDetail';
-import RequestQuote from './pages/RequestQuote';
-import ThankYou from './pages/ThankYou';
-import NotFound from './pages/NotFound';
+import { useRouteSeo } from './lib/seo';
+
+const Home = lazy(() => import('./pages/Home'));
+const Products = lazy(() => import('./pages/Products'));
+const ProductDetail = lazy(() => import('./pages/ProductDetail'));
+const Industries = lazy(() => import('./pages/Industries'));
+const IndustryDetail = lazy(() => import('./pages/IndustryDetail'));
+const Factory = lazy(() => import('./pages/Factory'));
+const About = lazy(() => import('./pages/About'));
+const Resources = lazy(() => import('./pages/Resources'));
+const Contact = lazy(() => import('./pages/Contact'));
+const Cases = lazy(() => import('./pages/Cases'));
+const CaseDetail = lazy(() => import('./pages/CaseDetail'));
+const RequestQuote = lazy(() => import('./pages/RequestQuote'));
+const ThankYou = lazy(() => import('./pages/ThankYou'));
+const NotFound = lazy(() => import('./pages/NotFound'));
 
 export default function App() {
+  useRouteSeo();
+
   return (
     <>
       <ScrollToTop />
       <Header />
-      <Routes>
-        <Route path="/" element={<Home />} />
-        <Route path="/products" element={<Products />} />
-        <Route path="/products/:id" element={<ProductDetail />} />
-        <Route path="/cases" element={<Cases />} />
-        <Route path="/cases/:id" element={<CaseDetail />} />
-        <Route path="/request-quote" element={<RequestQuote />} />
-        <Route path="/industries" element={<Industries />} />
-        <Route path="/industries/:id" element={<IndustryDetail />} />
-        <Route path="/factory" element={<Factory />} />
-        <Route path="/about" element={<About />} />
-        <Route path="/resources" element={<Resources />} />
-        <Route path="/contact" element={<Contact />} />
-        <Route path="/thank-you" element={<ThankYou />} />
-        <Route path="/404" element={<NotFound />} />
-        <Route path="*" element={<NotFound />} />
-      </Routes>
+      <Suspense fallback={<div className="pt-[72px] min-h-screen bg-white" />}>
+        <Routes>
+          <Route path="/" element={<Home />} />
+          <Route path="/products" element={<Products />} />
+          <Route path="/products/:id" element={<ProductDetail />} />
+          <Route path="/cases" element={<Cases />} />
+          <Route path="/cases/:id" element={<CaseDetail />} />
+          <Route path="/request-quote" element={<RequestQuote />} />
+          <Route path="/industries" element={<Industries />} />
+          <Route path="/industries/:id" element={<IndustryDetail />} />
+          <Route path="/factory" element={<Factory />} />
+          <Route path="/about" element={<About />} />
+          <Route path="/resources" element={<Resources />} />
+          <Route path="/contact" element={<Contact />} />
+          <Route path="/thank-you" element={<ThankYou />} />
+          <Route path="/404" element={<NotFound />} />
+          <Route path="*" element={<NotFound />} />
+        </Routes>
+      </Suspense>
       <Footer />
     </>
   );

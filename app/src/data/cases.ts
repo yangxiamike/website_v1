@@ -57,7 +57,7 @@ export const caseStudies: CaseStudy[] = [
       { title: 'Y Strainers', desc: 'Remove debris and particles to protect downstream valves and instruments, ensuring stable system operation.' },
     ],
     productsUsed: [
-      { id: 'cast-steel-gate-valve', name: 'Ball Valve', series: 'Series: P40 / P41 / P60', size: 'Size: 1/2" – 24"', pressure: 'Pressure: Class 150 – 600', image: '/images/prod-floating-ball.png' },
+      { id: 'flanged-ball-valve', name: 'Ball Valve', series: 'Series: P40 / P41 / P60', size: 'Size: 1/2" – 24"', pressure: 'Pressure: Class 150 – 600', image: '/images/prod-floating-ball.png' },
       { id: 'swing-check-valve', name: 'Check Valve', series: 'Series: H44 / H64', size: 'Size: 2" – 24"', pressure: 'Pressure: Class 150 – 600', image: '/images/prod-swing-check.png' },
       { id: 'y-strainer', name: 'Y Strainer', series: 'Series: GL41 / GL11', size: 'Size: 1/2" – 24"', pressure: 'Pressure: Class 150 – 600', image: '/images/prod-y-strainer.png' },
     ],
@@ -70,7 +70,7 @@ export const caseStudies: CaseStudy[] = [
       { slug: 'water-treatment', name: 'Water Treatment', image: '/images/case-water-treatment.jpg' },
       { slug: 'chemical-processing', name: 'Chemical Processing', image: '/images/case-chemical.jpg' },
       { slug: 'oil-gas', name: 'Oil & Gas', image: '/images/case-oil-gas.jpg' },
-      { slug: 'general-industrial', name: 'General Industrial', image: '/images/case-general.jpg' },
+      { slug: 'general-pipeline', name: 'General Pipeline', image: '/images/case-general.jpg' },
     ],
   },
   {
@@ -112,7 +112,7 @@ export const caseStudies: CaseStudy[] = [
     relatedIndustries: [
       { slug: 'oil-gas', name: 'Oil & Gas', image: '/images/case-oil-gas.jpg' },
       { slug: 'chemical-processing', name: 'Chemical Processing', image: '/images/case-chemical.jpg' },
-      { slug: 'general-industrial', name: 'General Industrial', image: '/images/case-general.jpg' },
+      { slug: 'general-pipeline', name: 'General Pipeline', image: '/images/case-general.jpg' },
       { slug: 'water-treatment', name: 'Water Treatment', image: '/images/case-water-treatment.jpg' },
     ],
   },
@@ -156,7 +156,7 @@ export const caseStudies: CaseStudy[] = [
       { slug: 'chemical-processing', name: 'Chemical Processing', image: '/images/case-chemical.jpg' },
       { slug: 'oil-gas', name: 'Oil & Gas', image: '/images/case-oil-gas.jpg' },
       { slug: 'water-treatment', name: 'Water Treatment', image: '/images/case-water-treatment.jpg' },
-      { slug: 'general-industrial', name: 'General Industrial', image: '/images/case-general.jpg' },
+      { slug: 'general-pipeline', name: 'General Pipeline', image: '/images/case-general.jpg' },
     ],
   },
 ];
@@ -167,7 +167,7 @@ export const filterCategories = [
   { id: 'chemical-processing', label: 'Chemical Processing' },
   { id: 'oil-gas', label: 'Oil & Gas' },
   { id: 'hvac', label: 'HVAC' },
-  { id: 'general-industrial', label: 'General Industrial' },
+  { id: 'general-pipeline', label: 'General Pipeline' },
 ];
 
 export function getCaseById(id: string): CaseStudy | undefined {

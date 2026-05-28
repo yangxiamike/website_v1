@@ -150,9 +150,9 @@ export default function Industries() {
             >
               Request a Quote <ArrowRight className="w-4 h-4" />
             </Link>
-            <button className="inline-flex items-center gap-2 h-[48px] px-7 border border-white/30 text-white text-sm font-medium hover:bg-white/10 transition-colors">
+            <Link to="/products" className="inline-flex items-center gap-2 h-[48px] px-7 border border-white/30 text-white text-sm font-medium hover:bg-white/10 transition-colors">
               View Recommended Valves <ArrowRight className="w-4 h-4" />
-            </button>
+            </Link>
           </div>
         </div>
       </section>

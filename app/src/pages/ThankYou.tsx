@@ -120,13 +120,13 @@ export default function ThankYou() {
           <div className="flex flex-wrap gap-3 mt-7 justify-center">
             <Link
               to={config.secondaryCta.href}
-              className="inline-flex items-center gap-2 h-[48px] px-7 border border-gray-300 text-text-primary text-sm font-semibold hover:border-brand-red hover:text-brand-red transition-colors bg-white"
+              className="inline-flex items-center gap-2 h-[48px] px-7 border border-gray-300 text-text-primary text-sm font-semibold hover:border-brand-red hover:text-brand-red transition-colors bg-white whitespace-nowrap"
             >
               {config.secondaryCta.label} <ArrowRight className="w-4 h-4" />
             </Link>
             <Link
               to={config.primaryCta.href}
-              className="inline-flex items-center gap-2 h-[48px] px-7 bg-brand-red text-white text-sm font-semibold hover:bg-dark-red transition-colors"
+              className="inline-flex items-center gap-2 h-[48px] px-7 bg-brand-red text-white text-sm font-semibold hover:bg-dark-red transition-colors whitespace-nowrap"
             >
               {config.primaryCta.label} <ArrowRight className="w-4 h-4" />
             </Link>
@@ -138,7 +138,7 @@ export default function ThankYou() {
       <section className="bg-white py-10 lg:py-14">
         <div className="max-w-5xl mx-auto px-4 sm:px-6">
           <h2 className="text-xl font-bold text-text-primary tracking-tight text-center mb-8">Next Steps</h2>
-          <div className="grid grid-cols-3 gap-0">
+          <div className="grid md:grid-cols-3 gap-6 md:gap-0">
             {config.steps.map((step, i) => (
               <div key={step.title} className="text-center px-4 lg:px-8 relative">
                 <div className="flex justify-center mb-4">{step.icon}</div>
@@ -160,7 +160,7 @@ export default function ThankYou() {
       <section className="bg-gray-50 py-10 lg:py-14">
         <div className="max-w-5xl mx-auto px-4 sm:px-6">
           <h2 className="text-xl font-bold text-text-primary tracking-tight text-center mb-8">Helpful Links</h2>
-          <div className="grid grid-cols-3 gap-4">
+          <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-4">
             {config.helpfulLinks.map((link) => (
               <Link
                 key={link.title}

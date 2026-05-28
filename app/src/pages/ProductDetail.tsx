@@ -34,20 +34,20 @@ function CardCTA({ children }: { children: React.ReactNode }) {
 }
 
 /* ─── Primary Button ─── */
-function PrimaryButton({ children, onClick }: { children: React.ReactNode; onClick?: () => void }) {
+function PrimaryButton({ children }: { children: React.ReactNode }) {
   return (
-    <button onClick={onClick} className="inline-flex items-center gap-2 h-[48px] px-7 bg-brand-red text-white text-sm font-semibold hover:bg-dark-red transition-colors">
+    <span className="inline-flex items-center gap-2 h-[48px] px-7 bg-brand-red text-white text-sm font-semibold hover:bg-dark-red transition-colors whitespace-nowrap">
       {children} <IconArrowRight size={18} strokeWidth={2} />
-    </button>
+    </span>
   );
 }
 
 /* ─── Secondary Button ─── */
-function SecondaryButton({ children, onClick }: { children: React.ReactNode; onClick?: () => void }) {
+function SecondaryButton({ children }: { children: React.ReactNode }) {
   return (
-    <button onClick={onClick} className="inline-flex items-center gap-2 h-[48px] px-7 border border-gray-300 text-text-primary text-sm font-medium hover:border-brand-red hover:text-brand-red transition-colors">
+    <span className="inline-flex items-center gap-2 h-[48px] px-7 border border-gray-300 text-text-primary text-sm font-medium hover:border-brand-red hover:text-brand-red transition-colors whitespace-nowrap">
       {children} <IconDownload size={18} strokeWidth={2} />
-    </button>
+    </span>
   );
 }
 
@@ -77,9 +77,8 @@ export default function ProductDetail() {
     return () => observers.forEach((o) => o.disconnect());
   }, [detail]);
 
-  /* Reset active tab when product changes */
+  /* Reset scroll when product changes */
   useEffect(() => {
-    setActiveTab('overview');
     window.scrollTo(0, 0);
   }, [id]);
 
@@ -179,14 +178,16 @@ export default function ProductDetail() {
 
               {/* Buttons */}
               <div className="flex flex-wrap gap-3 mt-8">
-                <Link to="/contact">
+                <Link to={`/request-quote?product=${detail.id}`}>
                   <PrimaryButton>
                     <span>Request a Quote</span>
                   </PrimaryButton>
                 </Link>
-                <SecondaryButton>
-                  <span>Download Datasheet</span>
-                </SecondaryButton>
+                <Link to={`/request-quote?source=datasheet&product=${detail.id}`}>
+                  <SecondaryButton>
+                    <span>Download Datasheet</span>
+                  </SecondaryButton>
+                </Link>
               </div>
             </div>
           </div>
@@ -311,9 +312,9 @@ export default function ProductDetail() {
                           <p className="text-xs text-text-muted mt-1">{doc.type} &middot; {doc.size}</p>
                         </div>
                       </div>
-                      <button className="inline-flex items-center gap-1.5 text-brand-red text-sm font-semibold mt-4 hover:underline">
+                      <Link to={`/request-quote?source=${encodeURIComponent(doc.title)}&product=${detail.id}`} className="inline-flex items-center gap-1.5 text-brand-red text-sm font-semibold mt-4 hover:underline">
                         <span>Download</span> <IconDownload size={16} strokeWidth={2} />
-                      </button>
+                      </Link>
                     </div>
                   ))}
                 </div>
@@ -378,7 +379,7 @@ export default function ProductDetail() {
                 </ul>
                 <div className="mt-5">
                   <Link
-                    to="/contact"
+                    to={`/request-quote?product=${detail.id}`}
                     className="flex items-center justify-center gap-2 h-[48px] w-full bg-brand-red text-white text-sm font-semibold hover:bg-dark-red transition-colors"
                   >
                     Request a Quote <IconArrowRight size={18} strokeWidth={2} />

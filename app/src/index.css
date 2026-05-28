@@ -24,6 +24,15 @@
     --input: 0 0% 90%;
     --ring: 350 85% 43%;
     --radius: 0.5rem;
+    --brand-red: #C8102E;
+    --brand-red-dark: #A00D24;
+    --surface: #F5F5F5;
+    --surface-dark: #1A1A1A;
+    --text-primary: #1A1A1A;
+    --text-secondary: #4A4A4A;
+    --text-muted: #737373;
+    --space-section-y: 4.5rem;
+    --shadow-card: 0 8px 24px rgb(0 0 0 / 0.08);
   }
 
   * {

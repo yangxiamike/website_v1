@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
 import { ArrowRight, ChevronDown, Download } from 'lucide-react';
 import { faqs } from '../data';
 
@@ -65,14 +65,15 @@ const tabs = [
 export default function Resources() {
   const [openFaq, setOpenFaq] = useState<number | null>(null);
   const activeSection = useActiveSection(['downloads', 'articles', 'faqs']);
+  const location = useLocation();
 
   /* Handle URL hash for anchor navigation from dropdown */
   useEffect(() => {
-    const hash = window.location.hash.replace('#', '');
+    const hash = location.hash.replace('#', '');
     if (hash && ['downloads', 'articles', 'faqs'].includes(hash)) {
       setTimeout(() => scrollToSection(hash), 300);
     }
-  }, []);
+  }, [location.hash]);
 
   return (
     <div className="pt-[72px]">
@@ -95,12 +96,12 @@ export default function Resources() {
       {/* ═══════ ANCHOR TABS ═══════ */}
       <section className="bg-white border-b border-gray-100 sticky top-0 z-40">
         <div className="max-w-7xl mx-auto px-4 sm:px-6">
-          <div className="flex">
+          <div className="flex overflow-x-auto" style={{ scrollbarWidth: 'thin' }}>
             {tabs.map((tab) => (
               <button
                 key={tab.id}
                 onClick={() => scrollToSection(tab.id)}
-                className={`flex items-center gap-2 px-5 py-4 text-sm font-medium border-b-2 transition-colors ${
+                className={`flex-shrink-0 flex items-center gap-2 px-5 py-4 text-sm font-medium border-b-2 transition-colors ${
                   activeSection === tab.id
                     ? 'border-brand-red text-brand-red'
                     : 'border-transparent text-text-secondary hover:text-text-primary'
@@ -124,11 +125,12 @@ export default function Resources() {
             Product catalogs, technical datasheets, certificates, and installation guides.
           </p>
           {/* Horizontal scroll container */}
-          <div className="flex gap-5 overflow-x-auto pb-4" style={{ scrollbarWidth: 'thin' }}>
+          <div className="grid grid-cols-1 sm:flex gap-5 sm:overflow-x-auto pb-4" style={{ scrollbarWidth: 'thin' }}>
             {downloads.map((dl) => (
-              <div
+              <Link
                 key={dl.title}
-                className="flex-shrink-0 w-[260px] border border-gray-200 hover:border-brand-red/30 transition-all cursor-pointer group"
+                to={`/request-quote?source=${encodeURIComponent(dl.title)}`}
+                className="w-full sm:flex-shrink-0 sm:w-[260px] border border-gray-200 hover:border-brand-red/30 transition-all cursor-pointer group"
               >
                 <div className="aspect-[4/3] overflow-hidden bg-gray-50">
                   <img src={dl.image} alt={dl.title} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" />
@@ -145,7 +147,7 @@ export default function Resources() {
                     <Download className="w-4 h-4 text-brand-red" />
                   </div>
                 </div>
-              </div>
+              </Link>
             ))}
           </div>
         </div>
@@ -160,11 +162,12 @@ export default function Resources() {
           <p className="text-sm text-text-secondary mb-6">
             Expert insights and practical guidance on valve selection, operation, and maintenance.
           </p>
-          <div className="flex gap-5 overflow-x-auto pb-4" style={{ scrollbarWidth: 'thin' }}>
+          <div className="grid grid-cols-1 sm:flex gap-5 sm:overflow-x-auto pb-4" style={{ scrollbarWidth: 'thin' }}>
             {articles.map((article) => (
-              <div
+              <Link
                 key={article.title}
-                className="flex-shrink-0 w-[320px] bg-white border border-gray-200 hover:border-brand-red/30 transition-all cursor-pointer group"
+                to={`/contact?topic=${encodeURIComponent(article.title)}`}
+                className="w-full sm:flex-shrink-0 sm:w-[320px] bg-white border border-gray-200 hover:border-brand-red/30 transition-all cursor-pointer group"
               >
                 <div className="aspect-[16/10] overflow-hidden">
                   <img src={article.image} alt={article.title} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" />
@@ -180,7 +183,7 @@ export default function Resources() {
                     Read More <ArrowRight className="w-3 h-3" />
                   </span>
                 </div>
-              </div>
+              </Link>
             ))}
           </div>
         </div>
@@ -229,16 +232,16 @@ export default function Resources() {
                 <p className="text-sm text-text-secondary">Our engineering team is here to help you select the best solution for your application.</p>
               </div>
             </div>
-            <div className="flex gap-3 flex-shrink-0">
+            <div className="flex flex-wrap gap-3 flex-shrink-0 justify-center sm:justify-end">
               <Link
                 to="/contact"
-                className="inline-flex items-center gap-2 h-[40px] px-5 border border-gray-300 text-text-primary text-sm font-medium hover:border-brand-red hover:text-brand-red transition-colors"
+                className="inline-flex items-center gap-2 h-[40px] px-5 border border-gray-300 text-text-primary text-sm font-medium hover:border-brand-red hover:text-brand-red transition-colors whitespace-nowrap"
               >
                 Contact Support <ArrowRight className="w-4 h-4" />
               </Link>
               <Link
                 to="/request-quote"
-                className="inline-flex items-center gap-2 h-[40px] px-5 bg-brand-red text-white text-sm font-semibold hover:bg-dark-red transition-colors"
+                className="inline-flex items-center gap-2 h-[40px] px-5 bg-brand-red text-white text-sm font-semibold hover:bg-dark-red transition-colors whitespace-nowrap"
               >
                 Request a Quote <ArrowRight className="w-4 h-4" />
               </Link>

@@ -1,5 +1,5 @@
 import { Link } from 'react-router-dom';
-import { Phone, Mail, MapPin, Linkedin, Youtube } from 'lucide-react';
+import { Phone, Mail, MapPin, FileText } from 'lucide-react';
 import { company } from '../data';
 
 const quickLinks = [
@@ -12,20 +12,20 @@ const quickLinks = [
 ];
 
 const productLinks = [
-  { label: 'Ball Valve', href: '/products' },
-  { label: 'Gate Valve', href: '/products' },
-  { label: 'Globe Valve', href: '/products' },
-  { label: 'Butterfly Valve', href: '/products' },
-  { label: 'Check Valve', href: '/products' },
-  { label: 'Y Strainer', href: '/products' },
+  { label: 'Ball Valve', href: '/products?type=ball-valve' },
+  { label: 'Gate Valve', href: '/products?type=gate-valve' },
+  { label: 'Globe Valve', href: '/products?type=globe-valve' },
+  { label: 'Butterfly Valve', href: '/products?type=butterfly-valve' },
+  { label: 'Check Valve', href: '/products?type=check-valve' },
+  { label: 'Y Strainer', href: '/products?type=strainer' },
   { label: 'View All Products', href: '/products' },
 ];
 
 const resourceLinks = [
-  { label: 'Catalogs & Datasheets', href: '/resources' },
-  { label: 'Technical Articles', href: '/resources' },
-  { label: 'Installation Guides', href: '/resources' },
-  { label: 'FAQs', href: '/resources' },
+  { label: 'Catalogs & Datasheets', href: '/resources#downloads' },
+  { label: 'Technical Articles', href: '/resources#articles' },
+  { label: 'Installation Guides', href: '/resources#downloads' },
+  { label: 'FAQs', href: '/resources#faqs' },
 ];
 
 export default function Footer() {
@@ -46,12 +46,12 @@ export default function Footer() {
               Zhejiang-based industrial valve manufacturer focused on practical valve solutions for water treatment, chemical, oil & gas, HVAC and general industrial applications.
             </p>
             <div className="flex items-center gap-3 mt-5">
-              <a href="#" className="w-9 h-9 border border-white/20 flex items-center justify-center hover:border-brand-red hover:bg-brand-red transition-colors">
-                <Linkedin className="w-4 h-4" />
+              <a href={`mailto:${company.email}`} aria-label="Email Haiyue Valve" className="w-9 h-9 border border-white/20 flex items-center justify-center hover:border-brand-red hover:bg-brand-red transition-colors">
+                <Mail className="w-4 h-4" />
               </a>
-              <a href="#" className="w-9 h-9 border border-white/20 flex items-center justify-center hover:border-brand-red hover:bg-brand-red transition-colors">
-                <Youtube className="w-4 h-4" />
-              </a>
+              <Link to="/resources#downloads" aria-label="View technical resources" className="w-9 h-9 border border-white/20 flex items-center justify-center hover:border-brand-red hover:bg-brand-red transition-colors">
+                <FileText className="w-4 h-4" />
+              </Link>
             </div>
           </div>
 
@@ -122,12 +122,12 @@ export default function Footer() {
       <div className="border-t border-white/10">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 py-4 flex flex-col sm:flex-row items-center justify-between gap-2">
           <p className="text-gray-500 text-xs">
-            &copy; {company.since}–2025 {company.nameEn}. This is a demo website. All information is fictional.
+            &copy; {company.since}–{new Date().getFullYear()} {company.nameEn}. Sample website content for valve selection reference.
           </p>
           <div className="flex items-center gap-4 text-xs text-gray-500">
-            <a href="#" className="hover:text-white transition-colors">Privacy Policy</a>
+            <Link to="/contact?topic=Privacy%20Policy" className="hover:text-white transition-colors">Privacy Policy</Link>
             <span>|</span>
-            <a href="#" className="hover:text-white transition-colors">Terms of Use</a>
+            <Link to="/contact?topic=Terms%20of%20Use" className="hover:text-white transition-colors">Terms of Use</Link>
           </div>
         </div>
       </div>

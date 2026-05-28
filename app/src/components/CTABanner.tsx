@@ -12,7 +12,7 @@ export default function CTABanner() {
           </p>
         </div>
         <Link
-          to="/contact"
+          to="/request-quote"
           className="inline-flex items-center gap-2 h-[48px] px-7 border-2 border-white text-white font-semibold text-sm hover:bg-white hover:text-brand-red transition-all duration-200 whitespace-nowrap flex-shrink-0"
         >
           Request a Quote <ArrowRight className="w-4 h-4" />

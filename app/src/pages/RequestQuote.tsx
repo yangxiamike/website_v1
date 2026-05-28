@@ -1,6 +1,9 @@
-import { Link, useNavigate } from 'react-router-dom';
+import { useState } from 'react';
+import { Link, useNavigate, useSearchParams } from 'react-router-dom';
 import { ArrowRight, Check, Phone, Mail, MapPin, Clock, ShieldCheck, FileText, Upload, HelpCircle, ChevronDown } from 'lucide-react';
 import CTABanner from '../components/CTABanner';
+import { deleteRfqAttachment, submitInquiry, uploadRfqAttachment, type UploadedAttachment } from '../lib/supabase';
+import { productsList } from '../data/productsCatalog';
 
 const whatToPrepare = [
   'Valve type, size, pressure rating',
@@ -32,9 +35,10 @@ function FormLabel({ children, required }: { children: React.ReactNode; required
   );
 }
 
-function TextInput({ placeholder, required, type = 'text' }: { placeholder: string; required?: boolean; type?: string }) {
+function TextInput({ name, placeholder, required, type = 'text' }: { name: string; placeholder: string; required?: boolean; type?: string }) {
   return (
     <input
+      name={name}
       type={type}
       placeholder={placeholder}
       required={required}
@@ -43,10 +47,10 @@ function TextInput({ placeholder, required, type = 'text' }: { placeholder: stri
   );
 }
 
-function SelectInput({ placeholder, options }: { placeholder: string; options: string[] }) {
+function SelectInput({ name, placeholder, options, required, defaultValue = '' }: { name: string; placeholder: string; options: string[]; required?: boolean; defaultValue?: string }) {
   return (
     <div className="relative">
-      <select className="w-full h-10 px-3 text-sm border border-gray-200 bg-white focus:outline-none focus:border-brand-red transition-colors appearance-none cursor-pointer text-text-secondary">
+      <select name={name} required={required} defaultValue={defaultValue} className="w-full h-10 px-3 text-sm border border-gray-200 bg-white focus:outline-none focus:border-brand-red transition-colors appearance-none cursor-pointer text-text-secondary">
         <option value="">{placeholder}</option>
         {options.map((o) => (
           <option key={o} value={o}>{o}</option>
@@ -59,6 +63,75 @@ function SelectInput({ placeholder, options }: { placeholder: string; options: s
 
 export default function RequestQuote() {
   const navigate = useNavigate();
+  const [searchParams] = useSearchParams();
+  const [submitting, setSubmitting] = useState(false);
+  const [error, setError] = useState('');
+  const [fileName, setFileName] = useState('No file chosen');
+  const sourceProduct = productsList.find((product) => product.id === searchParams.get('product'));
+  const sourceLabel = sourceProduct?.name || searchParams.get('source');
+
+  const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+    setError('');
+    setSubmitting(true);
+
+    const formData = new FormData(event.currentTarget);
+    const file = formData.get('attachment');
+
+    try {
+      const attachments: UploadedAttachment[] = file instanceof File && file.size > 0 ? [await uploadRfqAttachment(file)] : [];
+      try {
+        await submitInquiry({
+          type: 'rfq',
+          contact: {
+            full_name: formData.get('full_name'),
+            company: formData.get('company'),
+            email: formData.get('email'),
+            phone: formData.get('phone'),
+            country: formData.get('country'),
+            job_title: formData.get('job_title'),
+          },
+          product_requirements: {
+            product_type: formData.get('product_type'),
+            size: formData.get('size'),
+            pressure_class: formData.get('pressure_class'),
+            body_material: formData.get('body_material'),
+            connection_type: formData.get('connection_type'),
+            quantity: formData.get('quantity'),
+            valve_standard: formData.get('valve_standard'),
+            actuation: formData.get('actuation'),
+            medium: formData.get('medium'),
+            temperature: formData.get('temperature'),
+            operating_pressure: formData.get('operating_pressure'),
+            end_connection_standard: formData.get('end_connection_standard'),
+            testing_standard: formData.get('testing_standard'),
+            special_requirements: formData.get('special_requirements'),
+          },
+          project: {
+            project_name: formData.get('project_name'),
+            end_user: formData.get('end_user'),
+            delivery_time: formData.get('delivery_time'),
+            destination_port: formData.get('destination_port'),
+            incoterms: formData.get('incoterms'),
+            source_product: searchParams.get('product'),
+            source: searchParams.get('source'),
+          },
+          message: formData.get('message'),
+          source_path: `${window.location.pathname}${window.location.search}`,
+          attachments,
+        });
+      } catch (submitError) {
+        await Promise.allSettled(attachments.map((attachment) => deleteRfqAttachment(attachment)));
+        throw submitError;
+      }
+      navigate('/thank-you?type=rfq');
+    } catch (err) {
+      setError(err instanceof Error ? err.message : 'Could not submit your RFQ. Please try again.');
+    } finally {
+      setSubmitting(false);
+    }
+  };
+
   return (
     <div className="pt-[72px]">
       {/* ═══════ HERO ═══════ */}
@@ -80,7 +153,7 @@ export default function RequestQuote() {
       {/* ═══════ TRUST POINTS ═══════ */}
       <section className="bg-white border-b border-gray-100">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 py-6">
-          <div className="grid grid-cols-3 gap-6">
+          <div className="grid sm:grid-cols-3 gap-4 sm:gap-6">
             <div className="flex items-center gap-3">
               <div className="w-10 h-10 rounded-full border-2 border-brand-red flex items-center justify-center flex-shrink-0">
                 <ShieldCheck className="w-5 h-5 text-brand-red" />
@@ -118,34 +191,42 @@ export default function RequestQuote() {
           <div className="flex flex-col lg:flex-row gap-8">
             {/* LEFT: Form */}
             <div className="lg:w-[70%]">
-              <div className="bg-white border border-gray-200 p-6 lg:p-8">
+              <form onSubmit={handleSubmit} className="bg-white border border-gray-200 p-6 lg:p-8">
+                {sourceLabel && (
+                  <div className="mb-6 border border-brand-red/20 bg-brand-red/5 px-4 py-3">
+                    <p className="text-xs font-semibold uppercase tracking-wider text-brand-red">Request context</p>
+                    <p className="text-sm text-text-secondary mt-1">
+                      {sourceProduct ? `You are requesting a quotation for ${sourceProduct.name}.` : `You came from: ${sourceLabel}.`}
+                    </p>
+                  </div>
+                )}
                 {/* 1. Contact Information */}
                 <div className="mb-8">
                   <h3 className="font-bold text-text-primary text-lg mb-5">1. Contact Information</h3>
                   <div className="grid sm:grid-cols-3 gap-4">
                     <div>
                       <FormLabel required>Full Name</FormLabel>
-                      <TextInput placeholder="Your full name" required />
+                      <TextInput name="full_name" placeholder="Your full name" required />
                     </div>
                     <div>
                       <FormLabel required>Company Name</FormLabel>
-                      <TextInput placeholder="Your company name" required />
+                      <TextInput name="company" placeholder="Your company name" required />
                     </div>
                     <div>
                       <FormLabel required>Email Address</FormLabel>
-                      <TextInput placeholder="name@company.com" required type="email" />
+                      <TextInput name="email" placeholder="name@company.com" required type="email" />
                     </div>
                     <div>
                       <FormLabel required>Phone / WhatsApp</FormLabel>
-                      <TextInput placeholder="+86 138 0000 0000" required />
+                      <TextInput name="phone" placeholder="+86 138 0000 0000" required />
                     </div>
                     <div>
                       <FormLabel required>Country / Region</FormLabel>
-                      <SelectInput placeholder="Select country or region" options={['China', 'United States', 'Germany', 'Russia', 'Saudi Arabia', 'India', 'Brazil', 'Other']} />
+                      <SelectInput name="country" placeholder="Select country or region" required options={['China', 'United States', 'Germany', 'Russia', 'Saudi Arabia', 'India', 'Brazil', 'Other']} />
                     </div>
                     <div>
                       <FormLabel>Job Title</FormLabel>
-                      <TextInput placeholder="Your job title" />
+                      <TextInput name="job_title" placeholder="Your job title" />
                     </div>
                   </div>
                 </div>
@@ -156,35 +237,35 @@ export default function RequestQuote() {
                   <div className="grid sm:grid-cols-3 gap-4">
                     <div>
                       <FormLabel required>Product Type</FormLabel>
-                      <SelectInput placeholder="Select product type" options={productTypes} />
+                      <SelectInput name="product_type" placeholder="Select product type" required options={productTypes} defaultValue={sourceProduct?.category} />
                     </div>
                     <div>
                       <FormLabel required>Size (DN)</FormLabel>
-                      <TextInput placeholder="Example: DN50" required />
+                      <TextInput name="size" placeholder="Example: DN50" required />
                     </div>
                     <div>
                       <FormLabel required>Pressure Class</FormLabel>
-                      <TextInput placeholder="Example: PN16 / Class 150" required />
+                      <TextInput name="pressure_class" placeholder="Example: PN16 / Class 150" required />
                     </div>
                     <div>
                       <FormLabel required>Body Material</FormLabel>
-                      <SelectInput placeholder="Select material" options={materials} />
+                      <SelectInput name="body_material" placeholder="Select material" required options={materials} />
                     </div>
                     <div>
                       <FormLabel required>Connection Type</FormLabel>
-                      <SelectInput placeholder="Select connection" options={connections} />
+                      <SelectInput name="connection_type" placeholder="Select connection" required options={connections} />
                     </div>
                     <div>
                       <FormLabel required>Quantity</FormLabel>
-                      <TextInput placeholder="Example: 10 pcs" required />
+                      <TextInput name="quantity" placeholder="Example: 10 pcs" required />
                     </div>
                     <div>
                       <FormLabel>Valve Standard</FormLabel>
-                      <TextInput placeholder="Example: API 600, GB/T 12237" />
+                      <TextInput name="valve_standard" placeholder="Example: API 600, GB/T 12237" />
                     </div>
                     <div className="sm:col-span-2">
                       <FormLabel>Actuation (Optional)</FormLabel>
-                      <TextInput placeholder="Manual / Gear / Electric / Pneumatic" />
+                      <TextInput name="actuation" placeholder="Manual / Gear / Electric / Pneumatic" />
                     </div>
                   </div>
                 </div>
@@ -195,27 +276,27 @@ export default function RequestQuote() {
                   <div className="grid sm:grid-cols-3 gap-4">
                     <div>
                       <FormLabel required>Medium / Fluid</FormLabel>
-                      <TextInput placeholder="e.g. Water, Steam, Oil, Gas" required />
+                      <TextInput name="medium" placeholder="e.g. Water, Steam, Oil, Gas" required />
                     </div>
                     <div>
                       <FormLabel required>Temperature (°C)</FormLabel>
-                      <TextInput placeholder="Min – Max" required />
+                      <TextInput name="temperature" placeholder="Min – Max" required />
                     </div>
                     <div>
                       <FormLabel required>Operating Pressure</FormLabel>
-                      <TextInput placeholder="Example: 1.6 MPa" required />
+                      <TextInput name="operating_pressure" placeholder="Example: 1.6 MPa" required />
                     </div>
                     <div>
                       <FormLabel>End Connection Standard</FormLabel>
-                      <TextInput placeholder="e.g. ASME B16.5" />
+                      <TextInput name="end_connection_standard" placeholder="e.g. ASME B16.5" />
                     </div>
                     <div>
                       <FormLabel>Testing Standard</FormLabel>
-                      <TextInput placeholder="e.g. API 598" />
+                      <TextInput name="testing_standard" placeholder="e.g. API 598" />
                     </div>
                     <div>
                       <FormLabel>Special Requirements</FormLabel>
-                      <TextInput placeholder="e.g. Fire safe, NACE, Low temp." />
+                      <TextInput name="special_requirements" placeholder="e.g. Fire safe, NACE, Low temp." />
                     </div>
                   </div>
                 </div>
@@ -226,35 +307,35 @@ export default function RequestQuote() {
                   <div className="grid sm:grid-cols-3 gap-4">
                     <div>
                       <FormLabel>Project Name</FormLabel>
-                      <TextInput placeholder="e.g. Project name" />
+                      <TextInput name="project_name" placeholder="e.g. Project name" />
                     </div>
                     <div>
                       <FormLabel>End User / Owner</FormLabel>
-                      <TextInput placeholder="e.g. End user or owner" />
+                      <TextInput name="end_user" placeholder="e.g. End user or owner" />
                     </div>
                     <div>
                       <FormLabel required>Delivery Time</FormLabel>
-                      <SelectInput placeholder="Select delivery time" options={deliveryTimes} />
+                      <SelectInput name="delivery_time" placeholder="Select delivery time" required options={deliveryTimes} />
                     </div>
                     <div>
                       <FormLabel required>Destination Port</FormLabel>
-                      <TextInput placeholder="e.g. Shanghai, Singapore" required />
+                      <TextInput name="destination_port" placeholder="e.g. Shanghai, Singapore" required />
                     </div>
                     <div>
                       <FormLabel required>Incoterms</FormLabel>
-                      <SelectInput placeholder="Select incoterms" options={incoterms} />
+                      <SelectInput name="incoterms" placeholder="Select incoterms" required options={incoterms} />
                     </div>
                     <div>
                       <FormLabel>Upload Drawing / Datasheet</FormLabel>
                       <div className="relative">
-                        <input type="file" id="file-upload" className="hidden" />
+                        <input name="attachment" type="file" id="file-upload" accept=".pdf,.dwg,.jpg,.jpeg,application/pdf,image/jpeg" className="hidden" onChange={(event) => setFileName(event.target.files?.[0]?.name || 'No file chosen')} />
                         <label
                           htmlFor="file-upload"
                           className="w-full h-10 px-3 text-sm border border-gray-200 bg-white flex items-center gap-2 cursor-pointer hover:border-brand-red transition-colors text-text-secondary"
                         >
                           <Upload className="w-4 h-4" />
                           Choose file
-                          <span className="text-text-muted ml-1">No file chosen</span>
+                          <span className="text-text-muted ml-1 truncate">{fileName}</span>
                         </label>
                       </div>
                       <p className="text-[11px] text-text-muted mt-1">DWG, PDF, JPG up to 20MB</p>
@@ -264,6 +345,7 @@ export default function RequestQuote() {
                     <FormLabel>Additional Notes / Message</FormLabel>
                     <textarea
                       rows={4}
+                      name="message"
                       placeholder="Please provide any additional information about your requirements."
                       className="w-full px-3 py-2 text-sm border border-gray-200 bg-white focus:outline-none focus:border-brand-red transition-colors resize-none"
                     />
@@ -272,9 +354,12 @@ export default function RequestQuote() {
 
                 {/* Submit */}
                 <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 pt-6 border-t border-gray-100">
-                  <button onClick={() => navigate('/thank-you?type=rfq')} className="inline-flex items-center gap-2 h-[48px] px-8 bg-brand-red text-white text-sm font-semibold hover:bg-dark-red transition-colors">
-                    Submit RFQ <ArrowRight className="w-4 h-4" />
-                  </button>
+                  <div>
+                    {error && <p className="text-xs text-brand-red mb-3">{error}</p>}
+                    <button type="submit" disabled={submitting} className="inline-flex items-center gap-2 h-[48px] px-8 bg-brand-red text-white text-sm font-semibold hover:bg-dark-red transition-colors disabled:opacity-70 whitespace-nowrap">
+                      {submitting ? 'Submitting...' : 'Submit RFQ'} <ArrowRight className="w-4 h-4" />
+                    </button>
+                  </div>
                   <p className="text-xs text-text-muted flex items-center gap-1.5">
                     <svg className="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
                       <path strokeLinecap="round" strokeLinejoin="round" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" />
@@ -282,7 +367,7 @@ export default function RequestQuote() {
                     Your information is secure and will only be used to process your request.
                   </p>
                 </div>
-              </div>
+              </form>
             </div>
 
             {/* RIGHT: Sidebar */}
@@ -370,7 +455,7 @@ export default function RequestQuote() {
                   Have detailed drawings or P&IDs? Upload them with your request or email directly to{' '}
                   <a href="mailto:sales@haiyuevalve.com" className="text-brand-red hover:underline">our team</a>.
                 </p>
-                <button className="mt-3 inline-flex items-center gap-2 h-9 px-4 border border-gray-200 text-sm text-text-secondary hover:border-brand-red hover:text-brand-red transition-colors">
+                <button type="button" onClick={() => document.getElementById('file-upload')?.click()} className="mt-3 inline-flex items-center gap-2 h-9 px-4 border border-gray-200 text-sm text-text-secondary hover:border-brand-red hover:text-brand-red transition-colors">
                   <Upload className="w-4 h-4" /> Upload Files
                 </button>
               </div>

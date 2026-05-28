@@ -98,7 +98,7 @@ export const productDetailsMap: Record<string, ProductDetailData> = {
       { category: 'Options', values: 'Fire-safe design, anti-static device, locking device' },
     ],
     specs: [
-      { param: 'Size Range', value: '1/2\" – 8\", DN15 – DN200' },
+      { param: 'Size Range', value: '1/2" – 8", DN15 – DN200' },
       { param: 'Pressure Rating', value: 'PN16 – PN40, Class 150' },
       { param: 'Body Material', value: 'WCB, CF8, CF8M' },
       { param: 'Seat Material', value: 'PTFE, RPTFE, PPL' },
@@ -146,7 +146,7 @@ export const productDetailsMap: Record<string, ProductDetailData> = {
       { category: 'Options', values: 'DBB, sealant injection, fire-safe, NACE MR0175' },
     ],
     specs: [
-      { param: 'Size Range', value: '2\" – 24\", DN50 – DN600' },
+      { param: 'Size Range', value: '2" – 24", DN50 – DN600' },
       { param: 'Pressure Rating', value: 'Class 150 – 600' },
       { param: 'Body Material', value: 'WCB, CF8, CF8M, WC6' },
       { param: 'Seat Material', value: 'RPTFE, PEEK, Metal' },
@@ -189,7 +189,7 @@ export const productDetailsMap: Record<string, ProductDetailData> = {
       { category: 'Options', values: 'Locking device, ISO 5211 mounting pad' },
     ],
     specs: [
-      { param: 'Size Range', value: '1/2\" – 12\", DN15 – DN300' },
+      { param: 'Size Range', value: '1/2" – 12", DN15 – DN300' },
       { param: 'Pressure Rating', value: 'PN16 – PN40, Class 150' },
       { param: 'Body Material', value: 'WCB, CF8, CF8M' },
       { param: 'Seat Material', value: 'PTFE, RPTFE' },
@@ -237,7 +237,7 @@ export const productDetailsMap: Record<string, ProductDetailData> = {
       { category: 'Options', values: 'Locking handle, ISO 5211 pad' },
     ],
     specs: [
-      { param: 'Size Range', value: '1/4\" – 2\", DN8 – DN50' },
+      { param: 'Size Range', value: '1/4" – 2", DN8 – DN50' },
       { param: 'Pressure Rating', value: 'PN16 – PN40, 1000 WOG' },
       { param: 'Body Material', value: 'CF8, CF8M' },
       { param: 'Seat Material', value: 'PTFE, RPTFE' },
@@ -280,7 +280,7 @@ export const productDetailsMap: Record<string, ProductDetailData> = {
       { category: 'Options', values: 'Locking device, ISO 5211 pad' },
     ],
     specs: [
-      { param: 'Size Range', value: '1/4\" – 4\", DN8 – DN100' },
+      { param: 'Size Range', value: '1/4" – 4", DN8 – DN100' },
       { param: 'Pressure Rating', value: 'PN16 – PN40, 1000 WOG' },
       { param: 'Body Material', value: 'CF8, CF8M' },
       { param: 'Seat Material', value: 'PTFE, RPTFE' },
@@ -326,7 +326,7 @@ export const productDetailsMap: Record<string, ProductDetailData> = {
       { category: 'Testing Standards', values: 'API 598' },
     ],
     specs: [
-      { param: 'Size Range', value: '1/4\" – 1\", DN8 – DN25' },
+      { param: 'Size Range', value: '1/4" – 1", DN8 – DN25' },
       { param: 'Pressure Rating', value: 'PN16' },
       { param: 'Body Material', value: 'CF8, CF8M' },
       { param: 'Seat Material', value: 'PTFE' },
@@ -377,7 +377,7 @@ export const productDetailsMap: Record<string, ProductDetailData> = {
       { category: 'Testing Standards', values: 'API 598' },
     ],
     specs: [
-      { param: 'Size Range', value: '2\" – 24\", DN50 – DN600' },
+      { param: 'Size Range', value: '2" – 24", DN50 – DN600' },
       { param: 'Pressure Rating', value: 'PN16 – PN40, Class 150 – 300' },
       { param: 'Body Material', value: 'WCB' },
       { param: 'Seat Material', value: 'Metal (STL Overlay)' },
@@ -424,7 +424,7 @@ export const productDetailsMap: Record<string, ProductDetailData> = {
       { category: 'Testing Standards', values: 'API 598' },
     ],
     specs: [
-      { param: 'Size Range', value: '1/2\" – 4\", DN15 – DN100' },
+      { param: 'Size Range', value: '1/2" – 4", DN15 – DN100' },
       { param: 'Pressure Rating', value: 'Class 800 – 2500' },
       { param: 'Body Material', value: 'A105, F22, F91' },
       { param: 'Seat Material', value: 'Metal (STL Overlay)' },
@@ -470,7 +470,7 @@ export const productDetailsMap: Record<string, ProductDetailData> = {
       { category: 'Testing Standards', values: 'API 598' },
     ],
     specs: [
-      { param: 'Size Range', value: '2\" – 24\", DN50 – DN600' },
+      { param: 'Size Range', value: '2" – 24", DN50 – DN600' },
       { param: 'Pressure Rating', value: 'PN10' },
       { param: 'Body Material', value: 'Ductile Iron' },
       { param: 'Seat Material', value: 'EPDM, NBR' },
@@ -521,7 +521,7 @@ export const productDetailsMap: Record<string, ProductDetailData> = {
       { category: 'Testing Standards', values: 'API 598' },
     ],
     specs: [
-      { param: 'Size Range', value: '1/2\" – 12\", DN15 – DN300' },
+      { param: 'Size Range', value: '1/2" – 12", DN15 – DN300' },
       { param: 'Pressure Rating', value: 'PN16 – PN40, Class 150' },
       { param: 'Body Material', value: 'CF8, CF8M' },
       { param: 'Seat Material', value: 'Metal (STL Overlay)' },
@@ -568,7 +568,7 @@ export const productDetailsMap: Record<string, ProductDetailData> = {
       { category: 'Testing Standards', values: 'API 598' },
     ],
     specs: [
-      { param: 'Size Range', value: '1/2\" – 8\", DN15 – DN200' },
+      { param: 'Size Range', value: '1/2" – 8", DN15 – DN200' },
       { param: 'Pressure Rating', value: 'PN16 – PN100, Class 150 – 600' },
       { param: 'Body Material', value: 'WCB, CF8M' },
       { param: 'Seat Material', value: 'Metal (STL Overlay)' },
@@ -615,7 +615,7 @@ export const productDetailsMap: Record<string, ProductDetailData> = {
       { category: 'Testing Standards', values: 'API 598, ISO 15848' },
     ],
     specs: [
-      { param: 'Size Range', value: '1/2\" – 8\", DN15 – DN200' },
+      { param: 'Size Range', value: '1/2" – 8", DN15 – DN200' },
       { param: 'Pressure Rating', value: 'PN16 – PN40, Class 150 – 300' },
       { param: 'Body Material', value: 'WCB, CF8M' },
       { param: 'Bellows Material', value: 'SS321, SS316L' },
@@ -666,7 +666,7 @@ export const productDetailsMap: Record<string, ProductDetailData> = {
       { category: 'Testing Standards', values: 'API 598, EN 12266' },
     ],
     specs: [
-      { param: 'Size Range', value: '1.5\" – 48\", DN40 – DN1200' },
+      { param: 'Size Range', value: '1.5" – 48", DN40 – DN1200' },
       { param: 'Pressure Rating', value: 'PN10 – PN16, Class 150' },
       { param: 'Body Material', value: 'Ductile Iron, CF8' },
       { param: 'Seat Material', value: 'EPDM, NBR, PTFE' },
@@ -714,7 +714,7 @@ export const productDetailsMap: Record<string, ProductDetailData> = {
       { category: 'Testing Standards', values: 'API 598, EN 12266' },
     ],
     specs: [
-      { param: 'Size Range', value: '2\" – 48\", DN50 – DN1200' },
+      { param: 'Size Range', value: '2" – 48", DN50 – DN1200' },
       { param: 'Pressure Rating', value: 'PN10 – PN25, Class 150 – 300' },
       { param: 'Body Material', value: 'Ductile Iron, CF8' },
       { param: 'Seat Material', value: 'EPDM, NBR, PTFE' },
@@ -761,7 +761,7 @@ export const productDetailsMap: Record<string, ProductDetailData> = {
       { category: 'Testing Standards', values: 'API 598' },
     ],
     specs: [
-      { param: 'Size Range', value: '3\" – 48\", DN80 – DN1200' },
+      { param: 'Size Range', value: '3" – 48", DN80 – DN1200' },
       { param: 'Pressure Rating', value: 'PN16 – PN25, Class 150 – 300' },
       { param: 'Body Material', value: 'WCB, CF8M' },
       { param: 'Seat Material', value: 'PTFE, RTFE, Metal' },
@@ -808,7 +808,7 @@ export const productDetailsMap: Record<string, ProductDetailData> = {
       { category: 'Testing Standards', values: 'API 598, API 607' },
     ],
     specs: [
-      { param: 'Size Range', value: '3\" – 48\", DN80 – DN1200' },
+      { param: 'Size Range', value: '3" – 48", DN80 – DN1200' },
       { param: 'Pressure Rating', value: 'PN16 – PN40, Class 150 – 600' },
       { param: 'Body Material', value: 'WCB, CF8M' },
       { param: 'Seat Material', value: 'Metal (STL/Inconel)' },
@@ -858,7 +858,7 @@ export const productDetailsMap: Record<string, ProductDetailData> = {
       { category: 'Testing Standards', values: 'API 598' },
     ],
     specs: [
-      { param: 'Size Range', value: '1/2\" – 24\", DN15 – DN600' },
+      { param: 'Size Range', value: '1/2" – 24", DN15 – DN600' },
       { param: 'Pressure Rating', value: 'PN16 – PN40, Class 150' },
       { param: 'Body Material', value: 'WCB, CF8, CF8M' },
       { param: 'Seat Material', value: 'Metal (Body Integral)' },
@@ -904,7 +904,7 @@ export const productDetailsMap: Record<string, ProductDetailData> = {
       { category: 'Testing Standards', values: 'API 598' },
     ],
     specs: [
-      { param: 'Size Range', value: '1/2\" – 8\", DN15 – DN200' },
+      { param: 'Size Range', value: '1/2" – 8", DN15 – DN200' },
       { param: 'Pressure Rating', value: 'PN16 – PN40, Class 150' },
       { param: 'Body Material', value: 'CF8, CF8M' },
       { param: 'Seat Material', value: 'Metal (Body Integral)' },
@@ -950,7 +950,7 @@ export const productDetailsMap: Record<string, ProductDetailData> = {
       { category: 'Testing Standards', values: 'API 598' },
     ],
     specs: [
-      { param: 'Size Range', value: '2\" – 24\", DN50 – DN600' },
+      { param: 'Size Range', value: '2" – 24", DN50 – DN600' },
       { param: 'Pressure Rating', value: 'PN16 – PN25, Class 150' },
       { param: 'Body Material', value: 'WCB, CF8' },
       { param: 'Seat Material', value: 'EPDM, NBR' },
@@ -1000,7 +1000,7 @@ export const productDetailsMap: Record<string, ProductDetailData> = {
       { category: 'Testing Standards', values: 'API 598' },
     ],
     specs: [
-      { param: 'Size Range', value: '1/2\" – 12\", DN15 – DN300' },
+      { param: 'Size Range', value: '1/2" – 12", DN15 – DN300' },
       { param: 'Pressure Rating', value: 'PN16 – PN40, Class 150' },
       { param: 'Body Material', value: 'WCB, CF8, CF8M' },
       { param: 'Screen Material', value: 'SS304, SS316' },
@@ -1046,7 +1046,7 @@ export const productDetailsMap: Record<string, ProductDetailData> = {
       { category: 'Testing Standards', values: 'API 598' },
     ],
     specs: [
-      { param: 'Size Range', value: '2\" – 16\", DN50 – DN400' },
+      { param: 'Size Range', value: '2" – 16", DN50 – DN400' },
       { param: 'Pressure Rating', value: 'PN16, Class 150' },
       { param: 'Body Material', value: 'WCB, CF8' },
       { param: 'Basket Material', value: 'SS304, SS316' },

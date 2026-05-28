@@ -1,5 +1,5 @@
 import { useState, useEffect, useRef } from 'react';
-import { Link, useLocation } from 'react-router-dom';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { Menu, X, ChevronDown, Search } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 
@@ -29,8 +29,10 @@ export default function Header() {
   const [hidden, setHidden] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [activeDropdown, setActiveDropdown] = useState<string | null>(null);
+  const [searchQuery, setSearchQuery] = useState('');
   const lastScrollY = useRef(0);
   const location = useLocation();
+  const navigate = useNavigate();
 
   useEffect(() => {
     const handleScroll = () => {
@@ -49,9 +51,13 @@ export default function Header() {
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
-  useEffect(() => {
+  const handleSearch = (event: React.FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+    const query = searchQuery.trim();
+    if (!query) return;
+    navigate(`/products?q=${encodeURIComponent(query)}`);
     setMobileMenuOpen(false);
-  }, [location]);
+  };
 
   return (
     <>
@@ -122,18 +128,20 @@ export default function Header() {
           {/* Right: Search + CTA */}
           <div className="flex items-center gap-3">
             {/* Search Input */}
-            <div className="hidden md:flex items-center relative">
+            <form onSubmit={handleSearch} className="hidden md:flex items-center relative">
               <Search className="absolute left-3 w-4 h-4 text-text-muted pointer-events-none" />
               <input
                 type="text"
                 placeholder="Search products..."
+                value={searchQuery}
+                onChange={(event) => setSearchQuery(event.target.value)}
                 className="w-[180px] h-10 pl-9 pr-3 text-sm border border-gray-200 bg-surface focus:outline-none focus:border-brand-red transition-colors"
               />
-            </div>
+            </form>
 
             <Link
               to="/request-quote"
-              className="hidden sm:inline-flex items-center gap-1.5 h-[48px] px-6 bg-brand-red text-white text-sm font-semibold hover:bg-dark-red transition-colors"
+              className="hidden sm:inline-flex items-center gap-1.5 h-[48px] px-6 bg-brand-red text-white text-sm font-semibold hover:bg-dark-red transition-colors whitespace-nowrap"
             >
               Request for Quote
             </Link>
@@ -173,14 +181,16 @@ export default function Header() {
                 </button>
               </div>
               <nav className="p-4">
-                <div className="flex items-center gap-2 mb-4 px-3 py-2 border border-gray-200 bg-surface">
+                <form onSubmit={handleSearch} className="flex items-center gap-2 mb-4 px-3 py-2 border border-gray-200 bg-surface">
                   <Search className="w-4 h-4 text-text-muted" />
                   <input
                     type="text"
                     placeholder="Search products..."
+                    value={searchQuery}
+                    onChange={(event) => setSearchQuery(event.target.value)}
                     className="flex-1 bg-transparent text-sm focus:outline-none"
                   />
-                </div>
+                </form>
                 {navItems.map((item) => (
                   <div key={item.label} className="border-b border-gray-100 last:border-0">
                     <Link

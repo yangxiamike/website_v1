@@ -1,3 +1,5 @@
+import { industries } from './index';
+
 export interface IndustryDetailData {
   id: string;
   name: string;
@@ -44,10 +46,10 @@ export const industryDetailsMap: Record<string, IndustryDetailData> = {
       { title: 'Filtration & Pretreatment', desc: 'Remove solids and protect downstream equipment for stable operation.', image: '/images/case-water-treatment.jpg' },
     ],
     recommendedProducts: [
-      { id: 'butterfly-valve', name: 'Butterfly Valve', desc: 'On/off and flow regulation for large-diameter pipelines.', image: '/images/prod-wafer-butterfly.png' },
-      { id: 'gate-valve', name: 'Gate Valve', desc: 'Isolation solution for large-diameter water lines.', image: '/images/prod-cast-gate.png' },
-      { id: 'check-valve', name: 'Check Valve', desc: 'Prevent reverse flow and protect pumps.', image: '/images/prod-swing-check.png' },
-      { id: 'strainer', name: 'Y Strainer', desc: 'Remove solids and protect equipment from blockage.', image: '/images/prod-y-strainer.png' },
+      { id: 'wafer-butterfly-valve', name: 'Butterfly Valve', desc: 'On/off and flow regulation for large-diameter pipelines.', image: '/images/prod-wafer-butterfly.png' },
+      { id: 'cast-steel-gate-valve', name: 'Gate Valve', desc: 'Isolation solution for large-diameter water lines.', image: '/images/prod-cast-gate.png' },
+      { id: 'swing-check-valve', name: 'Check Valve', desc: 'Prevent reverse flow and protect pumps.', image: '/images/prod-swing-check.png' },
+      { id: 'y-strainer', name: 'Y Strainer', desc: 'Remove solids and protect equipment from blockage.', image: '/images/prod-y-strainer.png' },
     ],
     materialCompliance: [
       { label: 'Body Material', value: 'Ductile Iron, WCB, CF8, CF8M' },
@@ -72,6 +74,73 @@ export const industryDetailsMap: Record<string, IndustryDetailData> = {
   },
 };
 
+const productRecommendations: Record<string, { id: string; name: string; desc: string; image: string }> = {
+  'Ball Valve': { id: 'flanged-ball-valve', name: 'Ball Valve', desc: 'Reliable isolation for process, utility, and pipeline duties.', image: '/images/prod-flanged-ball.png' },
+  'Gate Valve': { id: 'cast-steel-gate-valve', name: 'Gate Valve', desc: 'Full-bore shut-off for main lines and isolation points.', image: '/images/prod-cast-gate.png' },
+  'Globe Valve': { id: 'stainless-steel-globe-valve', name: 'Globe Valve', desc: 'Flow control and throttling for process and utility systems.', image: '/images/prod-globe-ss.png' },
+  'Butterfly Valve': { id: 'wafer-butterfly-valve', name: 'Butterfly Valve', desc: 'Compact isolation and regulation for larger pipelines.', image: '/images/prod-wafer-butterfly.png' },
+  'Check Valve': { id: 'swing-check-valve', name: 'Check Valve', desc: 'Backflow prevention for pump discharge and process lines.', image: '/images/prod-swing-check.png' },
+  'Y Strainer': { id: 'y-strainer', name: 'Y Strainer', desc: 'Pipeline filtration to protect valves, pumps, and instruments.', image: '/images/prod-y-strainer.png' },
+};
+
+const relatedCaseByIndustry: Record<string, string> = {
+  'water-treatment': '/cases/municipal-water-supply-infrastructure',
+  'chemical-processing': '/cases/chemical-processing-pipeline-upgrade',
+  'oil-gas': '/cases/oil-gas-valve-supply-project',
+  hvac: '/cases/municipal-water-supply-infrastructure',
+  'power-energy': '/cases/oil-gas-valve-supply-project',
+  'general-pipeline': '/cases/chemical-processing-pipeline-upgrade',
+};
+
+function buildIndustryDetail(id: string): IndustryDetailData | undefined {
+  const industry = industries.find((item) => item.id === id);
+  if (!industry) return undefined;
+
+  return {
+    id: industry.id,
+    name: industry.name,
+    heroTitle: industry.name,
+    heroSubtitle: industry.description,
+    heroImage: industry.image,
+    snapshotText: `${industry.name} projects require valves selected for medium compatibility, pressure rating, temperature, installation constraints, and reliable maintenance access.`,
+    snapshotPoints: [
+      { icon: 'valve', title: 'Flow Control', desc: 'Select valve types for isolation, regulation, and bypass service.' },
+      { icon: 'check', title: 'System Protection', desc: 'Prevent backflow, debris, and unnecessary equipment wear.' },
+      { icon: 'shield', title: 'Safety Margin', desc: 'Confirm pressure, temperature, and material compatibility.' },
+      { icon: 'filter', title: 'Maintenance Access', desc: 'Support inspection, cleaning, and planned shutdown work.' },
+    ],
+    applications: [
+      { title: `${industry.name} Main Lines`, desc: 'Isolation and control valves for primary process and utility pipelines.', image: industry.image },
+      { title: 'Pump & Equipment Protection', desc: 'Check valves and strainers to protect pumps, meters, and downstream equipment.', image: industry.image },
+      { title: 'Process Isolation Points', desc: 'Reliable shut-off for maintenance, commissioning, and safety boundaries.', image: industry.image },
+      { title: 'Project Documentation', desc: 'Material, testing, packaging, and export documentation prepared per order.', image: industry.image },
+    ],
+    recommendedProducts: industry.keyProducts
+      .map((name) => productRecommendations[name])
+      .filter((item): item is { id: string; name: string; desc: string; image: string } => Boolean(item)),
+    materialCompliance: [
+      { label: 'Body Material', value: 'WCB, CF8, CF8M, ductile iron and project-specific alloys' },
+      { label: 'Seat / Seal Material', value: 'PTFE, EPDM, NBR, Viton or metal seated options' },
+      { label: 'Pressure Testing', value: 'Shell test and seat test before shipment' },
+      { label: 'Standards', value: 'API, ASME, EN, DIN, JIS and project-specific standards reviewed on request' },
+      { label: 'Documentation', value: 'Inspection records, test reports and export documents available per order' },
+      { label: 'Packaging', value: 'Export plywood case, pallet or project-specific packaging' },
+    ],
+    relatedCase: {
+      title: `${industry.name} Valve Supply Reference`,
+      description: `Sample supply scenario showing how Haiyue Valve supports ${industry.name.toLowerCase()} buyers with practical valve selection, testing, and delivery coordination.`,
+      image: industry.image,
+      industry: industry.name,
+      location: 'China / Export Project',
+      application: industry.shortDesc,
+      productsSupplied: industry.keyProducts,
+      link: relatedCaseByIndustry[industry.id] || '/cases',
+    },
+    ctaText: `Planning a ${industry.name.toLowerCase()} project?`,
+    ctaSubtext: 'Share your operating conditions and our team will help confirm suitable valve options.',
+  };
+}
+
 export function getIndustryDetail(id: string): IndustryDetailData | undefined {
-  return industryDetailsMap[id];
+  return industryDetailsMap[id] || buildIndustryDetail(id);
 }

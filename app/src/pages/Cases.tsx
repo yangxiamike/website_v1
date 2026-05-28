@@ -1,6 +1,6 @@
 import { useMemo } from 'react';
 import { Link, useSearchParams } from 'react-router-dom';
-import { ArrowRight, ChevronLeft, ChevronRight, Factory, Search } from 'lucide-react';
+import { ArrowRight, Factory, Search } from 'lucide-react';
 import { caseStudies, filterCategories } from '../data/cases';
 
 export default function Cases() {
@@ -33,7 +33,7 @@ export default function Cases() {
             Case Studies
           </h1>
           <p className="text-white/80 text-sm sm:text-base mt-4 max-w-lg leading-relaxed">
-            Real-world valve supply excellence across water treatment, chemical processing, oil & gas, HVAC, and industrial pipelines.
+            Sample valve supply scenarios across water treatment, chemical processing, oil & gas, HVAC, and industrial pipelines.
           </p>
         </div>
       </section>
@@ -66,7 +66,7 @@ export default function Cases() {
             {filtered.map((cs) => (
               <div
                 key={cs.id}
-                className="flex flex-col lg:flex-row gap-0 border border-gray-200 hover:border-brand-red/30 transition-all duration-300 hover:shadow-lg hover:shadow-gray-200/40 group cursor-pointer"
+                className="flex flex-col lg:flex-row gap-0 border border-gray-200 hover:border-brand-red/30 transition-all duration-300 hover:shadow-lg hover:shadow-gray-200/40 group"
               >
                 {/* Image */}
                 <div className="lg:w-[50%] flex-shrink-0 overflow-hidden">
@@ -144,28 +144,8 @@ export default function Cases() {
             ))}
           </div>
 
-          {/* Pagination */}
-          <div className="flex items-center justify-center gap-2 mt-10 pt-6 border-t border-gray-100">
-            <button className="h-10 px-4 border border-gray-200 text-sm text-text-secondary hover:border-brand-red hover:text-brand-red transition-colors flex items-center gap-1 disabled:opacity-40">
-              <ChevronLeft className="w-4 h-4" /> Previous
-            </button>
-            {[1, 2, 3].map((p) => (
-              <button
-                key={p}
-                className={`w-10 h-10 text-sm font-medium border transition-colors ${
-                  p === 1 ? 'bg-brand-red text-white border-brand-red' : 'border-gray-200 text-text-secondary hover:border-brand-red hover:text-brand-red'
-                }`}
-              >
-                {p}
-              </button>
-            ))}
-            <span className="text-text-muted px-1">...</span>
-            <button className="w-10 h-10 text-sm font-medium border border-gray-200 text-text-secondary hover:border-brand-red hover:text-brand-red transition-colors">
-              8
-            </button>
-            <button className="h-10 px-4 border border-gray-200 text-sm text-text-secondary hover:border-brand-red hover:text-brand-red transition-colors flex items-center gap-1">
-              Next <ChevronRight className="w-4 h-4" />
-            </button>
+          <div className="mt-10 pt-6 border-t border-gray-100 text-center text-sm text-text-muted">
+            Showing {filtered.length} sample project scenario{filtered.length === 1 ? '' : 's'}.
           </div>
         </div>
       </section>

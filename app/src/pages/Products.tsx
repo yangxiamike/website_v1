@@ -77,7 +77,7 @@ function ProductCard({ product }: { product: Product }) {
           <Link to={`/products/${product.id}`} className="inline-flex items-center gap-1.5 text-brand-red text-sm font-semibold hover:underline underline-offset-2">
             View Details <ArrowRight className="w-3.5 h-3.5" />
           </Link>
-          <Link to="/contact" className="inline-flex items-center gap-1.5 text-brand-red text-sm font-semibold hover:underline underline-offset-2">
+          <Link to={`/request-quote?product=${product.id}`} className="inline-flex items-center gap-1.5 text-brand-red text-sm font-semibold hover:underline underline-offset-2">
             Request Quote <ArrowRight className="w-3.5 h-3.5" />
           </Link>
         </div>
@@ -112,6 +112,9 @@ function MobileFilterDrawer({ open, onClose, children }: { open: boolean; onClos
 /* ═══════════════════════════ PRODUCTS PAGE ═══════════════════════════ */
 export default function Products() {
   const [searchParams, setSearchParams] = useSearchParams();
+  const typeParam = searchParams.get('type') || '';
+  const queryParam = searchParams.get('q') || '';
+  const typeFilter = urlTypeToFilter[typeParam];
 
   // Filter state
   const [filters, setFilters] = useState<Record<string, string[]>>({
@@ -119,23 +122,16 @@ export default function Products() {
   });
   const [sortBy, setSortBy] = useState('relevance');
   const [page, setPage] = useState(1);
-  const [searchQuery, setSearchQuery] = useState('');
   const [mobileFilterOpen, setMobileFilterOpen] = useState(false);
   const [mobileSortOpen, setMobileSortOpen] = useState(false);
 
-  // Pre-select filter from URL ?type= param on mount
-  useEffect(() => {
-    const typeParam = searchParams.get('type');
-    if (typeParam && urlTypeToFilter[typeParam]) {
-      const filterValue = urlTypeToFilter[typeParam];
-      setFilters((prev) => ({
-        ...prev,
-        valveType: prev.valveType.includes(filterValue) ? prev.valveType : [...prev.valveType, filterValue],
-      }));
-      // Clear the type param from URL so it doesn't persist on manual filter changes
-      setSearchParams({}, { replace: true });
-    }
-  }, []);
+  const setSearchQuery = (value: string) => {
+    const next = new URLSearchParams(searchParams);
+    if (value.trim()) next.set('q', value);
+    else next.delete('q');
+    setSearchParams(next, { replace: true });
+    setPage(1);
+  };
 
   // Toggle a filter value
   const toggleFilter = (group: string, value: string) => {
@@ -144,13 +140,18 @@ export default function Products() {
       const next = current.includes(value) ? current.filter((v) => v !== value) : [...current, value];
       return { ...prev, [group]: next };
     });
+    if (group === 'valveType' && typeFilter === value) {
+      const next = new URLSearchParams(searchParams);
+      next.delete('type');
+      setSearchParams(next, { replace: true });
+    }
     setPage(1);
   };
 
   // Clear all filters
   const clearFilters = () => {
     setFilters({ valveType: [], application: [], material: [], pressure: [], connection: [] });
-    setSearchQuery('');
+    setSearchParams({}, { replace: true });
     setPage(1);
   };
 
@@ -159,8 +160,8 @@ export default function Products() {
     let list = [...productsList];
 
     // Search
-    if (searchQuery.trim()) {
-      const q = searchQuery.toLowerCase();
+    if (queryParam.trim()) {
+      const q = queryParam.toLowerCase();
       list = list.filter((p) =>
         p.name.toLowerCase().includes(q) ||
         p.description.toLowerCase().includes(q) ||
@@ -169,7 +170,10 @@ export default function Products() {
     }
 
     // Category filters
-    if (filters.valveType.length) list = list.filter((p) => filters.valveType.includes(p.category));
+    const valveTypes = typeFilter && !filters.valveType.includes(typeFilter)
+      ? [...filters.valveType, typeFilter]
+      : filters.valveType;
+    if (valveTypes.length) list = list.filter((p) => valveTypes.includes(p.category));
     if (filters.application.length) list = list.filter((p) => p.application.some((a) => filters.application.includes(a)));
     if (filters.material.length) list = list.filter((p) => p.material.some((m) => filters.material.includes(m)));
     if (filters.pressure.length) list = list.filter((p) => p.pressure.some((pr) => filters.pressure.includes(pr)));
@@ -180,7 +184,7 @@ export default function Products() {
     else if (sortBy === 'name-desc') list.sort((a, b) => b.name.localeCompare(a.name));
 
     return list;
-  }, [filters, searchQuery, sortBy]);
+  }, [filters, queryParam, sortBy, typeFilter]);
 
   // Pagination
   const totalPages = Math.ceil(filtered.length / PRODUCTS_PER_PAGE);
@@ -188,7 +192,10 @@ export default function Products() {
   const resultStart = filtered.length > 0 ? (page - 1) * PRODUCTS_PER_PAGE + 1 : 0;
   const resultEnd = Math.min(page * PRODUCTS_PER_PAGE, filtered.length);
 
-  const totalActiveFilters = Object.values(filters).flat().length + (searchQuery ? 1 : 0);
+  const activeValveTypes = typeFilter && !filters.valveType.includes(typeFilter)
+    ? [...filters.valveType, typeFilter]
+    : filters.valveType;
+  const totalActiveFilters = Object.values(filters).flat().length + (typeFilter && !filters.valveType.includes(typeFilter) ? 1 : 0) + (queryParam ? 1 : 0);
 
   // Sidebar filters content
   const sidebarFilters = (
@@ -201,14 +208,14 @@ export default function Products() {
           <input
             type="text"
             placeholder="Search by product name..."
-            value={searchQuery}
-            onChange={(e) => { setSearchQuery(e.target.value); setPage(1); }}
+            value={queryParam}
+            onChange={(e) => setSearchQuery(e.target.value)}
             className="w-full h-10 pl-9 pr-3 text-sm border border-gray-200 bg-gray-50 focus:outline-none focus:border-brand-red focus:bg-white transition-colors"
           />
         </div>
       </div>
 
-      <FilterGroup title="Valve Type" options={filterOptions.valveType} selected={filters.valveType} toggle={(v) => toggleFilter('valveType', v)} />
+      <FilterGroup title="Valve Type" options={filterOptions.valveType} selected={activeValveTypes} toggle={(v) => toggleFilter('valveType', v)} />
       <FilterGroup title="Application" options={filterOptions.application} selected={filters.application} toggle={(v) => toggleFilter('application', v)} />
       <FilterGroup title="Material" options={filterOptions.material} selected={filters.material} toggle={(v) => toggleFilter('material', v)} />
       <FilterGroup title="Pressure Rating" options={filterOptions.pressure} selected={filters.pressure} toggle={(v) => toggleFilter('pressure', v)} />
@@ -248,14 +255,14 @@ export default function Products() {
               </p>
               <div className="flex flex-wrap gap-3 mt-7">
                 <Link
-                  to="/contact"
+                  to="/request-quote?source=products-hero"
                   className="inline-flex items-center gap-2 h-[48px] px-7 bg-brand-red text-white text-sm font-semibold hover:bg-[#b91a1a] transition-colors shadow-sm shadow-brand-red/20"
                 >
                   Request a Quote <ArrowRight className="w-4 h-4" />
                 </Link>
-                <button className="inline-flex items-center gap-2 h-[48px] px-7 border border-gray-300 text-text-primary text-sm font-medium hover:border-brand-red hover:text-brand-red transition-colors bg-white">
+                <Link to="/request-quote?source=catalog-download" className="inline-flex items-center gap-2 h-[48px] px-7 border border-gray-300 text-text-primary text-sm font-medium hover:border-brand-red hover:text-brand-red transition-colors bg-white">
                   Download Catalog
-                </button>
+                </Link>
               </div>
             </div>
             {/* Right: Featured Product Image */}
@@ -280,8 +287,8 @@ export default function Products() {
           <input
             type="text"
             placeholder="Search by product name..."
-            value={searchQuery}
-            onChange={(e) => { setSearchQuery(e.target.value); setPage(1); }}
+            value={queryParam}
+            onChange={(e) => setSearchQuery(e.target.value)}
             className="w-full h-11 pl-9 pr-3 text-sm border border-gray-200 bg-gray-50 focus:outline-none focus:border-brand-red"
           />
         </div>
@@ -347,7 +354,7 @@ export default function Products() {
                     Showing <strong className="text-text-primary">{resultStart}–{resultEnd}</strong> of {filtered.length} products
                   </span>
                   {/* Active filter tags */}
-                  {filters.valveType.map((vt) => (
+                  {activeValveTypes.map((vt) => (
                     <span key={vt} className="inline-flex items-center gap-1.5 px-3 py-1 bg-brand-red/10 text-brand-red text-xs font-semibold">
                       {vt}
                       <button onClick={() => toggleFilter('valveType', vt)} className="hover:text-dark-red"><X className="w-3 h-3" /></button>
