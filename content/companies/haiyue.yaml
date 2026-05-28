@@ -1,0 +1,192 @@
+schemaVersion: 1
+company:
+  id: haiyue
+  nameCn: Zhejiang Haiyue Valve Co., Ltd.
+  nameEn: Zhejiang Haiyue Valve Co., Ltd.
+  brand: Haiyue Valve
+  tagline: HAIYUE VALVE
+  logo: logo.png
+  email: sales@haiyuevalve.com
+  phone: +86 577 0000 0000
+  whatsapp: +86 138 0000 0000
+  since: 2012
+  employees: ~85
+  location: Wenzhou, Zhejiang, China
+  address: No. 88, Coastal Industrial Road, Longwan District, Wenzhou, Zhejiang, China
+  hours: Mon-Fri, 9:00-18:00 China Time
+
+pages:
+  cases: true
+  factory: true
+  resources: true
+  industries: true
+
+seo:
+  defaultTitle: Haiyue Valve | Industrial Valve Manufacturer
+  defaultDescription: Haiyue Valve supplies industrial ball, gate, globe, butterfly, check valves and strainers for global B2B projects.
+
+home:
+  hero:
+    title: Industrial Valve Manufacturer & Export Partner
+    description: Ball, gate, globe, butterfly, check valves and strainers for water treatment, chemical processing, HVAC and general pipeline projects.
+    image: hero.png
+  stats:
+    - label: Years Export
+      value: 10+
+      desc: Export experience
+    - label: Product Types
+      value: 6+
+      desc: Valve categories
+    - label: Test Stations
+      value: 5
+      desc: Pressure and inspection
+    - label: Response
+      value: 24h
+      desc: Quote reply
+  about:
+    eyebrow: About Haiyue Valve
+    title: Zhejiang-based Industrial Valve Manufacturer
+    description: Zhejiang Haiyue Valve is an industrial valve manufacturer with experience in valve production, export support, and project-based supply for overseas buyers.
+    image: factory/cnc.jpg
+
+products:
+  - id: ball-valve
+    name: Ball Valve
+    shortDesc: Quick on/off, reliable sealing, easy maintenance.
+    image: products/ball-valve.png
+    size: 1/2'' - 8''
+    pressure: PN16 / PN25 / Class 150 / Class 300
+    material: WCB / CF8 / CF8M / Brass
+    category: ball-valve
+    application: Water treatment, chemical, general pipeline
+  - id: gate-valve
+    name: Gate Valve
+    shortDesc: Full open/close, low flow resistance.
+    image: products/gate-valve.png
+    size: DN50 - DN600
+    pressure: PN10 / PN16
+    material: Ductile Iron / Cast Iron
+    category: gate-valve
+    application: Water supply, wastewater, fire protection
+  - id: globe-valve
+    name: Globe Valve
+    shortDesc: Suitable for shut-off and moderate regulation.
+    image: products/globe-valve.png
+    size: 1/2'' - 12''
+    pressure: PN16 / PN25 / Class 150
+    material: WCB / CF8M
+    category: globe-valve
+    application: Steam, chemical, regulation pipeline
+  - id: butterfly-valve
+    name: Butterfly Valve
+    shortDesc: Compact, lightweight, easy installation.
+    image: products/butterfly-valve.png
+    size: DN50 - DN500
+    pressure: PN10 / PN16 / Class 150
+    material: Cast Iron / Ductile Iron / WCB / SS
+    category: butterfly-valve
+    application: HVAC, water treatment, light chemical
+  - id: check-valve
+    name: Check Valve
+    shortDesc: Prevent medium backflow, diverse structures.
+    image: products/check-valve.png
+    size: DN40 - DN400
+    pressure: PN16 / Class 150
+    material: WCB / Cast Iron / Stainless Steel
+    category: check-valve
+    application: Pump discharge, backflow prevention
+  - id: strainer
+    name: Y Strainer
+    shortDesc: Protect pumps and equipment, easy to maintain.
+    image: products/y-strainer.png
+    size: DN40 - DN300
+    pressure: PN16 / Class 150
+    material: WCB / CF8 / CF8M
+    category: strainer
+    application: Pump protection, pipeline filtration
+
+industries:
+  - id: water-treatment
+    name: Water Treatment
+    shortDesc: Water supply, wastewater, pump stations, and filtration systems.
+    description: Reliable flow control for municipal water supply, wastewater treatment, pumping stations, and filtration systems.
+    image: cases/water-treatment.jpg
+    keyProducts: [Gate Valve, Butterfly Valve, Check Valve, Ball Valve]
+  - id: chemical-processing
+    name: Chemical Processing
+    shortDesc: Valves for corrosive, high-temperature, and chemical process applications.
+    description: Material and sealing selected according to medium compatibility and operating conditions.
+    image: cases/chemical.jpg
+    keyProducts: [Ball Valve, Globe Valve, Butterfly Valve, Check Valve]
+
+cases:
+  - id: water-project
+    title: Municipal Water Supply Infrastructure
+    description: Supplied resilient seated gate valves and butterfly valves for a municipal water treatment facility upgrade.
+    image: cases/water-treatment.jpg
+    industry: Water Treatment
+    cta: View Details
+  - id: chemical-plant
+    title: Chemical Processing Plant Expansion
+    description: Provided stainless steel ball valves and check valves for chemical fluid handling lines.
+    image: cases/chemical.jpg
+    industry: Chemical Processing
+    cta: Read More
+
+factory:
+  capabilities:
+    - title: CNC Machining
+      description: CNC machining for valve bodies, stems and key components.
+      image: factory/cnc.jpg
+      bullets: [CNC turning and milling, Drilling and threading, Key component precision machining]
+    - title: Assembly Line
+      description: Standard product assembly for ball, gate, check and butterfly valves.
+      image: factory/assembly.jpg
+      bullets: [Ball valve assembly, Gate valve assembly line, Butterfly valve and check valve assembly]
+    - title: Testing & Inspection
+      description: Pressure testing and dimensional inspection before shipment.
+      image: factory/testing.jpg
+      bullets: [Hydrostatic shell test, Seat leakage test, Dimensional inspection]
+  processSteps:
+    - step: 01
+      title: Requirement Review
+      desc: Confirm valve type, standard, pressure, material, medium, temperature and quantity.
+    - step: 02
+      title: Incoming Check
+      desc: Inspect castings, forgings, seals, fasteners and material documents.
+    - step: 03
+      title: Pressure Test
+      desc: Shell strength test, seat leakage test, pneumatic sealing test.
+  certifications:
+    - name: API 598
+      description: Valve Inspection & Test
+    - name: ISO 9001
+      description: Quality Management Practice
+    - name: ASME B16.34
+      description: Valve Standards
+
+resources:
+  news:
+    - id: 1
+      title: How to Select the Right Valve Material for Your Medium
+      category: Technical Guide
+      date: May 8, 2025
+      image: factory/cnc.jpg
+      excerpt: A practical guide to matching valve material, seat material and sealing to your fluid medium and operating conditions.
+  faqs:
+    - question: What information should I provide for a valve quotation?
+      answer: Please provide valve type, size, pressure rating, body material, connection type, medium, working temperature, quantity and required standard.
+    - question: Do you support OEM or private label packing?
+      answer: Yes. We can support OEM marking, neutral packing and customer label requirements after specification confirmation.
+
+about:
+  milestones:
+    - year: 2012
+      event: Haiyue Valve founded in Wenzhou, Zhejiang.
+    - year: 2018
+      event: Began regular export operations to Southeast Asia and Middle East markets.
+  leadership:
+    - name: Chen Wei
+      role: General Manager
+      bio: Over 20 years in valve manufacturing and export operations management.
+      image: factory/cnc.jpg

@@ -1,0 +1,20 @@
+schemaVersion: 1
+company:
+  id: minimal-demo
+  brand: Minimal Valve
+  nameEn: Minimal Valve Co., Ltd.
+  logo: logo.png
+  email: sales@example.com
+home:
+  hero:
+    title: Practical Valve Supply
+    description: A compact generated site with only core company, product, and contact data.
+    image: hero.png
+pages:
+  cases: false
+  resources: false
+products:
+  - id: ball-valve
+    name: Ball Valve
+    image: products/ball-valve.png
+    shortDesc: Reliable isolation for general pipelines.

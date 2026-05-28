@@ -8,6 +8,22 @@
 4. 状态：待实施。
 5. 目标：保留 React 作为第一套模板，用 Python 读取 `YAML/JSON` 公司资料并生成客户专属网站代码。
 
+## 2026-05-28 - React 模板数据契约接入
+
+1. 已保存计划：`docs/plans/2026-05-28-react-site-contract-bridge-plan.md`。
+2. 新增 `templates/industrial-valve-react/app/src/data/siteSchema.ts`，定义模板数据契约类型。
+3. 新增 `templates/industrial-valve-react/app/src/generated/siteData.ts`，提供当前模板兼容的生成数据样例与 `company/nav/pages/seo` 默认值。
+4. 更新 `data/index.ts`、`Header.tsx`、`Footer.tsx`、`lib/seo.ts`，统一优先读取 `siteData`。
+5. 验证：执行 `templates/industrial-valve-react/app` 下 `npm run build`，当前因未安装依赖导致 `tsc: command not found`，未进入代码构建阶段。
+
+## 2026-05-28 - React 模板 + Python 数据生成系统实施
+
+1. 将根目录 React 应用迁移为 `templates/industrial-valve-react/app/`，并补充 `template.config.yaml`、`template.fields.yaml`。
+2. 新增 `content/companies/haiyue.yaml`、两份 `content/samples/` 测试资料，以及按公司隔离的 `assets/companies/` 图片目录。
+3. 新增 `tools/sitegen/generate.py`，支持按模板和公司资料生成 `sites/<company-id>/app/`、`src/generated/siteData.ts` 和 `public/generated/<company-id>/` 图片。
+4. 生成并验证 `sites/haiyue/app/`、`sites/minimal-demo/app/`、`sites/lean-demo/app/`，覆盖完整资料、最小资料和关闭可选页场景。
+5. 验证：模板应用、完整生成站、最小资料站、关闭可选页站均已通过 `npm run build`。
+
 ## 2026-05-28 - 项目计划存档与开发日志规范
 
 1. 新增 `AGENTS.md`，记录“大改动先存计划、完成后记日志”两条规则。

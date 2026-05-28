@@ -1,0 +1,75 @@
+required:
+  company:
+    - id
+    - brand
+    - nameEn
+    - logo
+    - email
+  home:
+    - hero.title
+    - hero.description
+    - hero.image
+  products:
+    minItems: 1
+    fields:
+      - id
+      - name
+      - image
+
+optional:
+  pages:
+    - cases
+    - factory
+    - resources
+    - industries
+  company:
+    - nameCn
+    - tagline
+    - phone
+    - whatsapp
+    - address
+    - location
+    - since
+    - employees
+    - hours
+  products:
+    - shortDesc
+    - size
+    - pressure
+    - material
+    - category
+    - specs
+    - application
+  cases:
+    - title
+    - description
+    - image
+    - industry
+    - productsSupplied
+  factory:
+    - capabilities
+    - processSteps
+    - certifications
+  resources:
+    - downloads
+    - faqs
+    - news
+
+assets:
+  required:
+    - key: company.logo
+      recommended: 600x200 PNG/SVG
+      usedIn: [header, footer]
+    - key: home.hero.image
+      recommended: 1920x1080 JPG/PNG
+      usedIn: [home.hero]
+  optional:
+    - key: products[].image
+      recommended: 1200x900 PNG/JPG
+      fallback: /images/product-ball.png
+    - key: cases[].image
+      recommended: 1200x800 JPG
+      fallback: /images/case-water-treatment.jpg
+    - key: factory.capabilities[].image
+      recommended: 1200x800 JPG
+      fallback: /images/factory-cnc.jpg

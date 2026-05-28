@@ -1,0 +1,24 @@
+id: industrial-valve-react
+name: Industrial Valve React Template
+type: react-vite
+entry: app
+schemaVersion: 1
+build:
+  install: npm install
+  dev: npm run dev
+  build: npm run build
+supports:
+  pages:
+    - home
+    - products
+    - productDetail
+    - industries
+    - industryDetail
+    - cases
+    - caseDetail
+    - factory
+    - about
+    - resources
+    - contact
+    - requestQuote
+    - thankYou

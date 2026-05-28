@@ -1,0 +1,116 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    --background: 0 0% 100%;
+    --foreground: 0 0% 10%;
+    --card: 0 0% 100%;
+    --card-foreground: 0 0% 10%;
+    --popover: 0 0% 100%;
+    --popover-foreground: 0 0% 10%;
+    --primary: 350 85% 43%;
+    --primary-foreground: 0 0% 100%;
+    --secondary: 0 0% 96%;
+    --secondary-foreground: 0 0% 10%;
+    --muted: 0 0% 96%;
+    --muted-foreground: 0 0% 45%;
+    --accent: 0 0% 96%;
+    --accent-foreground: 0 0% 10%;
+    --destructive: 0 84% 60%;
+    --destructive-foreground: 0 0% 98%;
+    --border: 0 0% 90%;
+    --input: 0 0% 90%;
+    --ring: 350 85% 43%;
+    --radius: 0.5rem;
+    --brand-red: #C8102E;
+    --brand-red-dark: #A00D24;
+    --surface: #F5F5F5;
+    --surface-dark: #1A1A1A;
+    --text-primary: #1A1A1A;
+    --text-secondary: #4A4A4A;
+    --text-muted: #737373;
+    --space-section-y: 4.5rem;
+    --shadow-card: 0 8px 24px rgb(0 0 0 / 0.08);
+  }
+
+  * {
+    @apply border-border;
+  }
+
+  body {
+    @apply bg-background text-foreground antialiased;
+    font-family: 'Inter', 'Helvetica Neue', Arial, sans-serif;
+  }
+
+  html {
+    scroll-behavior: smooth;
+  }
+}
+
+@layer utilities {
+  .text-balance {
+    text-wrap: balance;
+  }
+}
+
+@layer components {
+  .ds-container {
+    @apply max-w-7xl mx-auto px-4 sm:px-6;
+  }
+
+  .ds-section {
+    @apply py-12 lg:py-16;
+  }
+
+  .ds-section-lg {
+    @apply py-14 lg:py-20;
+  }
+
+  .ds-page-title {
+    @apply text-3xl lg:text-[2.75rem] font-bold leading-[1.1] tracking-tight;
+  }
+
+  .ds-section-title {
+    @apply text-xl lg:text-2xl font-bold text-text-primary tracking-tight;
+  }
+
+  .ds-card {
+    @apply bg-white border border-gray-200;
+  }
+
+  .ds-card-hover {
+    @apply transition-all duration-300 hover:shadow-lg hover:shadow-gray-200/40;
+  }
+
+  .ds-card-hover:hover {
+    border-color: rgb(200 16 46 / 0.4);
+  }
+
+  .ds-input {
+    @apply w-full border border-gray-200 bg-white text-sm text-text-primary transition-colors focus:outline-none focus:border-brand-red disabled:opacity-60;
+  }
+
+  .ds-icon {
+    @apply text-brand-red flex-shrink-0;
+  }
+}
+
+/* Custom scrollbar */
+::-webkit-scrollbar {
+  width: 6px;
+}
+
+::-webkit-scrollbar-track {
+  background: #f5f5f5;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #C8102E;
+  border-radius: 3px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #A00D24;
+}

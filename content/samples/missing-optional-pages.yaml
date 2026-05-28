@@ -1,0 +1,22 @@
+schemaVersion: 1
+company:
+  id: lean-demo
+  brand: Lean Valve
+  nameEn: Lean Valve Manufacturing Co., Ltd.
+  logo: logo.png
+  email: sales@example.com
+  phone: +86 577 0000 0000
+home:
+  hero:
+    title: Lean Industrial Valve Website
+    description: Optional pages are explicitly disabled to verify navigation and empty states.
+    image: hero.png
+pages:
+  cases: false
+  factory: false
+  resources: false
+products:
+  - id: gate-valve
+    name: Gate Valve
+    image: products/gate-valve.png
+    shortDesc: Full-bore isolation for water projects.
