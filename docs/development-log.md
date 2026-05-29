@@ -1,5 +1,12 @@
 # 项目开发日志
 
+## 2026-05-29 - 仓库清理与 Demo 副本删除
+
+1. 已保存计划：`docs/plans/2026-05-29-repo-cleanup-plan.md`。
+2. 删除 `sites/minimal-demo/`、`sites/lean-demo/` 两套非当前使用中的 demo 副本。
+3. 删除 `templates/industrial-valve-react/app/dist/` 与 `templates/industrial-valve-react/app/node_modules/`，保留 `sites/haiyue/app/` 作为当前 demo/测试站点。
+4. 清理后仓库体积约从 `906MB` 降到 `486MB`。
+
 ## 2026-05-29 - Landing Page Mobile Hotfix
 
 1. 已保存计划：`docs/plans/2026-05-29-mobile-hotfix-plan.md`。
