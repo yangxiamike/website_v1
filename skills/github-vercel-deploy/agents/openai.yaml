@@ -1,0 +1,4 @@
+interface:
+  display_name: "GitHub Vercel Deploy"
+  short_description: "Prepare and guide GitHub-to-Vercel deploys"
+  default_prompt: "Use $github-vercel-deploy to prepare this app for a reusable GitHub-to-Vercel deployment."

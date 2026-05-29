@@ -22,6 +22,8 @@
 - 生成站同步风险仍然存在：模板更新后，已有 `sites/<company-id>/app` 不会自动完整刷新，后面要单独处理。
 - 已对上一轮“手机端整合误伤”做回收：把多个被误改成平铺网格的 mobile marquee、横向滑动卡片和 `About` 时间线，改回统一的移动端 rail / marquee 模式。
 - 这次不是零碎补丁，而是把共享层补成 `MobileRail` / `MobileMarquee`，再让 `About`、`Factory`、`ProductDetail`、`Industries`、`IndustryDetail`、`Cases`、`CaseDetail`、`Resources` 接回正确的手机端交互。
+- 新增 `github-vercel-deploy` skill，专门沉淀从仓库里的前端 demo 走 `GitHub -> Vercel` 的部署流程，默认推荐 no-token 的 Git 集成自动部署，而不是把 `vercel deploy` 当主路径。
+- 这次同时补了对应的 Vercel 首次接入检查清单，后面给 `sites/<company-id>/app` 这类项目做上线说明时可以复用同一套口径。
 
 ### 当天状态
 
