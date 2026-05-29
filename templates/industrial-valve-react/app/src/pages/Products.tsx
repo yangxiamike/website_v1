@@ -207,7 +207,7 @@ export default function Products() {
         {...pageHeroes.products}
         ctas={(
           <>
-            <CTAButton to="/request-quote?source=products-hero">Request a Quote</CTAButton>
+            <CTAButton to="/request-quote?source=products-hero">Request for Quote</CTAButton>
             <CTAButton to="/resources#downloads" variant="ghost">Download Catalog</CTAButton>
           </>
         )}
@@ -310,7 +310,7 @@ export default function Products() {
 
               {/* Products Grid */}
               {pageProducts.length > 0 ? (
-                <div className="grid grid-cols-1 gap-x-6 gap-y-8 sm:grid-cols-2 xl:grid-cols-3">
+                <div className="grid grid-cols-2 gap-x-3 gap-y-4 sm:gap-x-6 sm:gap-y-8 xl:grid-cols-3">
                   {pageProducts.map((product) => (
                     <ProductCard key={product.id} product={product} />
                   ))}
@@ -374,18 +374,18 @@ export default function Products() {
               Choose Valves by Application
             </h2>
           </div>
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">
+          <div className="grid grid-cols-2 gap-3 sm:gap-5 lg:grid-cols-4">
             {applicationHelpers.map((app) => {
               const IconComp = appIconMap[app.title];
               return (
-                <div key={app.title} className="bg-white border border-gray-200 p-6 hover:border-brand-red/40 hover:shadow-lg hover:shadow-gray-200/50 transition-all duration-300 group">
-                  {IconComp && <IconComp size={40} strokeWidth={1.5} className="text-brand-red mb-4" />}
-                  <h3 className="font-bold text-text-primary text-[15px]">{app.title}</h3>
-                  <p className="text-sm text-text-muted mt-2 leading-relaxed line-clamp-2">{app.description}</p>
-                  <p className="text-[11px] text-text-muted mt-3">
+                <div key={app.title} className="group bg-white border border-gray-200 p-4 transition-all duration-300 hover:border-brand-red/40 hover:shadow-lg hover:shadow-gray-200/50 sm:p-6">
+                  {IconComp && <IconComp size={32} strokeWidth={1.5} className="mb-3 text-brand-red sm:mb-4 sm:h-10 sm:w-10" />}
+                  <h3 className="text-[14px] font-bold leading-snug text-text-primary sm:text-[15px]">{app.title}</h3>
+                  <p className="mt-2 line-clamp-3 text-[12px] leading-relaxed text-text-muted sm:text-sm">{app.description}</p>
+                  <p className="mt-3 text-[10px] text-text-muted sm:text-[11px]">
                     <span className="font-medium">Recommended:</span> {app.recommended}
                   </p>
-                  <span className="inline-flex items-center gap-1.5 text-brand-red text-sm font-semibold mt-4 group-hover:underline underline-offset-2">
+                  <span className="mt-4 inline-flex items-center gap-1 text-[12px] font-semibold text-brand-red underline-offset-2 group-hover:underline sm:gap-1.5 sm:text-sm">
                     View Solutions <ArrowRight className="w-3.5 h-3.5" />
                   </span>
                 </div>

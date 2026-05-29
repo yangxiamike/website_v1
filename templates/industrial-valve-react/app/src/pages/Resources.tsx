@@ -79,7 +79,15 @@ export default function Resources() {
 
   return (
     <div className="pt-[80px]">
-      <PageHero {...pageHeroes.resources} />
+      <PageHero
+        {...pageHeroes.resources}
+        ctas={(
+          <>
+            <CTAButton to="/request-quote">Request for Quote</CTAButton>
+            <CTAButton to="/contact" variant="ghost">Contact Support</CTAButton>
+          </>
+        )}
+      />
 
       {/* ═══════ ANCHOR TABS ═══════ */}
       <section className="bg-white border-b border-gray-100 sticky top-0 z-40">
@@ -107,22 +115,23 @@ export default function Resources() {
       <section id="downloads" className="bg-white py-10 lg:py-14 scroll-mt-36">
         <div className="max-w-7xl mx-auto px-4 sm:px-6">
           <SectionHeading title="Catalogs & Datasheets" description="Product catalogs, technical datasheets, certificates, and installation guides." className="mb-6" />
-          {/* Horizontal scroll container */}
-          <div className="grid grid-cols-1 sm:flex gap-5 sm:overflow-x-auto pb-4" style={{ scrollbarWidth: 'thin' }}>
-            {downloads.map((dl) => (
-              <ResourceCard
-                key={dl.title}
-                title={dl.title}
-                meta={dl.size}
-                image={dl.image}
-                to={`/request-quote?source=${encodeURIComponent(dl.title)}`}
-                badge={(
-                  <span className={`inline-block px-2 py-0.5 text-[10px] font-semibold tracking-wider ${dl.typeColor} mb-2`}>
-                    {dl.type}
-                  </span>
-                )}
-              />
-            ))}
+          <div className="overflow-x-auto pb-4 [scrollbar-width:none] [-ms-overflow-style:none] [touch-action:pan-x]" style={{ scrollbarWidth: 'thin' }}>
+            <div className="flex w-max gap-4 pr-4 sm:gap-5">
+              {downloads.map((dl) => (
+                <ResourceCard
+                  key={dl.title}
+                  title={dl.title}
+                  meta={dl.size}
+                  image={dl.image}
+                  to={`/request-quote?source=${encodeURIComponent(dl.title)}`}
+                  badge={(
+                    <span className={`mb-2 inline-block px-2 py-0.5 text-[10px] font-semibold tracking-wider ${dl.typeColor}`}>
+                      {dl.type}
+                    </span>
+                  )}
+                />
+              ))}
+            </div>
           </div>
         </div>
       </section>
@@ -131,16 +140,18 @@ export default function Resources() {
       <section id="articles" className="bg-gray-50 py-10 lg:py-14 scroll-mt-36">
         <div className="max-w-7xl mx-auto px-4 sm:px-6">
           <SectionHeading title="Technical Articles" description="Expert insights and practical guidance on valve selection, operation, and maintenance." className="mb-6" />
-          <div className="grid grid-cols-1 sm:flex gap-5 sm:overflow-x-auto pb-4" style={{ scrollbarWidth: 'thin' }}>
-            {articles.map((article) => (
-              <ResourceCard
-                key={article.title}
-                title={article.title}
-                meta={`${article.date} · ${article.readTime}`}
-                image={article.image}
-                to={`/contact?topic=${encodeURIComponent(article.title)}`}
-              />
-            ))}
+          <div className="overflow-x-auto pb-4 [scrollbar-width:none] [-ms-overflow-style:none] [touch-action:pan-x]" style={{ scrollbarWidth: 'thin' }}>
+            <div className="flex w-max gap-4 pr-4 sm:gap-5">
+              {articles.map((article) => (
+                <ResourceCard
+                  key={article.title}
+                  title={article.title}
+                  meta={`${article.date} · ${article.readTime}`}
+                  image={article.image}
+                  to={`/contact?topic=${encodeURIComponent(article.title)}`}
+                />
+              ))}
+            </div>
           </div>
         </div>
       </section>
@@ -175,8 +186,8 @@ export default function Resources() {
       {/* ═══════ BOTTOM CTA ═══════ */}
       <section className="bg-gray-50 py-10">
         <div className="max-w-7xl mx-auto px-4 sm:px-6">
-          <div className="flex flex-col sm:flex-row items-center justify-between gap-4 bg-white border border-gray-200 p-6">
-            <div className="flex items-center gap-4">
+          <div className="flex flex-col items-start gap-4 border border-gray-200 bg-white p-6 sm:flex-row sm:items-center sm:justify-between">
+            <div className="flex items-start gap-4 text-left">
               <svg className="w-10 h-10 text-brand-red flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
                 <path strokeLinecap="round" strokeLinejoin="round" d="M18.364 5.636l-3.536 3.536m0 5.656l3.536 3.536M9.172 9.172L5.636 5.636m3.536 9.192l-3.536 3.536M21 12a9 9 0 11-18 0 9 9 0 0118 0zm-5 0a4 4 0 11-8 0 4 4 0 018 0z" />
               </svg>
@@ -185,9 +196,9 @@ export default function Resources() {
                 <p className="text-sm text-text-secondary">Our engineering team is here to help you select the best solution for your application.</p>
               </div>
             </div>
-            <div className="flex flex-wrap gap-3 flex-shrink-0 justify-center sm:justify-end">
+            <div className="flex w-full flex-col gap-3 sm:w-auto sm:flex-row sm:flex-wrap sm:justify-end">
               <CTAButton to="/contact" variant="secondary" size="sm">Contact Support</CTAButton>
-              <CTAButton to="/request-quote" size="sm">Request a Quote</CTAButton>
+              <CTAButton to="/request-quote" size="sm">Request for Quote</CTAButton>
             </div>
           </div>
         </div>

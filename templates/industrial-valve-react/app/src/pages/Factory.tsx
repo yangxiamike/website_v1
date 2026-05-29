@@ -1,12 +1,15 @@
+import { useEffect, useRef } from 'react';
 import CTABanner from '../components/CTABanner';
 import { CTAButton, PageHero, SectionHeading } from '../components/common';
 import { pageHeroes } from '../data/pageHeroes';
+import { motion } from 'framer-motion';
+import { Factory as FactoryIcon, PackageCheck, ClipboardCheck, ShieldCheck } from 'lucide-react';
 
 const stats = [
-  { value: '50,000', unit: 'm\u00B2', label: 'Workshop Area' },
-  { value: '120,000+', unit: '', label: 'Annual Capacity' },
-  { value: '36', unit: '', label: 'Quality Checkpoints' },
-  { value: 'ISO 9001', unit: '', label: 'Quality System' },
+  { icon: FactoryIcon, value: '50,000', unit: 'm\u00B2', label: 'Workshop Area', desc: 'Integrated facility' },
+  { icon: PackageCheck, value: '120,000+', unit: '', label: 'Annual Capacity', desc: 'Valve output volume' },
+  { icon: ClipboardCheck, value: '36', unit: '', label: 'Quality Checkpoints', desc: 'Inspection workflow' },
+  { icon: ShieldCheck, value: 'ISO 9001', unit: '', label: 'Quality System', desc: 'Certified process' },
 ];
 
 const certificates = [
@@ -61,13 +64,49 @@ const capabilities = [
 ];
 
 export default function Factory() {
+  const processCarouselRef = useRef<HTMLDivElement>(null);
+  const processCarouselPauseUntilRef = useRef(0);
+
+  useEffect(() => {
+    const el = processCarouselRef.current;
+    if (!el) return;
+
+    let frame = 0;
+
+    const tick = () => {
+      if (window.innerWidth < 1024) {
+        const halfway = el.scrollWidth / 2;
+
+        if (Date.now() >= processCarouselPauseUntilRef.current) {
+          if (el.scrollLeft >= halfway) {
+            el.scrollLeft -= halfway;
+          } else {
+            el.scrollLeft += 0.4;
+          }
+        }
+      }
+
+      frame = window.requestAnimationFrame(tick);
+    };
+
+    frame = window.requestAnimationFrame(tick);
+
+    return () => {
+      window.cancelAnimationFrame(frame);
+    };
+  }, []);
+
+  const pauseProcessCarousel = () => {
+    processCarouselPauseUntilRef.current = Date.now() + 1600;
+  };
+
   return (
-    <div className="pt-[80px]">
+    <div className="overflow-x-hidden pt-[80px]">
       <PageHero
         {...pageHeroes.factory}
         ctas={(
           <>
-            <CTAButton to="/request-quote">Request a Quote</CTAButton>
+            <CTAButton to="/request-quote">Request for Quote</CTAButton>
           </>
         )}
       />
@@ -75,7 +114,30 @@ export default function Factory() {
       {/* ═══════ STATS BAR ═══════ */}
       <section className="relative z-10 -mt-10">
         <div className="max-w-5xl mx-auto px-4 sm:px-6">
-          <div className="bg-white shadow-lg grid grid-cols-2 md:grid-cols-4">
+          <div className="overflow-hidden sm:hidden">
+            <motion.div
+              className="flex w-max gap-2.5 pb-1"
+              animate={{ x: ['0%', '-50%'] }}
+              transition={{ duration: 18, ease: 'linear', repeat: Infinity }}
+            >
+              {[...stats, ...stats].map((s, index) => (
+                <div key={`${s.label}-${index}`} className="min-w-[158px] border border-slate-200 bg-white px-3 py-3 shadow-md">
+                  <div className="flex items-start gap-2.5 text-left">
+                    <s.icon className="h-5 w-5 flex-shrink-0 text-brand-red" strokeWidth={1.7} />
+                    <div className="min-w-0">
+                      <div className="text-base font-bold leading-none text-text-primary">
+                        {s.value}
+                        {s.unit && <span className="ml-0.5 text-[10px] font-normal text-text-muted">{s.unit}</span>}
+                      </div>
+                      <div className="mt-1 text-[11px] font-semibold leading-tight text-text-secondary">{s.label}</div>
+                      <div className="mt-0.5 text-[10px] leading-tight text-text-muted">{s.desc}</div>
+                    </div>
+                  </div>
+                </div>
+              ))}
+            </motion.div>
+          </div>
+          <div className="hidden bg-white shadow-lg sm:grid sm:grid-cols-2 md:grid-cols-4">
             {stats.map((s) => (
               <div key={s.label} className="text-center py-6 px-4 border-r border-gray-100 last:border-r-0">
                 <div className="text-xl lg:text-[1.6rem] font-bold text-text-primary tracking-tight">
@@ -92,13 +154,32 @@ export default function Factory() {
       {/* ═══════ CERTIFICATES & STANDARDS ═══════ */}
       <section className="bg-white py-12 lg:py-16">
         <div className="max-w-7xl mx-auto px-4 sm:px-6">
-          <div className="flex flex-col lg:flex-row gap-10 items-start">
+          <div className="sm:hidden">
+            <SectionHeading title="Certificates & Standards" description="Our quality management system and products are certified by international authorities, ensuring consistent performance, safety and compliance in every delivery." />
+            <div className="mt-8 overflow-x-auto pb-1 [scrollbar-width:none] [-ms-overflow-style:none] [touch-action:pan-x]">
+              <div className="flex w-max gap-4 pr-4">
+                {certificates.map((cert) => (
+                  <div key={cert.label} className="w-[46vw] min-w-[168px] max-w-[196px] text-center">
+                    <div className="overflow-hidden border border-gray-200 bg-white">
+                      <img
+                        src={cert.image}
+                        alt={cert.label}
+                        className="aspect-[2/3] w-full object-cover"
+                      />
+                    </div>
+                    <p className="mt-2 text-[11px] font-medium text-text-muted">{cert.label}</p>
+                  </div>
+                ))}
+              </div>
+            </div>
+          </div>
+          <div className="hidden flex-col items-start gap-10 sm:flex lg:flex-row">
             {/* Left: Text */}
-            <div className="lg:w-[35%] flex-shrink-0">
+            <div className="lg:w-[35%] lg:flex-shrink-0">
               <SectionHeading title="Certificates & Standards" description="Our quality management system and products are certified by international authorities, ensuring consistent performance, safety and compliance in every delivery." />
             </div>
             {/* Right: Certificate Images */}
-            <div className="lg:w-[65%] flex-shrink-0">
+            <div className="min-w-0 lg:w-[65%] lg:flex-shrink-0">
               <div className="grid grid-cols-3 gap-4 lg:gap-6">
                 {certificates.map((cert) => (
                   <div key={cert.label} className="text-center">
@@ -121,9 +202,54 @@ export default function Factory() {
       {/* ═══════ INTEGRATED WORKSHOP OVERVIEW ═══════ */}
       <section id="capabilities" className="bg-gray-50 py-12 lg:py-16 scroll-mt-36">
         <div className="max-w-7xl mx-auto px-4 sm:px-6">
-          <div className="flex flex-col lg:flex-row gap-8 items-start">
+          <div className="sm:hidden">
+            <h2 className="text-xl font-bold text-text-primary tracking-tight mb-4">
+              Integrated Workshop Overview
+            </h2>
+            <p className="text-sm text-text-secondary leading-[1.7] mb-6">
+              Our integrated manufacturing facility brings together advanced machining, assembly and testing under one roof to ensure efficiency, precision and consistent quality.
+            </p>
+            <CTAButton to="/factory#capabilities">
+              View Factory Tour
+            </CTAButton>
+            <div className="mt-8 overflow-x-auto pb-1 [scrollbar-width:none] [-ms-overflow-style:none] [touch-action:pan-x]">
+              <div className="flex w-max gap-4 pr-4">
+                <div className="w-[82vw] min-w-[296px] max-w-[360px] overflow-hidden border border-gray-200 bg-white">
+                  <img
+                    src="/images/factory-cnc.jpg"
+                    alt="CNC Machining Workshop"
+                    className="h-52 w-full object-cover"
+                  />
+                  <div className="bg-text-primary px-3 py-2">
+                    <span className="text-xs font-medium text-white">CNC Machining Workshop</span>
+                  </div>
+                </div>
+                <div className="w-[82vw] min-w-[296px] max-w-[360px] overflow-hidden border border-gray-200 bg-white">
+                  <img
+                    src="/images/factory-assembly.jpg"
+                    alt="Assembly Line"
+                    className="h-52 w-full object-cover"
+                  />
+                  <div className="bg-text-primary px-3 py-2">
+                    <span className="text-xs font-medium text-white">Assembly Line</span>
+                  </div>
+                </div>
+                <div className="w-[82vw] min-w-[296px] max-w-[360px] overflow-hidden border border-gray-200 bg-white">
+                  <img
+                    src="/images/factory-testing.jpg"
+                    alt="Testing Area"
+                    className="h-52 w-full object-cover"
+                  />
+                  <div className="bg-text-primary px-3 py-2">
+                    <span className="text-xs font-medium text-white">Testing Area</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div className="hidden flex-col items-start gap-8 sm:flex lg:flex-row">
             {/* Left: Text */}
-            <div className="lg:w-[35%] flex-shrink-0 py-2">
+            <div className="lg:w-[35%] lg:flex-shrink-0 py-2">
               <h2 className="text-xl lg:text-2xl font-bold text-text-primary tracking-tight mb-4">
                 Integrated Workshop Overview
               </h2>
@@ -135,8 +261,8 @@ export default function Factory() {
               </CTAButton>
             </div>
             {/* Right: Image Grid */}
-            <div className="lg:w-[65%] flex-shrink-0">
-              <div className="flex flex-col gap-3 sm:h-80 sm:flex-row">
+            <div className="min-w-0 lg:w-[65%] lg:flex-shrink-0">
+              <div className="hidden flex-col gap-3 sm:h-80 sm:flex sm:flex-row">
                 {/* Large image */}
                 <div className="overflow-hidden sm:w-[60%] sm:flex-shrink-0">
                   <img
@@ -181,11 +307,32 @@ export default function Factory() {
       <section className="bg-white py-12 lg:py-16">
         <div className="max-w-7xl mx-auto px-4 sm:px-6">
           <SectionHeading title="Production Process" align="center" className="mb-8" />
-          <div className="grid grid-cols-1 gap-0 border border-gray-200 sm:grid-cols-2 lg:grid-cols-5">
+          <div
+            ref={processCarouselRef}
+            onTouchStart={pauseProcessCarousel}
+            onTouchEnd={pauseProcessCarousel}
+            onPointerDown={pauseProcessCarousel}
+            onPointerUp={pauseProcessCarousel}
+            className="-mx-4 overflow-x-auto px-4 pb-2 lg:hidden [scrollbar-width:none] [-ms-overflow-style:none] [touch-action:pan-x]"
+          >
+            <div className="flex w-max snap-x snap-mandatory gap-4 pr-4">
+              {[...processSteps, ...processSteps].map((step, index) => (
+                <div
+                  key={`${step.num}-${index}`}
+                  className="flex w-[64vw] min-w-[210px] max-w-[240px] snap-start flex-col items-center border border-gray-200 bg-white px-4 py-6 text-center"
+                >
+                  <div className="mb-3 flex justify-center">{step.icon}</div>
+                  <div className="mb-1 text-xs font-bold text-brand-red">{step.num}</div>
+                  <div className="text-sm font-semibold text-text-primary">{step.title}</div>
+                </div>
+              ))}
+            </div>
+          </div>
+          <div className="hidden grid-cols-1 gap-0 border border-gray-200 lg:grid lg:grid-cols-5">
             {processSteps.map((step, i) => (
               <div
                 key={step.num}
-                className={`text-center py-6 px-3 ${i < processSteps.length - 1 ? 'border-b border-gray-200 sm:border-r lg:border-b-0' : ''} ${i === 1 || i === 3 ? 'sm:border-r-0 lg:border-r' : ''}`}
+                className={`px-3 py-6 text-center ${i < processSteps.length - 1 ? 'border-r border-gray-200' : ''}`}
               >
                 <div className="flex justify-center mb-3">{step.icon}</div>
                 <div className="text-brand-red text-xs font-bold mb-1">{step.num}</div>
@@ -200,7 +347,30 @@ export default function Factory() {
       <section className="bg-gray-50 py-12 lg:py-16">
         <div className="max-w-7xl mx-auto px-4 sm:px-6">
           <SectionHeading title="Core Factory Capabilities" className="mb-8" />
-          <div className="grid sm:grid-cols-2 gap-5">
+          <div className="overflow-x-auto pb-1 sm:hidden [scrollbar-width:none] [-ms-overflow-style:none] [touch-action:pan-x]">
+            <div className="flex w-max gap-4 pr-4">
+              {capabilities.map((cap) => (
+                <div key={cap.title} className="w-[86vw] min-w-[304px] max-w-[360px] overflow-hidden border border-gray-200 bg-white">
+                  <img src={cap.image} alt={cap.title} className="h-48 w-full object-cover" />
+                  <div className="p-5">
+                    <h3 className="mb-2 text-[15px] font-bold text-text-primary">{cap.title}</h3>
+                    <p className="mb-3 text-sm leading-relaxed text-text-secondary">{cap.desc}</p>
+                    <ul className="space-y-1.5">
+                      {cap.bullets.map((b) => (
+                        <li key={b} className="flex items-center gap-2 text-sm text-text-secondary">
+                          <svg className="h-3.5 w-3.5 flex-shrink-0 text-brand-red" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={3}>
+                            <path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" />
+                          </svg>
+                          {b}
+                        </li>
+                      ))}
+                    </ul>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+          <div className="hidden gap-5 sm:grid sm:grid-cols-2">
             {capabilities.map((cap) => (
               <div key={cap.title} className="flex flex-col gap-0 border border-gray-200 bg-white overflow-hidden sm:flex-row">
                 {/* Image */}
@@ -224,26 +394,6 @@ export default function Factory() {
                 </div>
               </div>
             ))}
-          </div>
-        </div>
-      </section>
-
-      {/* ═══════ BOTTOM CTA ═══════ */}
-      <section className="bg-brand-red">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 py-8">
-          <div className="flex flex-col sm:flex-row items-center justify-between gap-4">
-            <div className="flex items-center gap-4">
-              <svg className="w-10 h-10 text-white/90 flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
-                <path strokeLinecap="round" strokeLinejoin="round" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
-              </svg>
-              <div>
-                <h3 className="text-white font-semibold text-lg">Send Us Your Valve Specifications</h3>
-                <p className="text-white/80 text-sm">Our engineers will review and provide the best solution for your application.</p>
-              </div>
-            </div>
-            <CTAButton to="/request-quote" variant="light">
-              Request a Quote
-            </CTAButton>
           </div>
         </div>
       </section>

@@ -2,7 +2,7 @@ import { useMemo } from 'react';
 import { Link, useSearchParams } from 'react-router-dom';
 import { ArrowRight, Factory, Search } from 'lucide-react';
 import { caseStudies, filterCategories } from '../data/cases';
-import { PageHero } from '../components/common';
+import { CTAButton, PageHero } from '../components/common';
 import { pageHeroes } from '../data/pageHeroes';
 
 export default function Cases() {
@@ -24,17 +24,25 @@ export default function Cases() {
 
   return (
     <div className="pt-[80px]">
-      <PageHero {...pageHeroes.cases} />
+      <PageHero
+        {...pageHeroes.cases}
+        ctas={(
+          <>
+            <CTAButton to="/request-quote">Request for Quote</CTAButton>
+            <CTAButton to="/industries" variant="ghost">Browse Industries</CTAButton>
+          </>
+        )}
+      />
 
       {/* ═══════ FILTER BAR ═══════ */}
       <section className="bg-white border-b border-gray-100">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 py-4">
-          <div className="flex flex-wrap gap-2">
+          <div className="flex gap-2 overflow-x-auto [scrollbar-width:none] [-ms-overflow-style:none] [touch-action:pan-x] sm:flex-wrap">
             {filterCategories.map((cat) => (
               <button
                 key={cat.id}
                 onClick={() => setFilter(cat.id)}
-                className={`px-5 py-2 text-sm font-medium border transition-colors ${
+                className={`flex-shrink-0 px-5 py-2 text-sm font-medium border transition-colors ${
                   activeFilter === cat.id
                     ? 'bg-brand-red text-white border-brand-red'
                     : 'bg-white text-text-secondary border-gray-200 hover:border-brand-red hover:text-brand-red'
@@ -50,7 +58,7 @@ export default function Cases() {
       {/* ═══════ CASE CARDS ═══════ */}
       <section className="bg-white py-10 lg:py-14">
         <div className="max-w-7xl mx-auto px-4 sm:px-6">
-          <div className="space-y-10">
+          <div className="space-y-10 hidden md:block">
             {filtered.map((cs) => (
               <div
                 key={cs.id}
@@ -132,6 +140,47 @@ export default function Cases() {
             ))}
           </div>
 
+          <div className="overflow-x-auto pb-1 md:hidden [scrollbar-width:none] [-ms-overflow-style:none] [touch-action:pan-x]">
+            <div className="flex w-max gap-4 pr-4">
+              {filtered.map((cs) => (
+                <div key={cs.id} className="w-[86vw] min-w-[304px] max-w-[360px] border border-gray-200 bg-white">
+                  <div className="overflow-hidden">
+                    <img
+                      src={cs.image}
+                      alt={cs.title}
+                      className="h-52 w-full object-cover"
+                    />
+                  </div>
+                  <div className="p-5">
+                    <span className="text-brand-red text-xs font-semibold tracking-wider uppercase">
+                      {cs.industry}
+                    </span>
+                    <h3 className="mt-2 text-lg font-bold leading-snug text-text-primary">
+                      {cs.title}
+                    </h3>
+                    <p className="mt-1 text-sm font-medium text-text-muted">{cs.subtitle}</p>
+                    <p className="mt-3 line-clamp-4 text-sm leading-relaxed text-text-secondary">
+                      {cs.description}
+                    </p>
+                    <div className="mt-4 flex flex-wrap gap-2">
+                      {cs.productsSupplied.slice(0, 3).map((p) => (
+                        <span key={p} className="border border-gray-200 bg-gray-50 px-2.5 py-1 text-xs text-text-secondary">{p}</span>
+                      ))}
+                    </div>
+                    <div className="mt-5">
+                      <Link
+                        to={`/cases/${cs.id}`}
+                        className="inline-flex items-center gap-2 h-[40px] px-5 bg-brand-red text-white text-sm font-semibold hover:bg-dark-red transition-colors"
+                      >
+                        Read Case Study <ArrowRight className="w-4 h-4" />
+                      </Link>
+                    </div>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+
           <div className="mt-10 pt-6 border-t border-gray-100 text-center text-sm text-text-muted">
             Showing {filtered.length} sample project scenario{filtered.length === 1 ? '' : 's'}.
           </div>
@@ -171,8 +220,8 @@ export default function Cases() {
       {/* ═══════ BOTTOM CTA ═══════ */}
       <section className="bg-brand-red">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 py-8">
-          <div className="flex flex-col sm:flex-row items-center justify-between gap-4">
-            <div className="flex items-center gap-4">
+          <div className="flex flex-col items-start gap-4 sm:flex-row sm:items-center sm:justify-between">
+            <div className="flex items-start gap-4 text-left">
               <svg className="w-10 h-10 text-white/90 flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
                 <path strokeLinecap="round" strokeLinejoin="round" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
               </svg>
@@ -183,9 +232,9 @@ export default function Cases() {
             </div>
             <Link
               to="/request-quote"
-              className="inline-flex items-center gap-2 h-[48px] px-7 bg-white text-brand-red text-sm font-semibold hover:bg-gray-100 transition-colors flex-shrink-0"
+              className="inline-flex h-[48px] w-full items-center justify-center gap-2 bg-white px-7 text-sm font-semibold text-brand-red transition-colors hover:bg-gray-100 sm:w-auto sm:flex-shrink-0"
             >
-              Request a Quote <ArrowRight className="w-4 h-4" />
+              Request for Quote <ArrowRight className="w-4 h-4" />
             </Link>
           </div>
         </div>

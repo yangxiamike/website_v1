@@ -102,7 +102,7 @@ export default function About() {
         {...pageHeroes.about}
         ctas={(
           <>
-            <CTAButton to="/request-quote">Request a Quote</CTAButton>
+            <CTAButton to="/request-quote">Request for Quote</CTAButton>
             <CTAButton to="/factory" variant="ghost">View Factory Capabilities</CTAButton>
           </>
         )}
@@ -121,19 +121,19 @@ export default function About() {
               />
               {/* Proof Cards */}
               <div className="grid grid-cols-3 gap-4">
-                <div className="text-center p-4">
+                <div className="border border-gray-200 bg-white p-4 text-center">
                   <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" className="text-brand-red mx-auto mb-3">
                     <circle cx="12" cy="12" r="3"/><path d="M12 2V5"/><path d="M12 19V22"/><path d="M2 12H5"/><path d="M19 12H22"/><path d="M4.93 4.93L7.05 7.05"/><path d="M16.95 16.95L19.07 19.07"/><path d="M4.93 19.07L7.05 16.95"/><path d="M16.95 7.05L19.07 4.93"/>
                   </svg>
                   <div className="text-xs font-semibold text-text-primary leading-tight">Main Valve<br/>Products</div>
                 </div>
-                <div className="text-center p-4">
+                <div className="border border-gray-200 bg-white p-4 text-center">
                   <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" className="text-brand-red mx-auto mb-3">
                     <circle cx="12" cy="12" r="10"/><path d="M2 12h20"/><path d="M12 2a15.3 15.3 0 014 10 15.3 15.3 0 01-4 10 15.3 15.3 0 01-4-10 15.3 15.3 0 014-10z"/>
                   </svg>
                   <div className="text-xs font-semibold text-text-primary leading-tight">Export Order<br/>Support</div>
                 </div>
-                <div className="text-center p-4">
+                <div className="border border-gray-200 bg-white p-4 text-center">
                   <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" className="text-brand-red mx-auto mb-3">
                     <path d="M12 22C12 22 20 18 20 12V5L12 2L4 5V12C4 18 12 22 12 22Z"/>
                   </svg>
@@ -144,7 +144,7 @@ export default function About() {
 
             {/* Right: Image Collage */}
             <div className="lg:w-[60%]">
-              <div className="flex gap-3 h-80">
+              <div className="flex h-56 gap-3 sm:h-80">
                 <div className="w-[55%] overflow-hidden rounded-sm">
                   <img src="/images/factory-cnc.jpg" alt="Workshop" className="w-full h-full object-cover" />
                 </div>
@@ -168,7 +168,7 @@ export default function About() {
           <h2 className="text-xl lg:text-[1.4rem] font-bold text-text-primary tracking-tight text-center mb-12">
             Our Journey
           </h2>
-          <div className="relative">
+          <div className="relative hidden sm:block">
             {/* Horizontal line */}
             <div className="hidden lg:block absolute top-[6px] left-[3%] right-[3%] h-px bg-gray-300" />
             <div className="grid grid-cols-2 sm:grid-cols-4 lg:grid-cols-7 gap-y-8 gap-x-4">
@@ -185,6 +185,23 @@ export default function About() {
               ))}
             </div>
           </div>
+          <div className="-mx-4 overflow-x-auto px-4 pb-3 sm:hidden [scrollbar-width:none] [-ms-overflow-style:none] [touch-action:pan-x]">
+            <div className="relative flex w-max items-start gap-4 pr-10">
+              <div className="pointer-events-none absolute left-6 right-8 top-4 h-px bg-gray-300" />
+              <div className="pointer-events-none absolute right-4 top-[8px] h-3 w-3 rotate-45 border-r border-t border-gray-300" />
+              {milestones.map((m) => (
+                <div key={m.year} className="relative w-[31vw] min-w-[168px] max-w-[196px] flex-shrink-0 snap-start pt-10">
+                  <div className="absolute left-6 top-[8px] z-10 h-4 w-4 rounded-full border-[3px] border-white bg-brand-red shadow-sm" />
+                  <div className="absolute left-[31px] top-[24px] h-10 border-l border-dashed border-gray-300" />
+                  <div className="flex min-h-[268px] flex-col border border-gray-200 bg-white px-4 py-5 shadow-sm">
+                    <div className="mb-3 text-[1.35rem] font-bold leading-none text-brand-red">{m.year}</div>
+                    <div className="mb-4 text-[0.95rem] font-semibold leading-snug text-text-primary">{m.title}</div>
+                    <p className="text-[13px] leading-7 text-text-muted">{m.desc}</p>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
         </div>
       </section>
 
@@ -194,7 +211,22 @@ export default function About() {
           <h2 className="text-xl lg:text-[1.4rem] font-bold text-text-primary tracking-tight mb-10">
             People Behind Haiyue
           </h2>
-          <div className="grid grid-cols-1 sm:grid-cols-3 gap-5">
+          <div className="overflow-x-auto pb-1 sm:hidden [scrollbar-width:none] [-ms-overflow-style:none] [touch-action:pan-x]">
+            <div className="flex w-max gap-4 pr-4">
+              {people.map((p) => (
+                <div key={p.title} className="w-[82vw] min-w-[296px] max-w-[360px] overflow-hidden rounded-sm border border-gray-200 bg-white">
+                  <div className="relative aspect-[4/3]">
+                    <img src={p.image} alt={p.title} className="h-full w-full object-cover" />
+                  </div>
+                  <div className="p-5">
+                    <h4 className="mb-2 text-xs font-bold tracking-wider text-brand-red uppercase">{p.title}</h4>
+                    <p className="text-sm leading-relaxed text-text-secondary">{p.desc}</p>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+          <div className="hidden gap-5 sm:grid sm:grid-cols-3">
             {people.map((p) => (
               <div key={p.title} className="rounded-sm overflow-hidden">
                 {/* Image */}

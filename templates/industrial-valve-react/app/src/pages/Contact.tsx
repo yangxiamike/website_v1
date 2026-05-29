@@ -200,7 +200,7 @@ export default function Contact() {
                 <p className="text-sm text-text-secondary">Customers with detailed specifications can submit an RFQ to get a faster and more accurate quote.</p>
               </div>
             </div>
-            <CTAButton to="/request-quote" className="sm:flex-shrink-0">Request a Quote</CTAButton>
+            <CTAButton to="/request-quote" className="sm:flex-shrink-0">Request for Quote</CTAButton>
           </div>
         </div>
       </section>

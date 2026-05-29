@@ -16,6 +16,21 @@
 5. 调整 `templates/industrial-valve-react/app/src/components/Footer.tsx`、`templates/industrial-valve-react/app/src/components/CTABanner.tsx`、`templates/industrial-valve-react/app/src/components/common.tsx`，统一移动端 CTA 宽度、页头高度与 footer 换行策略。
 6. 验证：`templates/industrial-valve-react/app/` 下执行 `npm run build` 通过。
 
+## 2026-05-29 - 子页面 Mobile 统一化（进行中）
+
+1. 已保存计划：`docs/plans/2026-05-29-subpage-mobile-unification-plan.md`。
+2. 统一 `/factory` 的移动端 stats bar：改为与首页 hero info bar 同 token 的 marquee 小卡，并补充 SVG 图标。
+3. 统一 `/industries` 移动端 section 交互：行业卡、支持能力卡、推荐产品组改为横向拖动。
+4. 统一 `/cases` 移动端 section 交互：筛选条支持横向滚动，案例列表改为横向拖动卡片。
+5. 统一 `/industry-detail` 移动端 section 交互：snapshot、application、recommended products 改为横向拖动，related case 图片缩小为更轻的移动端比例。
+6. 统一 `/case-detail` 移动端 section 交互：snapshot row、challenges、products used、results、related industries 改为横向拖动，背景图缩小。
+7. 统一 `/about` 移动端 section 交互：journey、people cards 改为横向拖动，首屏拼图高度缩小。
+8. 统一 `/product-detail` 移动端 section 交互：缩略图、features、applications、quality、documents、related products 改为横向拖动。
+9. 说明：当前本地环境缺少 `typescript/tsc`，本轮未完成 `npm run build` 验证，改动以代码结构自检为主。
+10. 补齐 `/factory` 遗漏的移动端 section：`Certificates & Standards` 改为横向拖动证书卡，`Integrated Workshop Overview`、`Production Process`、`Core Factory Capabilities` 已统一为横向浏览节奏。
+11. 统一 `/resources` 移动端资源卡片尺寸与横向浏览：`Catalogs & Datasheets`、`Technical Articles` 改为更小卡片的横向拖动列表。
+12. 继续细化移动端交互：移除 `/factory` 重复 CTA，`Production Process` 改为可手动拖动的 marquee 轨道，强化 `/factory` 证书与 workshop 区横拖手感，并放大 `/resources` 资源卡片。
+
 ## 2026-05-29 - Demo 站点分层与默认运行入口澄清
 
 1. 已保存计划：`docs/plans/2026-05-29-demo-mode-separation-plan.md`。

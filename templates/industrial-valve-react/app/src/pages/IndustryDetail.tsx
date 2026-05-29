@@ -74,7 +74,7 @@ export default function IndustryDetail() {
         image={ind.heroImage}
         ctas={(
           <>
-            <CTAButton to="/request-quote">Request a Quote</CTAButton>
+            <CTAButton to="/request-quote">Request for Quote</CTAButton>
             <CTAButton to="/products" variant="ghost">View Recommended Valves</CTAButton>
           </>
         )}
@@ -88,7 +88,20 @@ export default function IndustryDetail() {
             <div className="lg:w-[45%]">
               <p className="text-text-secondary text-sm sm:text-[15px] leading-[1.7]">{ind.snapshotText}</p>
             </div>
-            <div className="lg:w-[55%] grid grid-cols-2 gap-4">
+            <div className="overflow-x-auto pb-1 lg:hidden [scrollbar-width:none] [-ms-overflow-style:none] [touch-action:pan-x]">
+              <div className="flex w-max gap-4 pr-4">
+                {ind.snapshotPoints.map((pt) => (
+                  <div key={pt.title} className="flex w-[78vw] min-w-[268px] max-w-[320px] items-start gap-3 border border-gray-200 bg-white p-4">
+                    <SnapshotIcon type={ind.snapshotPoints.indexOf(pt) === 0 ? 'valve' : ind.snapshotPoints.indexOf(pt) === 1 ? 'check' : ind.snapshotPoints.indexOf(pt) === 2 ? 'shield' : 'filter'} />
+                    <div>
+                      <h4 className="font-semibold text-text-primary text-sm">{pt.title}</h4>
+                      <p className="text-xs text-text-secondary mt-0.5 leading-relaxed">{pt.desc}</p>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
+            <div className="hidden lg:w-[55%] lg:grid lg:grid-cols-2 lg:gap-4">
               {ind.snapshotPoints.map((pt) => (
                 <div key={pt.title} className="flex items-start gap-3">
                   <SnapshotIcon type={ind.snapshotPoints.indexOf(pt) === 0 ? 'valve' : ind.snapshotPoints.indexOf(pt) === 1 ? 'check' : ind.snapshotPoints.indexOf(pt) === 2 ? 'shield' : 'filter'} />
@@ -107,7 +120,22 @@ export default function IndustryDetail() {
       <section className="bg-gray-50 py-10 lg:py-14">
         <div className="max-w-7xl mx-auto px-4 sm:px-6">
           <SectionHeading title="Application Areas" className="mb-6" />
-          <div className="grid sm:grid-cols-2 gap-6">
+          <div className="overflow-x-auto pb-1 sm:hidden [scrollbar-width:none] [-ms-overflow-style:none] [touch-action:pan-x]">
+            <div className="flex w-max gap-4 pr-4">
+              {ind.applications.map((app) => (
+                <div key={app.title} className="flex w-[86vw] min-w-[304px] max-w-[360px] border border-gray-200 bg-white overflow-hidden">
+                  <div className="w-[42%] flex-shrink-0">
+                    <img src={app.image} alt={app.title} className="h-full min-h-[180px] w-full object-cover" />
+                  </div>
+                  <div className="flex flex-col justify-center p-4">
+                    <h4 className="font-semibold text-text-primary text-[15px] mb-2">{app.title}</h4>
+                    <p className="text-sm text-text-secondary leading-relaxed">{app.desc}</p>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+          <div className="hidden gap-6 sm:grid sm:grid-cols-2">
             {ind.applications.map((app, i) => (
               <div key={app.title} className={`flex gap-0 border border-gray-200 bg-white overflow-hidden ${i >= 2 ? '' : ''}`}>
                 <div className="w-[45%] flex-shrink-0">
@@ -127,7 +155,26 @@ export default function IndustryDetail() {
       <section className="bg-white py-10 lg:py-14">
         <div className="max-w-7xl mx-auto px-4 sm:px-6">
           <SectionHeading title="Recommended Valve Solutions" className="mb-6" />
-          <div className="grid sm:grid-cols-4 gap-5">
+          <div className="overflow-x-auto pb-1 sm:hidden [scrollbar-width:none] [-ms-overflow-style:none] [touch-action:pan-x]">
+            <div className="flex w-max gap-4 pr-4">
+              {ind.recommendedProducts.map((rp) => (
+                <div key={rp.id} className="w-[74vw] min-w-[248px] max-w-[288px] border border-gray-200 p-5 hover:border-brand-red/30 transition-colors bg-white">
+                  <div className="h-32 bg-gray-50 flex items-center justify-center p-3 mb-4">
+                    <img src={rp.image} alt={rp.name} className="max-h-full max-w-full object-contain" />
+                  </div>
+                  <h4 className="font-semibold text-text-primary text-[15px] mb-1">{rp.name}</h4>
+                  <p className="text-xs text-text-secondary leading-relaxed">{rp.desc}</p>
+                  <Link
+                    to={`/products/${rp.id}`}
+                    className="inline-flex items-center gap-1 text-brand-red text-sm font-semibold mt-3 hover:underline"
+                  >
+                    View Product <ArrowRight className="w-3.5 h-3.5" />
+                  </Link>
+                </div>
+              ))}
+            </div>
+          </div>
+          <div className="hidden gap-5 sm:grid sm:grid-cols-4">
             {ind.recommendedProducts.map((rp) => (
               <div key={rp.id} className="border border-gray-200 p-5 hover:border-brand-red/30 transition-colors">
                 <div className="h-32 bg-gray-50 flex items-center justify-center p-3 mb-4">
@@ -177,7 +224,7 @@ export default function IndustryDetail() {
         <div className="max-w-7xl mx-auto px-4 sm:px-6">
           <SectionHeading title="Related Case Study" className="mb-6" />
           <div className="border border-gray-200">
-            <div className="aspect-[21/9] overflow-hidden">
+            <div className="aspect-[16/10] overflow-hidden sm:aspect-[21/9]">
               <img src={ind.relatedCase.image} alt={ind.relatedCase.title} className="w-full h-full object-cover" />
             </div>
             <div className="p-6">
@@ -223,8 +270,8 @@ export default function IndustryDetail() {
       {/* ═══════ BOTTOM CTA ═══════ */}
       <section className="bg-brand-red">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 py-8">
-          <div className="flex flex-col sm:flex-row items-center justify-between gap-4">
-            <div className="flex items-center gap-4">
+          <div className="flex flex-col items-start gap-4 sm:flex-row sm:items-center sm:justify-between">
+            <div className="flex items-start gap-4 text-left">
               <svg className="w-10 h-10 text-white/90 flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
                 <path strokeLinecap="round" strokeLinejoin="round" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0z" />
               </svg>
@@ -235,9 +282,9 @@ export default function IndustryDetail() {
             </div>
             <Link
               to="/request-quote"
-              className="inline-flex items-center gap-2 h-[48px] px-7 bg-white text-brand-red text-sm font-semibold hover:bg-gray-100 transition-colors flex-shrink-0"
+              className="inline-flex h-[48px] w-full items-center justify-center gap-2 bg-white px-7 text-sm font-semibold text-brand-red transition-colors hover:bg-gray-100 sm:w-auto sm:flex-shrink-0"
             >
-              Request a Quote <ArrowRight className="w-4 h-4" />
+              Request for Quote <ArrowRight className="w-4 h-4" />
             </Link>
           </div>
         </div>

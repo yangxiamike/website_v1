@@ -1,5 +1,6 @@
 import { useState, useEffect, useRef } from 'react';
 import { Link, useParams } from 'react-router-dom';
+import { motion } from 'framer-motion';
 import {
   IconReliableSealing, IconLowTorque, IconVersatileOptions, IconLongServiceLife,
   IconWaterTreatment, IconChemicalProcessing, IconOilGas, IconGeneralPipeline,
@@ -128,9 +129,9 @@ export default function ProductDetail() {
               <div className="aspect-[4/3] bg-gray-50 flex items-center justify-center p-8 border border-gray-100">
                 <img src={detail.heroImage} alt={detail.title} className="max-h-full max-w-full object-contain" />
               </div>
-              <div className="flex gap-2 mt-3">
+              <div className="flex gap-2 mt-3 overflow-x-auto [scrollbar-width:none] [-ms-overflow-style:none] [touch-action:pan-x]">
                 {[1, 2, 3].map((i) => (
-                  <button key={i} className="w-16 h-16 bg-gray-50 flex items-center justify-center p-2 border border-gray-200 hover:border-brand-red transition-colors">
+                  <button key={i} className="w-16 h-16 flex-shrink-0 bg-gray-50 flex items-center justify-center p-2 border border-gray-200 hover:border-brand-red transition-colors">
                     <img src={detail.heroImage} alt="" className="max-h-full max-w-full object-contain" />
                   </button>
                 ))}
@@ -161,7 +162,7 @@ export default function ProductDetail() {
 
               {/* Buttons */}
               <div className="flex flex-wrap gap-3 mt-8">
-                <CTAButton to={`/request-quote?product=${detail.id}`}>Request a Quote</CTAButton>
+                <CTAButton to={`/request-quote?product=${detail.id}`}>Request for Quote</CTAButton>
                 <CTAButton to={`/request-quote?source=datasheet&product=${detail.id}`} variant="secondary">Download Datasheet</CTAButton>
               </div>
             </div>
@@ -204,7 +205,25 @@ export default function ProductDetail() {
               {/* ── FEATURES ── */}
               <section id="features" className="scroll-mt-40 mb-14">
                 <SectionHeading title="Features & Benefits" />
-                <div className="grid sm:grid-cols-2 gap-5 mt-6">
+                <div className="overflow-x-auto pb-1 sm:hidden [scrollbar-width:none] [-ms-overflow-style:none] [touch-action:pan-x]">
+                  <motion.div
+                    className="flex w-max gap-4 pr-4"
+                    animate={{ x: ['0%', '-50%'] }}
+                    transition={{ duration: 18, ease: 'linear', repeat: Infinity }}
+                  >
+                    {[...detail.features, ...detail.features].map((f, index) => {
+                      const IconComp = iconMap[f.icon];
+                      return (
+                        <div key={`${f.title}-${index}`} className="w-[80vw] min-w-[276px] max-w-[320px] bg-white border border-gray-200 p-5">
+                          {IconComp && <IconComp size={32} strokeWidth={1.75} className="text-brand-red mb-3" />}
+                          <h3 className="font-semibold text-text-primary text-[15px] mb-1.5">{f.title}</h3>
+                          <p className="text-sm text-text-muted leading-relaxed">{f.description}</p>
+                        </div>
+                      );
+                    })}
+                  </motion.div>
+                </div>
+                <div className="hidden gap-5 mt-6 sm:grid sm:grid-cols-2">
                   {detail.features.map((f) => {
                     const IconComp = iconMap[f.icon];
                     return (
@@ -221,7 +240,21 @@ export default function ProductDetail() {
               {/* ── APPLICATIONS ── */}
               <section id="applications" className="scroll-mt-40 mb-14">
                 <SectionHeading title="Applications" />
-                <div className="grid sm:grid-cols-2 gap-5 mt-6">
+                <div className="overflow-x-auto pb-1 sm:hidden [scrollbar-width:none] [-ms-overflow-style:none] [touch-action:pan-x]">
+                  <div className="flex w-max gap-4 pr-4">
+                    {detail.applications.map((a) => {
+                      const IconComp = iconMap[a.icon];
+                      return (
+                        <div key={a.title} className="w-[80vw] min-w-[276px] max-w-[320px] bg-white border border-gray-200 p-5">
+                          {IconComp && <IconComp size={36} strokeWidth={1.75} className="text-brand-red mb-3" />}
+                          <h3 className="font-semibold text-text-primary text-[15px]">{a.title}</h3>
+                          <p className="text-sm text-text-muted mt-1 leading-relaxed">{a.description}</p>
+                        </div>
+                      );
+                    })}
+                  </div>
+                </div>
+                <div className="hidden gap-5 mt-6 sm:grid sm:grid-cols-2">
                   {detail.applications.map((a) => {
                     const IconComp = iconMap[a.icon];
                     return (
@@ -258,7 +291,25 @@ export default function ProductDetail() {
               {/* ── QUALITY ── */}
               <section id="quality" className="scroll-mt-40 mb-14">
                 <SectionHeading title="Quality & Testing" />
-                <div className="grid sm:grid-cols-2 gap-5 mt-6">
+                <div className="overflow-x-auto pb-1 sm:hidden [scrollbar-width:none] [-ms-overflow-style:none] [touch-action:pan-x]">
+                  <motion.div
+                    className="flex w-max gap-4 pr-4"
+                    animate={{ x: ['0%', '-50%'] }}
+                    transition={{ duration: 18, ease: 'linear', repeat: Infinity }}
+                  >
+                    {[...detail.quality, ...detail.quality].map((q, index) => {
+                      const IconComp = iconMap[q.icon];
+                      return (
+                        <div key={`${q.title}-${index}`} className="w-[80vw] min-w-[276px] max-w-[320px] bg-white border border-gray-200 p-5">
+                          {IconComp && <IconComp size={36} strokeWidth={1.75} className="text-brand-red mb-3" />}
+                          <h3 className="font-semibold text-text-primary text-[15px]">{q.title}</h3>
+                          <p className="text-sm text-text-muted mt-1 leading-relaxed">{q.description}</p>
+                        </div>
+                      );
+                    })}
+                  </motion.div>
+                </div>
+                <div className="hidden gap-5 mt-6 sm:grid sm:grid-cols-2">
                   {detail.quality.map((q) => {
                     const IconComp = iconMap[q.icon];
                     return (
@@ -277,7 +328,25 @@ export default function ProductDetail() {
               {/* ── DOCUMENTS ── */}
               <section id="documents" className="scroll-mt-40 mb-14">
                 <SectionHeading title="Documents & Downloads" />
-                <div className="grid sm:grid-cols-3 gap-5 mt-6">
+                <div className="overflow-x-auto pb-1 sm:hidden [scrollbar-width:none] [-ms-overflow-style:none] [touch-action:pan-x]">
+                  <div className="flex w-max gap-4 pr-4">
+                    {detail.documents.map((doc) => (
+                      <div key={doc.title} className="w-[72vw] min-w-[236px] max-w-[272px] bg-white border border-gray-200 p-5 hover:border-brand-red/30 transition-colors">
+                        <div className="flex items-start gap-3">
+                          <IconDocument size={32} strokeWidth={1.75} className="text-brand-red flex-shrink-0" />
+                          <div className="min-w-0">
+                            <h4 className="font-semibold text-text-primary text-sm leading-snug">{doc.title}</h4>
+                            <p className="text-xs text-text-muted mt-1">{doc.type} &middot; {doc.size}</p>
+                          </div>
+                        </div>
+                        <Link to={`/request-quote?source=${encodeURIComponent(doc.title)}&product=${detail.id}`} className="inline-flex items-center gap-1.5 text-brand-red text-sm font-semibold mt-4 hover:underline">
+                          <span>Download</span> <IconDownload size={16} strokeWidth={2} />
+                        </Link>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+                <div className="hidden gap-5 mt-6 sm:grid sm:grid-cols-3">
                   {detail.documents.map((doc) => (
                     <div key={doc.title} className="bg-white border border-gray-200 p-5 hover:border-brand-red/30 transition-colors">
                       <div className="flex items-start gap-3">
@@ -298,7 +367,27 @@ export default function ProductDetail() {
               {/* ── RELATED PRODUCTS ── */}
               <section className="mb-14">
                 <SectionHeading title="Related Products" />
-                <div className="grid sm:grid-cols-3 gap-5 mt-6">
+                <div className="overflow-x-auto pb-1 sm:hidden [scrollbar-width:none] [-ms-overflow-style:none] [touch-action:pan-x]">
+                  <div className="flex w-max gap-4 pr-4">
+                    {detail.relatedProducts.map((rp) => (
+                      <Link
+                        key={rp.id}
+                        to={`/products/${rp.id}`}
+                        className="group flex w-[80vw] min-w-[276px] max-w-[320px] items-start gap-4 bg-white border border-gray-200 p-4 hover:border-brand-red/30 transition-colors"
+                      >
+                        <div className="w-20 h-20 bg-gray-50 flex-shrink-0 flex items-center justify-center p-2">
+                          <img src={rp.image} alt={rp.title} className="max-h-full max-w-full object-contain" />
+                        </div>
+                        <div className="min-w-0">
+                          <h4 className="font-semibold text-text-primary text-sm group-hover:text-brand-red transition-colors">{rp.title}</h4>
+                          <p className="text-xs text-text-muted mt-1 line-clamp-2">{rp.description}</p>
+                          <CardCTA>View Product</CardCTA>
+                        </div>
+                      </Link>
+                    ))}
+                  </div>
+                </div>
+                <div className="hidden gap-5 mt-6 sm:grid sm:grid-cols-3">
                   {detail.relatedProducts.map((rp) => (
                     <Link
                       key={rp.id}
@@ -357,7 +446,7 @@ export default function ProductDetail() {
                     to={`/request-quote?product=${detail.id}`}
                     className="flex items-center justify-center gap-2 h-[48px] w-full bg-brand-red text-white text-sm font-semibold hover:bg-dark-red transition-colors"
                   >
-                    Request a Quote <IconArrowRight size={18} strokeWidth={2} />
+                    Request for Quote <IconArrowRight size={18} strokeWidth={2} />
                   </Link>
                 </div>
               </div>

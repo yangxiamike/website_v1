@@ -15,7 +15,7 @@ export default function CTABanner() {
           to="/request-quote"
           className="inline-flex h-[48px] w-full items-center justify-center gap-2 border-2 border-white px-7 text-sm font-semibold text-white transition-all duration-200 hover:bg-white hover:text-brand-red sm:w-auto whitespace-nowrap flex-shrink-0"
         >
-          Request a Quote <ArrowRight className="w-4 h-4" />
+          Request for Quote <ArrowRight className="w-4 h-4" />
         </Link>
       </div>
     </section>

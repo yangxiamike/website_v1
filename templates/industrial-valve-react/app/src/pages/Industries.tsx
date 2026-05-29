@@ -1,5 +1,6 @@
 import { Link } from 'react-router-dom';
 import { ArrowRight } from 'lucide-react';
+import { motion } from 'framer-motion';
 import { industries, products } from '../data';
 import CTABanner from '../components/CTABanner';
 import { CTAButton, IndustryCard, PageHero } from '../components/common';
@@ -135,7 +136,7 @@ export default function Industries() {
         {...pageHeroes.industries}
         ctas={(
           <>
-            <CTAButton to="/request-quote">Request a Quote</CTAButton>
+            <CTAButton to="/request-quote">Request for Quote</CTAButton>
             <CTAButton to="/products" variant="ghost">View Recommended Valves</CTAButton>
           </>
         )}
@@ -144,7 +145,25 @@ export default function Industries() {
       {/* ═══════ INDUSTRY CARDS ═══════ */}
       <section className="bg-white py-12 lg:py-16">
         <div className="max-w-7xl mx-auto px-4 sm:px-6">
-          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+          <div className="overflow-x-auto pb-1 md:hidden [scrollbar-width:none] [-ms-overflow-style:none] [touch-action:pan-x]">
+            <div className="flex w-max gap-4 pr-4">
+              {industries.map((ind) => {
+                const IconComp = industryIcons[ind.id];
+                return (
+                  <div key={ind.id} className="w-[82vw] min-w-[296px] max-w-[360px]">
+                    <IndustryCard
+                      to={ind.route || `/industries/${ind.id}`}
+                      image={ind.image}
+                      title={ind.name}
+                      description={ind.shortDesc}
+                      icon={IconComp ? <IconComp /> : undefined}
+                    />
+                  </div>
+                );
+              })}
+            </div>
+          </div>
+          <div className="hidden gap-6 md:grid md:grid-cols-2 lg:grid-cols-3">
             {industries.map((ind) => {
               const IconComp = industryIcons[ind.id];
               return (
@@ -168,7 +187,22 @@ export default function Industries() {
           <h2 className="text-xl lg:text-2xl font-bold text-text-primary tracking-tight mb-8">
             How Haiyue Supports Industrial Applications
           </h2>
-          <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-6">
+          <div className="overflow-x-auto pb-1 sm:hidden [scrollbar-width:none] [-ms-overflow-style:none] [touch-action:pan-x]">
+            <motion.div
+              className="flex w-max gap-4 pr-4"
+              animate={{ x: ['0%', '-50%'] }}
+              transition={{ duration: 18, ease: 'linear', repeat: Infinity }}
+            >
+              {[...supportItems, ...supportItems].map((item, index) => (
+                <div key={`${item.title}-${index}`} className="w-[78vw] min-w-[272px] max-w-[320px] border border-gray-200 bg-white p-5">
+                  <div className="mb-3">{item.icon}</div>
+                  <h3 className="font-semibold text-text-primary text-sm mb-2">{item.title}</h3>
+                  <p className="text-sm text-text-secondary leading-relaxed">{item.desc}</p>
+                </div>
+              ))}
+            </motion.div>
+          </div>
+          <div className="hidden gap-6 sm:grid sm:grid-cols-2 lg:grid-cols-4">
             {supportItems.map((item) => (
               <div key={item.title}>
                 <div className="mb-3">{item.icon}</div>
@@ -186,7 +220,29 @@ export default function Industries() {
           <h2 className="text-xl lg:text-2xl font-bold text-text-primary tracking-tight mb-8">
             Recommended Product Groups
           </h2>
-          <div className="grid grid-cols-3 md:grid-cols-6 gap-4">
+          <div className="overflow-x-auto pb-1 md:hidden [scrollbar-width:none] [-ms-overflow-style:none] [touch-action:pan-x]">
+            <div className="flex w-max gap-3 pr-4">
+              {products.map((prod) => (
+                <Link
+                  key={prod.id}
+                  to={`/products?type=${prod.category}`}
+                  className="group flex w-[42vw] min-w-[144px] max-w-[168px] flex-col items-center border border-gray-200 p-3 text-center transition-all duration-300 hover:border-brand-red/40"
+                >
+                  <div className="mb-3 flex aspect-square w-full items-center justify-center bg-gray-50 p-3">
+                    <img
+                      src={prod.image}
+                      alt={prod.name}
+                      className="max-h-full max-w-full object-contain"
+                    />
+                  </div>
+                  <span className="text-sm font-semibold text-text-primary transition-colors group-hover:text-brand-red">
+                    {prod.name}
+                  </span>
+                </Link>
+              ))}
+            </div>
+          </div>
+          <div className="hidden grid-cols-3 gap-4 md:grid md:grid-cols-6">
             {products.map((prod) => (
               <Link
                 key={prod.id}
@@ -213,8 +269,8 @@ export default function Industries() {
       {/* ═══════ BOTTOM CTA ═══════ */}
       <section className="bg-brand-red">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 py-8">
-          <div className="flex flex-col sm:flex-row items-center justify-between gap-4">
-            <div className="flex items-center gap-4">
+          <div className="flex flex-col items-start gap-4 sm:flex-row sm:items-center sm:justify-between">
+            <div className="flex items-start gap-4 text-left">
               <svg className="w-10 h-10 text-white/90 flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
                 <path strokeLinecap="round" strokeLinejoin="round" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0z" />
               </svg>
@@ -225,9 +281,9 @@ export default function Industries() {
             </div>
             <Link
               to="/request-quote"
-              className="inline-flex items-center gap-2 h-[48px] px-7 bg-white text-brand-red text-sm font-semibold hover:bg-gray-100 transition-colors flex-shrink-0"
+              className="inline-flex h-[48px] w-full items-center justify-center gap-2 bg-white px-7 text-sm font-semibold text-brand-red transition-colors hover:bg-gray-100 sm:w-auto sm:flex-shrink-0"
             >
-              Request a Quote <ArrowRight className="w-4 h-4" />
+              Request for Quote <ArrowRight className="w-4 h-4" />
             </Link>
           </div>
         </div>

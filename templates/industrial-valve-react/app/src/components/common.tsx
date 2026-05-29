@@ -195,11 +195,11 @@ export function TextareaField({
 
 export function ProductCard({ product }: { product: Product }) {
   return (
-    <div className="group flex min-h-[300px] flex-col items-center rounded-[8px] border border-transparent bg-white px-3 py-3 text-center transition-all duration-300 hover:border-gray-200 hover:shadow-xl hover:shadow-gray-200/40">
+    <div className="group flex min-h-[232px] flex-col items-center rounded-[8px] border border-gray-100 bg-white px-2.5 py-2.5 text-center transition-all duration-300 hover:border-gray-200 hover:shadow-xl hover:shadow-gray-200/40 sm:min-h-[300px] sm:border-transparent sm:px-3 sm:py-3">
       <Link
         to={`/products/${product.id}`}
         aria-label={`View ${product.name}`}
-        className="flex h-[170px] w-full items-center justify-center p-3"
+        className="flex h-[116px] w-full items-center justify-center p-2 sm:h-[170px] sm:p-3"
       >
         <img
           src={product.image}
@@ -207,23 +207,23 @@ export function ProductCard({ product }: { product: Product }) {
           className="block h-auto w-auto max-h-full max-w-full object-contain transition-transform duration-500 group-hover:scale-105"
         />
       </Link>
-      <div className="flex w-full flex-1 flex-col items-center px-1">
+      <div className="flex w-full flex-1 flex-col items-center px-0.5 sm:px-1">
         <Link to={`/products/${product.id}`} className="hover:text-brand-red transition-colors">
-          <h3 className="min-h-[2.5rem] text-[15px] font-medium leading-snug text-text-primary sm:text-base">{product.name}</h3>
+          <h3 className="min-h-[2.1rem] text-[13px] font-medium leading-snug text-text-primary sm:min-h-[2.5rem] sm:text-base">{product.name}</h3>
         </Link>
-        <p className="mt-0.5 min-h-[1.35rem] text-[13px] font-semibold leading-snug text-brand-red sm:text-[14px]">{product.series}</p>
-        <div className="mt-3 flex h-10 items-center justify-center gap-2 opacity-0 translate-y-2 pointer-events-none transition-all duration-300 group-hover:opacity-100 group-hover:translate-y-0 group-hover:pointer-events-auto">
+        <p className="mt-0.5 min-h-[1.15rem] text-[11px] font-semibold leading-snug text-brand-red sm:min-h-[1.35rem] sm:text-[14px]">{product.series}</p>
+        <div className="mt-2 flex w-full items-center justify-center gap-1.5 sm:mt-3 sm:h-10 sm:gap-2 sm:opacity-0 sm:translate-y-2 sm:pointer-events-none sm:transition-all sm:duration-300 sm:group-hover:opacity-100 sm:group-hover:translate-y-0 sm:group-hover:pointer-events-auto">
           <Link
             to={`/request-quote?product=${product.id}`}
-            className="inline-flex h-9 items-center justify-center bg-brand-red px-4 text-xs font-semibold text-white transition-colors hover:bg-dark-red sm:text-sm"
+            className="inline-flex h-8 flex-1 items-center justify-center bg-brand-red px-2 text-[11px] font-semibold text-white transition-colors hover:bg-dark-red sm:h-9 sm:flex-none sm:px-4 sm:text-sm"
           >
-            Request Quote
+            RFQ
           </Link>
           <Link
             to={`/products/${product.id}`}
-            className="inline-flex h-9 items-center justify-center border border-brand-red px-4 text-xs font-semibold text-brand-red transition-colors hover:bg-brand-red hover:text-white sm:text-sm"
+            className="inline-flex h-8 flex-1 items-center justify-center border border-brand-red px-2 text-[11px] font-semibold text-brand-red transition-colors hover:bg-brand-red hover:text-white sm:h-9 sm:flex-none sm:px-4 sm:text-sm"
           >
-            Details <ArrowRight className="ml-1.5 h-3.5 w-3.5" />
+            Details <ArrowRight className="ml-1 h-3.5 w-3.5" />
           </Link>
         </div>
       </div>
@@ -245,13 +245,13 @@ export function ResourceCard({
   badge?: React.ReactNode;
 }) {
   return (
-    <Link to={to} className="w-full sm:flex-shrink-0 sm:w-[300px] ds-card ds-card-hover cursor-pointer group">
+    <Link to={to} className="group w-[56vw] min-w-[208px] max-w-[248px] flex-shrink-0 cursor-pointer border border-gray-200 bg-white transition-all duration-300 hover:border-brand-red/30 hover:shadow-lg hover:shadow-gray-200/30 sm:w-[300px]">
       <div className="aspect-[16/10] overflow-hidden bg-gray-50">
         <img src={image} alt={title} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" />
       </div>
-      <div className="p-4">
+      <div className="p-3 sm:p-4">
         {badge}
-        <h4 className="font-semibold text-text-primary text-sm leading-snug mb-2 group-hover:text-brand-red transition-colors">{title}</h4>
+        <h4 className="mb-1.5 text-[13px] font-semibold leading-snug text-text-primary transition-colors group-hover:text-brand-red sm:text-sm">{title}</h4>
         <p className="text-xs text-text-muted">{meta}</p>
       </div>
     </Link>

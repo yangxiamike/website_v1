@@ -88,11 +88,10 @@ function SectionCTA({ to, children }: { to: string; children: React.ReactNode })
   );
 }
 
-/* ═══ Card-level CTA Link ═══ */
 function CardCTA({ children }: { children: React.ReactNode }) {
   return (
-    <span className="inline-flex items-center gap-1 text-brand-red text-sm font-semibold">
-      {children} <ChevronRight className="w-4 h-4" />
+    <span className="inline-flex items-center gap-1 text-sm font-semibold text-brand-red">
+      {children} <ChevronRight className="h-4 w-4" />
     </span>
   );
 }
@@ -152,11 +151,47 @@ function ScrollTrack({ children }: { children: React.ReactNode }) {
 
 /* ═══════════════════════════ HOME ═══════════════════════════ */
 export default function Home() {
+  const whyCarouselRef = useRef<HTMLDivElement>(null);
+  const whyCarouselPauseUntilRef = useRef(0);
+
+  useEffect(() => {
+    const el = whyCarouselRef.current;
+    if (!el) return;
+
+    let frame = 0;
+
+    const tick = () => {
+      if (window.innerWidth < 640) {
+        const halfway = el.scrollWidth / 2;
+
+        if (Date.now() >= whyCarouselPauseUntilRef.current) {
+          if (el.scrollLeft >= halfway) {
+            el.scrollLeft -= halfway;
+          } else {
+            el.scrollLeft += 0.45;
+          }
+        }
+      }
+
+      frame = window.requestAnimationFrame(tick);
+    };
+
+    frame = window.requestAnimationFrame(tick);
+
+    return () => {
+      window.cancelAnimationFrame(frame);
+    };
+  }, []);
+
+  const pauseWhyCarousel = () => {
+    whyCarouselPauseUntilRef.current = Date.now() + 1600;
+  };
+
   return (
     <div>
 
       {/* ═══════ HERO: true full-screen ═══════ */}
-      <section className="relative overflow-hidden min-h-[640px] md:min-h-[560px] md:h-[calc(100dvh-80px)]">
+      <section className="relative overflow-hidden min-h-[560px] md:min-h-[560px] md:h-[calc(100dvh-80px)]">
         {/* Background */}
         <div className="absolute inset-0">
           <img src="/images/hero-factory.png" alt="Haiyue Valve factory" className="w-full h-full object-cover" />
@@ -164,8 +199,8 @@ export default function Home() {
         </div>
 
         {/* Hero Content */}
-        <div className="relative z-10 h-full flex flex-col">
-          <div className="flex-1 flex items-center">
+        <div className="relative z-10 flex min-h-[560px] flex-col md:h-full">
+          <div className="flex flex-1 items-center">
             <div className="w-full max-w-7xl mx-auto px-4 sm:px-6">
               <motion.div
                 initial={{ opacity: 0, y: 30 }}
@@ -176,39 +211,18 @@ export default function Home() {
                 <h1 className="max-w-[14ch] text-3xl font-bold leading-[1.04] tracking-tight text-white sm:text-[3rem] lg:text-[3.7rem]">
                   Industrial Valve Manufacturer & Export Partner
                 </h1>
-                <p className="mt-4 max-w-[32rem] text-sm leading-relaxed text-white/75 sm:mt-5 sm:text-lg">
+                <p className="mt-4 max-w-[32rem] text-sm font-semibold leading-relaxed text-white sm:mt-5 sm:text-lg sm:font-normal sm:text-white/75">
                   Ball, gate, globe, butterfly, check valves and strainers for water treatment, chemical, oil & gas, and HVAC applications.
                 </p>
                 <div className="mt-6 flex flex-col gap-3 sm:mt-7 sm:flex-row sm:flex-wrap">
                   <Link to="/request-quote?source=home-hero" className="inline-flex h-[50px] w-full items-center justify-center gap-2 bg-brand-red px-8 text-sm font-semibold text-white transition-colors hover:bg-dark-red sm:w-auto whitespace-nowrap">
-                    Request a Quote <ArrowRight className="w-4 h-4" />
+                    Request for Quote <ArrowRight className="w-4 h-4" />
                   </Link>
                   <Link to="/resources#downloads" className="inline-flex h-[50px] w-full items-center justify-center gap-2 border border-white/40 px-8 text-sm font-medium text-white transition-colors hover:bg-white/10 sm:w-auto whitespace-nowrap">
                     Download Catalog
                   </Link>
                 </div>
               </motion.div>
-            </div>
-          </div>
-
-          {/* ═══════ Info Bar — compact on mobile, original scale on desktop ═══════ */}
-          <div className="px-4 pb-5 sm:hidden">
-            <div className="mx-auto flex max-w-md gap-3 overflow-x-auto pb-1" style={{ scrollbarWidth: 'none' }}>
-              {heroStats.map((stat) => (
-                <div
-                  key={stat.label}
-                  className="min-w-[158px] flex-1 border border-white/15 bg-white/96 px-3 py-3 shadow-lg backdrop-blur"
-                >
-                  <div className="flex items-start gap-2.5">
-                    <stat.icon className="h-5 w-5 flex-shrink-0 text-brand-red" strokeWidth={1.7} />
-                    <div className="min-w-0">
-                      <div className="text-lg font-bold leading-none text-text-primary">{stat.value}</div>
-                      <div className="mt-1 text-[11px] font-semibold leading-tight text-text-secondary">{stat.label}</div>
-                      <div className="mt-0.5 text-[10px] leading-tight text-text-muted">{stat.desc}</div>
-                    </div>
-                  </div>
-                </div>
-              ))}
             </div>
           </div>
           <div className="hidden justify-center px-4 pb-6 sm:flex">
@@ -242,6 +256,32 @@ export default function Home() {
         </div>
       </section>
 
+      <section className="relative z-20 -mt-10 pb-6 sm:hidden">
+        <div className="w-full overflow-hidden px-4">
+          <motion.div
+            className="flex w-max gap-3 pb-1 pr-3"
+            animate={{ x: ['0%', '-50%'] }}
+            transition={{ duration: 18, ease: 'linear', repeat: Infinity }}
+          >
+            {[...heroStats, ...heroStats].map((stat, index) => (
+              <div
+                key={`${stat.label}-${index}`}
+                className="min-w-[180px] border border-slate-200 bg-white px-3.5 py-3 shadow-md"
+              >
+                <div className="flex items-start gap-2.5">
+                  <stat.icon className="h-4.5 w-4.5 flex-shrink-0 text-brand-red" strokeWidth={1.7} />
+                  <div className="min-w-0">
+                    <div className="text-base font-bold leading-none text-text-primary">{stat.value}</div>
+                    <div className="mt-1 text-[11px] font-semibold leading-tight text-text-secondary">{stat.label}</div>
+                    <div className="mt-0.5 text-[10px] leading-tight text-text-muted">{stat.desc}</div>
+                  </div>
+                </div>
+              </div>
+            ))}
+          </motion.div>
+        </div>
+      </section>
+
       {/* ═══════ PRODUCT RANGE — 3×2 grid, one screen ═══════ */}
       <section className="bg-white py-[72px] lg:py-[96px]">
         <div className="max-w-7xl mx-auto px-4 sm:px-6">
@@ -259,7 +299,52 @@ export default function Home() {
           </motion.div>
 
           {/* Product Grid */}
-          <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-5">
+          <div className="overflow-x-auto pb-1 md:hidden [scrollbar-width:none] [-ms-overflow-style:none] [touch-action:pan-x]">
+            <div className="flex w-max gap-4 pr-4">
+              {products.map((product, i) => (
+                <motion.div
+                  key={product.id}
+                  initial={{ opacity: 0, y: 20 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true }}
+                  transition={{ duration: 0.5, delay: i * 0.06 }}
+                  className="w-[78vw] min-w-[272px] max-w-[332px]"
+                >
+                  <div className="group grid grid-cols-1 overflow-hidden border border-gray-200 bg-white transition-all duration-300 hover:border-brand-red/40 hover:shadow-md">
+                    <Link
+                      to={`/products?type=${product.id}`}
+                      aria-label={`View ${product.name}`}
+                      className="flex min-h-[148px] items-center justify-center overflow-hidden border-b border-gray-100 bg-surface p-3"
+                    >
+                      <img
+                        src={product.image}
+                        alt={product.name}
+                        className="block h-auto w-auto max-h-[108px] max-w-[92%] object-contain transition-transform duration-500 group-hover:scale-105"
+                      />
+                    </Link>
+                    <div className="flex min-w-0 flex-col justify-center p-4">
+                      <h3 className="text-base font-semibold text-text-primary transition-colors group-hover:text-brand-red">
+                        {product.name}
+                      </h3>
+                      <p className="mt-2 text-xs leading-relaxed text-text-muted">
+                        {product.size} &middot; {product.pressure}
+                      </p>
+                      <p className="mt-2 line-clamp-2 text-xs leading-relaxed text-text-secondary">
+                        {product.shortDesc}
+                      </p>
+                      <div className="mt-4">
+                        <Link to={`/products?type=${product.id}`} className="inline-block">
+                          <CardCTA>View</CardCTA>
+                        </Link>
+                      </div>
+                    </div>
+                  </div>
+                </motion.div>
+              ))}
+            </div>
+          </div>
+
+          <div className="hidden grid-cols-2 gap-5 md:grid xl:grid-cols-3">
             {products.map((product, i) => (
               <motion.div
                 key={product.id}
@@ -268,29 +353,29 @@ export default function Home() {
                 viewport={{ once: true }}
                 transition={{ duration: 0.5, delay: i * 0.06 }}
               >
-                <div className="group grid grid-cols-1 overflow-hidden border border-gray-200 bg-white transition-all duration-300 hover:border-brand-red/40 hover:shadow-md sm:grid-cols-[44%_1fr] sm:min-h-[190px]">
+                <div className="group grid grid-cols-1 overflow-hidden border border-gray-200 bg-white transition-all duration-300 hover:border-brand-red/40 hover:shadow-md md:grid-cols-[44%_1fr] md:min-h-[190px]">
                   <Link
                     to={`/products?type=${product.id}`}
                     aria-label={`View ${product.name}`}
-                    className="flex min-h-[190px] items-center justify-center overflow-hidden border-b border-gray-100 bg-surface p-4 sm:min-h-0 sm:border-b-0 sm:border-r"
+                    className="flex min-h-[120px] items-center justify-center overflow-hidden border-b border-gray-100 bg-surface p-3 md:min-h-0 md:border-b-0 md:border-r md:p-4"
                   >
                     <img
                       src={product.image}
                       alt={product.name}
-                      className="block h-auto w-auto max-h-[170px] max-w-[94%] object-contain group-hover:scale-105 transition-transform duration-500"
+                      className="block h-auto w-auto max-h-[96px] max-w-[92%] object-contain transition-transform duration-500 group-hover:scale-105 md:max-h-[170px] md:max-w-[94%]"
                     />
                   </Link>
-                  <div className="flex min-w-0 flex-col justify-center p-4 sm:p-4">
-                    <h3 className="text-base font-semibold text-text-primary transition-colors group-hover:text-brand-red sm:text-[15px]">
+                  <div className="flex min-w-0 flex-col justify-center p-3 md:p-4">
+                    <h3 className="text-sm font-semibold text-text-primary transition-colors group-hover:text-brand-red md:text-[15px]">
                       {product.name}
                     </h3>
-                    <p className="text-xs text-text-muted mt-2 leading-relaxed">
+                    <p className="mt-1.5 text-[11px] leading-relaxed text-text-muted md:mt-2 md:text-xs">
                       {product.size} &middot; {product.pressure}
                     </p>
-                    <p className="text-xs text-text-secondary mt-2 leading-relaxed line-clamp-2">
+                    <p className="mt-1.5 line-clamp-2 text-[11px] leading-relaxed text-text-secondary md:mt-2 md:text-xs">
                       {product.shortDesc}
                     </p>
-                    <div className="mt-4">
+                    <div className="mt-3 md:mt-4">
                       <Link to={`/products?type=${product.id}`} className="inline-block">
                         <CardCTA>View</CardCTA>
                       </Link>
@@ -357,10 +442,10 @@ export default function Home() {
         <div className="max-w-7xl mx-auto px-4 sm:px-6">
           <motion.div
             {...fadeInUp}
-            className="grid lg:grid-cols-2 gap-10 lg:gap-14 items-center"
+            className="grid items-center gap-8 lg:grid-cols-2 lg:gap-14"
           >
             {/* Left: Text */}
-            <div className="lg:pr-4">
+            <div className="order-2 lg:order-1 lg:pr-4">
               <span className="text-brand-red text-xs font-semibold tracking-[0.12em] uppercase">About Haiyue Valve</span>
               <h2 className="text-2xl lg:text-3xl font-semibold text-text-primary mt-3 leading-snug tracking-tight">
                 Zhejiang-based Industrial Valve Manufacturer
@@ -373,7 +458,7 @@ export default function Home() {
               </div>
             </div>
             {/* Right: Image */}
-            <div className="overflow-hidden" style={{ height: 420 }}>
+            <div className="order-1 mx-auto h-[220px] w-full max-w-[540px] overflow-hidden sm:h-[280px] lg:order-2 lg:h-[420px] lg:max-w-none">
               <img
                 src="/images/factory-cnc.jpg"
                 alt="Haiyue Valve manufacturing"
@@ -394,7 +479,37 @@ export default function Home() {
             </p>
           </motion.div>
 
-          <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-5">
+          <div
+            ref={whyCarouselRef}
+            onTouchStart={pauseWhyCarousel}
+            onTouchEnd={pauseWhyCarousel}
+            onPointerDown={pauseWhyCarousel}
+            onPointerUp={pauseWhyCarousel}
+            className="overflow-x-auto pb-1 sm:hidden [scrollbar-width:none] [-ms-overflow-style:none] [touch-action:pan-x]"
+          >
+            <div className="flex w-max gap-3 pr-4">
+              {[...whyCards, ...whyCards].map((card, i) => (
+                <motion.div
+                  key={`${card.title}-${i}`}
+                  initial={{ opacity: 0, y: 20 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true }}
+                  transition={{ duration: 0.5, delay: i * 0.04 }}
+                  className="flex w-[calc(50vw-22px)] min-w-[170px] max-w-[228px] flex-col border border-gray-200 bg-white p-4 transition-all duration-300 hover:border-brand-red/40"
+                >
+                  <card.icon className="mb-3 h-6 w-6 text-brand-red" strokeWidth={1.5} />
+                  <h3 className="mb-2 text-[14px] font-semibold leading-snug text-text-primary">
+                    {card.title}
+                  </h3>
+                  <p className="flex-1 text-[12px] leading-relaxed text-text-muted">
+                    {card.desc}
+                  </p>
+                </motion.div>
+              ))}
+            </div>
+          </div>
+
+          <div className="hidden gap-5 sm:grid sm:grid-cols-2 lg:grid-cols-4">
             {whyCards.map((card, i) => (
               <motion.div
                 key={card.title}
@@ -411,9 +526,6 @@ export default function Home() {
                 <p className="text-sm text-text-muted leading-relaxed flex-1">
                   {card.desc}
                 </p>
-                <div className="mt-4 pt-4 border-t border-gray-100">
-                  <CardCTA>Learn More</CardCTA>
-                </div>
               </motion.div>
             ))}
           </div>
@@ -435,7 +547,49 @@ export default function Home() {
             </div>
           </motion.div>
 
-          <div className="grid md:grid-cols-3 gap-5">
+          <div className="overflow-x-auto pb-1 md:hidden [scrollbar-width:none] [-ms-overflow-style:none] [touch-action:pan-x]">
+            <div className="flex w-max gap-4 pr-4">
+              {caseStudiesData.map((cs, i) => (
+                <motion.div
+                  key={cs.id}
+                  initial={{ opacity: 0, y: 20 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true }}
+                  transition={{ duration: 0.5, delay: i * 0.07 }}
+                  className="w-[84vw] min-w-[296px] max-w-[360px]"
+                >
+                  <Link to={`/cases/${cs.id}`} className="group block h-full border border-gray-200 bg-white transition-all duration-300 hover:border-brand-red/40 hover:shadow-md">
+                    <div className="h-[220px] overflow-hidden">
+                      <img
+                        src={cs.image}
+                        alt={cs.title}
+                        className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-105"
+                      />
+                    </div>
+                    <div className="flex flex-col p-5">
+                      <span className="text-brand-red text-[11px] font-semibold tracking-wider uppercase">{cs.industry}</span>
+                      <h3 className="mt-1.5 text-[15px] font-semibold leading-snug text-text-primary transition-colors group-hover:text-brand-red">
+                        {cs.title}
+                      </h3>
+                      <p className="mt-2 line-clamp-3 text-sm leading-relaxed text-text-muted">
+                        {cs.description}
+                      </p>
+                      <div className="mt-3 flex flex-wrap gap-1.5">
+                        {cs.products.map((p) => (
+                          <span key={p} className="bg-surface px-2 py-0.5 text-[11px] text-text-muted">{p}</span>
+                        ))}
+                      </div>
+                      <div className="mt-4 border-t border-gray-100 pt-3">
+                        <CardCTA>Read Case Study</CardCTA>
+                      </div>
+                    </div>
+                  </Link>
+                </motion.div>
+              ))}
+            </div>
+          </div>
+
+          <div className="hidden gap-5 md:grid md:grid-cols-3">
             {caseStudiesData.map((cs, i) => (
               <motion.div
                 key={cs.id}
@@ -445,7 +599,6 @@ export default function Home() {
                 transition={{ duration: 0.5, delay: i * 0.07 }}
               >
                 <Link to={`/cases/${cs.id}`} className="group block bg-white border border-gray-200 hover:border-brand-red/40 transition-all duration-300 hover:shadow-md h-full flex flex-col">
-                  {/* Image — fixed height */}
                   <div className="h-[240px] overflow-hidden flex-shrink-0">
                     <img
                       src={cs.image}
@@ -453,7 +606,6 @@ export default function Home() {
                       className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
                     />
                   </div>
-                  {/* Content */}
                   <div className="p-5 flex-1 flex flex-col">
                     <span className="text-brand-red text-[11px] font-semibold tracking-wider uppercase">{cs.industry}</span>
                     <h3 className="font-semibold text-text-primary text-[15px] mt-1.5 leading-snug group-hover:text-brand-red transition-colors">
@@ -495,7 +647,42 @@ export default function Home() {
             </div>
           </motion.div>
 
-          <div className="grid md:grid-cols-3 gap-5">
+          <div className="overflow-x-auto pb-1 md:hidden [scrollbar-width:none] [-ms-overflow-style:none] [touch-action:pan-x]">
+            <div className="flex w-max gap-4 pr-4">
+              {newsArticles.map((article, i) => (
+                <motion.article
+                  key={article.id}
+                  initial={{ opacity: 0, y: 20 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true }}
+                  transition={{ duration: 0.5, delay: i * 0.07 }}
+                  className="group w-[84vw] min-w-[296px] max-w-[360px]"
+                >
+                  <Link to="/resources" className="block h-full overflow-hidden border border-gray-200 bg-white transition-all duration-300 hover:-translate-y-1 hover:shadow-md">
+                    <div className="h-[220px] overflow-hidden">
+                      <img
+                        src={article.image}
+                        alt={article.title}
+                        className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-105"
+                      />
+                    </div>
+                    <div className="flex flex-col p-5">
+                      <span className="text-brand-red text-[11px] font-semibold tracking-wider uppercase">{article.category}</span>
+                      <h4 className="mt-1.5 line-clamp-2 text-[15px] font-semibold leading-snug text-text-primary transition-colors group-hover:text-brand-red">
+                        {article.title}
+                      </h4>
+                      <p className="mt-2 text-xs text-text-muted">{article.date}</p>
+                      <div className="mt-4">
+                        <CardCTA>Read More</CardCTA>
+                      </div>
+                    </div>
+                  </Link>
+                </motion.article>
+              ))}
+            </div>
+          </div>
+
+          <div className="hidden gap-5 md:grid md:grid-cols-3">
             {newsArticles.map((article, i) => (
               <motion.article
                 key={article.id}
