@@ -63,6 +63,18 @@ export default function Header() {
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
+  useEffect(() => {
+    setMobileMenuOpen(false);
+    setActiveDropdown(null);
+  }, [location.pathname, location.search]);
+
+  useEffect(() => {
+    document.body.style.overflow = mobileMenuOpen ? 'hidden' : '';
+    return () => {
+      document.body.style.overflow = '';
+    };
+  }, [mobileMenuOpen]);
+
   const handleSearch = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     const query = searchQuery.trim();
@@ -79,15 +91,14 @@ export default function Header() {
             ? 'bg-white/95 backdrop-blur-md shadow-sm border-gray-200'
             : 'bg-white border-gray-100'
         } ${hidden ? '-translate-y-full' : 'translate-y-0'}`}
-        style={{ height: 80 }}
       >
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 h-full flex items-center justify-between gap-4">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 h-[72px] sm:h-20 flex items-center justify-between gap-3 sm:gap-4">
           {/* Logo */}
-          <Link to="/" className="flex-shrink-0 flex items-center gap-2.5">
+          <Link to="/" className="flex min-w-0 flex-shrink items-center gap-2.5">
             <img
               src={company.logo || '/images/logo-haiyue-lockup.png'}
               alt={company.logoAlt || company.brand}
-              className="h-12 sm:h-14 w-auto"
+              className="h-10 w-auto sm:h-14"
             />
           </Link>
 
@@ -138,7 +149,7 @@ export default function Header() {
           </nav>
 
           {/* Right: Search + CTA */}
-          <div className="flex items-center gap-3">
+          <div className="flex items-center gap-2 sm:gap-3">
             {/* Search Input */}
             <form onSubmit={handleSearch} className="hidden md:flex items-center relative">
               <Search className="absolute left-3 w-4 h-4 text-text-muted pointer-events-none" />
@@ -153,12 +164,12 @@ export default function Header() {
 
             <Link
               to={requestQuoteHref}
-              className="hidden sm:inline-flex items-center gap-1.5 h-[48px] px-6 bg-brand-red text-white text-sm font-semibold hover:bg-dark-red transition-colors whitespace-nowrap"
+              className="hidden sm:inline-flex items-center gap-1.5 h-[48px] px-5 lg:px-6 bg-brand-red text-white text-sm font-semibold hover:bg-dark-red transition-colors whitespace-nowrap"
             >
               Request a Quote
             </Link>
             <button
-              className="lg:hidden p-2 text-text-primary"
+              className="lg:hidden inline-flex h-11 w-11 items-center justify-center text-text-primary"
               onClick={() => setMobileMenuOpen(true)}
               aria-label="Menu"
             >
@@ -184,7 +195,7 @@ export default function Header() {
               animate={{ x: 0 }}
               exit={{ x: '100%' }}
               transition={{ type: 'tween', duration: 0.25 }}
-              className="fixed top-0 right-0 bottom-0 w-80 max-w-full bg-white z-50 lg:hidden overflow-y-auto"
+              className="fixed inset-y-0 right-0 z-50 flex w-full max-w-sm flex-col bg-white lg:hidden"
             >
               <div className="flex items-center justify-between p-4 border-b border-gray-100">
                 <span className="font-semibold text-text-primary">Menu</span>
@@ -192,8 +203,8 @@ export default function Header() {
                   <X className="w-5 h-5" />
                 </button>
               </div>
-              <nav className="p-4">
-                <form onSubmit={handleSearch} className="flex items-center gap-2 mb-4 px-3 py-2 border border-gray-200 bg-surface">
+              <nav className="flex-1 overflow-y-auto p-4">
+                <form onSubmit={handleSearch} className="mb-4 flex items-center gap-2 border border-gray-200 bg-surface px-3 py-3">
                   <Search className="w-4 h-4 text-text-muted" />
                   <input
                     type="text"
@@ -207,13 +218,13 @@ export default function Header() {
                   <div key={item.label} className="border-b border-gray-100 last:border-0">
                     <Link
                       to={item.href}
-                      className="block py-3 text-text-primary font-medium hover:text-brand-red"
+                      className="block py-4 text-base text-text-primary font-medium hover:text-brand-red"
                       onClick={() => !item.children?.length && setMobileMenuOpen(false)}
                     >
                       {item.label}
                     </Link>
                     {item.children?.length ? (
-                      <div className="pl-4 pb-2">
+                      <div className="pl-4 pb-3">
                         {item.children.map((sub) => (
                           <Link
                             key={sub.label}
@@ -230,7 +241,7 @@ export default function Header() {
                 ))}
                 <Link
                   to={requestQuoteHref}
-                  className="mt-4 block w-full text-center h-12 bg-brand-red text-white font-semibold text-sm leading-[48px] hover:bg-dark-red"
+                  className="mt-5 inline-flex h-12 w-full items-center justify-center bg-brand-red text-center text-sm font-semibold text-white hover:bg-dark-red"
                   onClick={() => setMobileMenuOpen(false)}
                 >
                   Request a Quote

@@ -96,7 +96,7 @@ export default function Contact() {
   };
 
   return (
-    <div className="pt-[80px]">
+    <div className="pt-[72px] sm:pt-[80px]">
       <PageHero {...pageHeroes.contact} />
 
       {/* ═══════ MAIN CONTACT SECTION ═══════ */}
@@ -105,7 +105,7 @@ export default function Contact() {
           <div className="flex flex-col lg:flex-row gap-8">
             {/* Left: Form */}
             <div className="lg:w-[55%]">
-              <div className="bg-white border border-gray-200 p-6 lg:p-8">
+              <div className="bg-white border border-gray-200 p-4 sm:p-6 lg:p-8">
                 <h2 className="text-lg font-bold text-text-primary mb-1">Send Us a Message</h2>
                 <p className="text-sm text-text-muted mb-6">
                   Fill out the form below and our team will get back to you as soon as possible.
@@ -136,7 +136,7 @@ export default function Contact() {
                     <button
                       type="submit"
                       disabled={submitting}
-                      className="inline-flex items-center gap-2 h-[40px] px-6 bg-brand-red text-white text-sm font-semibold hover:bg-dark-red transition-colors"
+                      className="inline-flex h-11 w-full items-center justify-center gap-2 bg-brand-red px-6 text-sm font-semibold text-white transition-colors hover:bg-dark-red sm:h-10 sm:w-auto"
                     >
                       {submitting ? 'Sending...' : 'Send Message'} <ArrowRight className="w-4 h-4" />
                     </button>
@@ -151,12 +151,12 @@ export default function Contact() {
             <div className="lg:w-[45%] space-y-4">
               <h2 className="text-lg font-bold text-text-primary mb-2">Company Information</h2>
               {contactInfo.map((item) => (
-                <div key={item.title} className="bg-white border border-gray-200 p-5">
+                <div key={item.title} className="bg-white border border-gray-200 p-4 sm:p-5">
                   <div className="flex items-start gap-3">
                     <div className="flex-shrink-0 mt-0.5">{item.icon}</div>
                     <div>
                       <h4 className="font-semibold text-text-primary text-sm mb-1">{item.title}</h4>
-                      <p className="text-sm text-text-secondary">{item.content}</p>
+                      <p className="text-sm text-text-secondary break-words">{item.content}</p>
                       {item.sub && <p className="text-xs text-text-muted mt-0.5">{item.sub}</p>}
                     </div>
                   </div>
@@ -170,7 +170,7 @@ export default function Contact() {
       {/* ═══════ CONTACT PURPOSE CARDS ═══════ */}
       <section className="bg-white py-10 lg:py-14">
         <div className="max-w-7xl mx-auto px-4 sm:px-6">
-          <div className="grid md:grid-cols-3 gap-5">
+          <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
             {purposeCards.map((card) => (
               <Link
                 key={card.title}
@@ -190,8 +190,8 @@ export default function Contact() {
       {/* ═══════ BOTTOM RFQ CTA ═══════ */}
       <section className="bg-gray-50 py-8">
         <div className="max-w-7xl mx-auto px-4 sm:px-6">
-          <div className="flex flex-col sm:flex-row items-center justify-between gap-4 bg-white border border-gray-200 p-6">
-            <div className="flex items-center gap-4">
+          <div className="flex flex-col items-start justify-between gap-4 border border-gray-200 bg-white p-5 sm:flex-row sm:items-center sm:p-6">
+            <div className="flex items-start gap-4">
               <svg className="w-10 h-10 text-brand-red flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
                 <path strokeLinecap="round" strokeLinejoin="round" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
               </svg>
@@ -200,7 +200,7 @@ export default function Contact() {
                 <p className="text-sm text-text-secondary">Customers with detailed specifications can submit an RFQ to get a faster and more accurate quote.</p>
               </div>
             </div>
-            <CTAButton to="/request-quote">Request a Quote</CTAButton>
+            <CTAButton to="/request-quote" className="sm:flex-shrink-0">Request a Quote</CTAButton>
           </div>
         </div>
       </section>

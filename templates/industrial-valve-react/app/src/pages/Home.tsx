@@ -81,7 +81,7 @@ function SectionCTA({ to, children }: { to: string; children: React.ReactNode })
   return (
     <Link
       to={to}
-      className="inline-flex items-center gap-2 h-[48px] px-7 bg-brand-red text-white text-sm font-semibold hover:bg-dark-red transition-colors"
+      className="inline-flex h-[48px] w-full items-center justify-center gap-2 bg-brand-red px-7 text-sm font-semibold text-white transition-colors hover:bg-dark-red sm:w-auto"
     >
       {children} <ArrowRight className="w-4 h-4" />
     </Link>
@@ -156,7 +156,7 @@ export default function Home() {
     <div>
 
       {/* ═══════ HERO: true full-screen ═══════ */}
-      <section className="relative overflow-hidden" style={{ height: 'calc(100dvh - 80px)', minHeight: 560 }}>
+      <section className="relative overflow-hidden min-h-[640px] md:min-h-[560px] md:h-[calc(100dvh-80px)]">
         {/* Background */}
         <div className="absolute inset-0">
           <img src="/images/hero-factory.png" alt="Haiyue Valve factory" className="w-full h-full object-cover" />
@@ -171,19 +171,19 @@ export default function Home() {
                 initial={{ opacity: 0, y: 30 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.8 }}
-                className="max-w-[58rem]"
+                className="max-w-[58rem] py-10 sm:py-0"
               >
                 <h1 className="max-w-[14ch] text-3xl font-bold leading-[1.04] tracking-tight text-white sm:text-[3rem] lg:text-[3.7rem]">
                   Industrial Valve Manufacturer & Export Partner
                 </h1>
-                <p className="text-white/70 text-base sm:text-lg mt-5 max-w-lg leading-relaxed">
+                <p className="mt-4 max-w-[32rem] text-sm leading-relaxed text-white/75 sm:mt-5 sm:text-lg">
                   Ball, gate, globe, butterfly, check valves and strainers for water treatment, chemical, oil & gas, and HVAC applications.
                 </p>
-                <div className="flex flex-wrap gap-3 mt-7">
-                  <Link to="/request-quote?source=home-hero" className="inline-flex items-center gap-2 h-[50px] px-8 bg-brand-red text-white font-semibold text-sm hover:bg-dark-red transition-colors whitespace-nowrap">
+                <div className="mt-6 flex flex-col gap-3 sm:mt-7 sm:flex-row sm:flex-wrap">
+                  <Link to="/request-quote?source=home-hero" className="inline-flex h-[50px] w-full items-center justify-center gap-2 bg-brand-red px-8 text-sm font-semibold text-white transition-colors hover:bg-dark-red sm:w-auto whitespace-nowrap">
                     Request a Quote <ArrowRight className="w-4 h-4" />
                   </Link>
-                  <Link to="/resources#downloads" className="inline-flex items-center gap-2 h-[50px] px-8 border border-white/40 text-white font-medium text-sm hover:bg-white/10 transition-colors whitespace-nowrap">
+                  <Link to="/resources#downloads" className="inline-flex h-[50px] w-full items-center justify-center gap-2 border border-white/40 px-8 text-sm font-medium text-white transition-colors hover:bg-white/10 sm:w-auto whitespace-nowrap">
                     Download Catalog
                   </Link>
                 </div>
@@ -191,9 +191,28 @@ export default function Home() {
             </div>
           </div>
 
-          {/* ═══════ Info Bar — centered, 84% width, heavy stats ═══════ */}
-          <div className="flex justify-center pb-6 px-4">
-            <div className="w-full sm:w-[84%] max-w-6xl bg-white shadow-lg">
+          {/* ═══════ Info Bar — compact on mobile, original scale on desktop ═══════ */}
+          <div className="px-4 pb-5 sm:hidden">
+            <div className="mx-auto flex max-w-md gap-3 overflow-x-auto pb-1" style={{ scrollbarWidth: 'none' }}>
+              {heroStats.map((stat) => (
+                <div
+                  key={stat.label}
+                  className="min-w-[158px] flex-1 border border-white/15 bg-white/96 px-3 py-3 shadow-lg backdrop-blur"
+                >
+                  <div className="flex items-start gap-2.5">
+                    <stat.icon className="h-5 w-5 flex-shrink-0 text-brand-red" strokeWidth={1.7} />
+                    <div className="min-w-0">
+                      <div className="text-lg font-bold leading-none text-text-primary">{stat.value}</div>
+                      <div className="mt-1 text-[11px] font-semibold leading-tight text-text-secondary">{stat.label}</div>
+                      <div className="mt-0.5 text-[10px] leading-tight text-text-muted">{stat.desc}</div>
+                    </div>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+          <div className="hidden justify-center px-4 pb-6 sm:flex">
+            <div className="w-full max-w-6xl bg-white shadow-lg sm:w-[84%]">
               <div className="grid grid-cols-2 sm:flex sm:overflow-x-auto" style={{ scrollbarWidth: 'none' }}>
                 {heroStats.map((stat, i) => (
                   <div
@@ -249,11 +268,11 @@ export default function Home() {
                 viewport={{ once: true }}
                 transition={{ duration: 0.5, delay: i * 0.06 }}
               >
-                <div className="group grid grid-cols-[44%_1fr] min-h-[190px] bg-white border border-gray-200 hover:border-brand-red/40 transition-all duration-300 hover:shadow-md overflow-hidden">
+                <div className="group grid grid-cols-1 overflow-hidden border border-gray-200 bg-white transition-all duration-300 hover:border-brand-red/40 hover:shadow-md sm:grid-cols-[44%_1fr] sm:min-h-[190px]">
                   <Link
                     to={`/products?type=${product.id}`}
                     aria-label={`View ${product.name}`}
-                    className="bg-surface flex items-center justify-center p-4 border-r border-gray-100 overflow-hidden"
+                    className="flex min-h-[190px] items-center justify-center overflow-hidden border-b border-gray-100 bg-surface p-4 sm:min-h-0 sm:border-b-0 sm:border-r"
                   >
                     <img
                       src={product.image}
@@ -261,8 +280,8 @@ export default function Home() {
                       className="block h-auto w-auto max-h-[170px] max-w-[94%] object-contain group-hover:scale-105 transition-transform duration-500"
                     />
                   </Link>
-                  <div className="p-4 flex min-w-0 flex-col justify-center">
-                    <h3 className="font-semibold text-text-primary text-[15px] group-hover:text-brand-red transition-colors">
+                  <div className="flex min-w-0 flex-col justify-center p-4 sm:p-4">
+                    <h3 className="text-base font-semibold text-text-primary transition-colors group-hover:text-brand-red sm:text-[15px]">
                       {product.name}
                     </h3>
                     <p className="text-xs text-text-muted mt-2 leading-relaxed">
@@ -271,7 +290,7 @@ export default function Home() {
                     <p className="text-xs text-text-secondary mt-2 leading-relaxed line-clamp-2">
                       {product.shortDesc}
                     </p>
-                    <div className="mt-3">
+                    <div className="mt-4">
                       <Link to={`/products?type=${product.id}`} className="inline-block">
                         <CardCTA>View</CardCTA>
                       </Link>

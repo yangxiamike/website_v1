@@ -40,14 +40,14 @@ export default function Footer() {
     <footer className="bg-surface-dark text-white">
       {/* Main Footer */}
       <div className="max-w-7xl mx-auto px-4 sm:px-6 py-14">
-        <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-10 lg:gap-8">
+        <div className="grid grid-cols-1 gap-10 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 lg:gap-8">
           {/* Brand Column */}
-          <div className="col-span-2 md:col-span-3 lg:col-span-1">
+          <div className="sm:col-span-2 md:col-span-3 lg:col-span-1">
             <Link to="/" className="inline-flex mb-4">
               <img
                 src={company.logo || '/images/logo-haiyue-lockup.png'}
                 alt={company.logoAlt || company.brand}
-                className="h-20 w-auto"
+                className="h-14 w-auto sm:h-20"
               />
             </Link>
             <p className="text-gray-400 text-sm leading-relaxed max-w-xs">
@@ -115,11 +115,11 @@ export default function Footer() {
               </li>
               <li className="flex items-start gap-3">
                 <Mail className="w-4 h-4 text-brand-red mt-0.5 flex-shrink-0" />
-                <span className="text-gray-400 text-sm">{company.email}</span>
+                <span className="text-gray-400 text-sm break-all">{company.email}</span>
               </li>
               <li className="flex items-start gap-3">
                 <MapPin className="w-4 h-4 text-brand-red mt-0.5 flex-shrink-0" />
-                <span className="text-gray-400 text-sm">{company.address || company.location || '-'}</span>
+                <span className="text-gray-400 text-sm break-words">{company.address || company.location || '-'}</span>
               </li>
             </ul>
           </div>
@@ -128,11 +128,11 @@ export default function Footer() {
 
       {/* Bottom Bar */}
       <div className="border-t border-white/10">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 py-4 flex flex-col sm:flex-row items-center justify-between gap-2">
-          <p className="text-gray-500 text-xs">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 py-4 flex flex-col items-start justify-between gap-3 sm:flex-row sm:items-center">
+          <p className="text-gray-500 text-xs leading-relaxed">
             &copy; {copyrightStart}{new Date().getFullYear()} {company.nameEn}. Sample website content for valve selection reference.
           </p>
-          <div className="flex items-center gap-4 text-xs text-gray-500">
+          <div className="flex flex-wrap items-center gap-3 text-xs text-gray-500">
             <Link to="/contact?topic=Privacy%20Policy" className="hover:text-white transition-colors">Privacy Policy</Link>
             <span>|</span>
             <Link to="/contact?topic=Terms%20of%20Use" className="hover:text-white transition-colors">Terms of Use</Link>

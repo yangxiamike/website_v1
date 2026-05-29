@@ -100,7 +100,7 @@ export default function RequestQuote() {
   };
 
   return (
-    <div className="pt-[80px]">
+    <div className="pt-[72px] sm:pt-[80px]">
       <PageHero {...pageHeroes.requestQuote} />
 
       {/* ═══════ TRUST POINTS ═══════ */}
@@ -144,7 +144,7 @@ export default function RequestQuote() {
           <div className="flex flex-col lg:flex-row gap-8">
             {/* LEFT: Form */}
             <div className="lg:w-[70%]">
-              <form onSubmit={handleSubmit} className="bg-white border border-gray-200 p-6 lg:p-8">
+              <form onSubmit={handleSubmit} className="bg-white border border-gray-200 p-4 sm:p-6 lg:p-8">
                 {sourceLabel && (
                   <div className="mb-6 border border-brand-red/20 bg-brand-red/5 px-4 py-3">
                     <p className="text-xs font-semibold uppercase tracking-wider text-brand-red">Request context</p>
@@ -156,7 +156,7 @@ export default function RequestQuote() {
                 {/* 1. Contact Information */}
                 <div className="mb-8">
                   <h3 className="font-bold text-text-primary text-lg mb-5">1. Contact Information</h3>
-                  <div className="grid sm:grid-cols-3 gap-4">
+                  <div className="grid gap-4 md:grid-cols-2 xl:grid-cols-3">
                     <div>
                       <FormLabel required>Full Name</FormLabel>
                       <TextInput name="full_name" placeholder="Your full name" required />
@@ -187,7 +187,7 @@ export default function RequestQuote() {
                 {/* 2. Product Requirement */}
                 <div className="mb-8 pt-6 border-t border-gray-100">
                   <h3 className="font-bold text-text-primary text-lg mb-5">2. Product Requirement</h3>
-                  <div className="grid sm:grid-cols-3 gap-4">
+                  <div className="grid gap-4 md:grid-cols-2 xl:grid-cols-3">
                     <div>
                       <FormLabel required>Product Type</FormLabel>
                       <SelectInput name="product_type" placeholder="Select product type" required options={productTypes} defaultValue={sourceProduct?.category} />
@@ -216,7 +216,7 @@ export default function RequestQuote() {
                       <FormLabel>Valve Standard</FormLabel>
                       <TextInput name="valve_standard" placeholder="Example: API 600, GB/T 12237" />
                     </div>
-                    <div className="sm:col-span-2">
+                    <div className="md:col-span-2 xl:col-span-2">
                       <FormLabel>Actuation (Optional)</FormLabel>
                       <TextInput name="actuation" placeholder="Manual / Gear / Electric / Pneumatic" />
                     </div>
@@ -226,7 +226,7 @@ export default function RequestQuote() {
                 {/* 3. Working Condition */}
                 <div className="mb-8 pt-6 border-t border-gray-100">
                   <h3 className="font-bold text-text-primary text-lg mb-5">3. Working Condition</h3>
-                  <div className="grid sm:grid-cols-3 gap-4">
+                  <div className="grid gap-4 md:grid-cols-2 xl:grid-cols-3">
                     <div>
                       <FormLabel required>Medium / Fluid</FormLabel>
                       <TextInput name="medium" placeholder="e.g. Water, Steam, Oil, Gas" required />
@@ -257,7 +257,7 @@ export default function RequestQuote() {
                 {/* 4. Project Information */}
                 <div className="mb-8 pt-6 border-t border-gray-100">
                   <h3 className="font-bold text-text-primary text-lg mb-5">4. Project Information</h3>
-                  <div className="grid sm:grid-cols-3 gap-4">
+                  <div className="grid gap-4 md:grid-cols-2 xl:grid-cols-3">
                     <div>
                       <FormLabel>Project Name</FormLabel>
                       <TextInput name="project_name" placeholder="e.g. Project name" />
@@ -284,11 +284,11 @@ export default function RequestQuote() {
                         <input name="attachment" type="file" id="file-upload" accept=".pdf,.dwg,.jpg,.jpeg,application/pdf,image/jpeg" className="hidden" onChange={(event) => setFileName(event.target.files?.[0]?.name || 'No file chosen')} />
                         <label
                           htmlFor="file-upload"
-                          className="w-full h-10 px-3 text-sm border border-gray-200 bg-white flex items-center gap-2 cursor-pointer hover:border-brand-red transition-colors text-text-secondary"
+                          className="flex min-h-[44px] w-full items-center gap-2 border border-gray-200 bg-white px-3 py-3 text-sm text-text-secondary transition-colors hover:border-brand-red cursor-pointer sm:min-h-[40px] sm:py-2"
                         >
                           <Upload className="w-4 h-4" />
                           Choose file
-                          <span className="text-text-muted ml-1 truncate">{fileName}</span>
+                          <span className="ml-1 min-w-0 truncate text-text-muted">{fileName}</span>
                         </label>
                       </div>
                       <p className="text-[11px] text-text-muted mt-1">DWG, PDF, JPG up to 20MB</p>
@@ -301,14 +301,14 @@ export default function RequestQuote() {
                 </div>
 
                 {/* Submit */}
-                <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 pt-6 border-t border-gray-100">
-                  <div>
+                <div className="flex flex-col items-stretch justify-between gap-4 border-t border-gray-100 pt-6 sm:flex-row sm:items-center">
+                  <div className="w-full sm:w-auto">
                     {error && <p className="text-xs text-brand-red mb-3">{error}</p>}
-                    <button type="submit" disabled={submitting} className="inline-flex items-center gap-2 h-[48px] px-8 bg-brand-red text-white text-sm font-semibold hover:bg-dark-red transition-colors disabled:opacity-70 whitespace-nowrap">
+                    <button type="submit" disabled={submitting} className="inline-flex h-[48px] w-full items-center justify-center gap-2 bg-brand-red px-8 text-sm font-semibold text-white transition-colors hover:bg-dark-red disabled:opacity-70 whitespace-nowrap sm:w-auto">
                       {submitting ? 'Submitting...' : 'Submit RFQ'} <ArrowRight className="w-4 h-4" />
                     </button>
                   </div>
-                  <p className="text-xs text-text-muted flex items-center gap-1.5">
+                  <p className="flex max-w-md items-start gap-1.5 text-left text-xs text-text-muted">
                     <svg className="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
                       <path strokeLinecap="round" strokeLinejoin="round" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" />
                     </svg>
@@ -321,7 +321,7 @@ export default function RequestQuote() {
             {/* RIGHT: Sidebar */}
             <div className="lg:w-[30%] space-y-6">
               {/* What to Prepare */}
-              <div className="bg-white border border-gray-200 p-6">
+              <div className="bg-white border border-gray-200 p-5 sm:p-6">
                 <h4 className="font-semibold text-text-primary text-base mb-4">What to Prepare</h4>
                 <p className="text-sm text-text-muted mb-4">The more details you provide, the faster we can confirm and quote.</p>
                 <ul className="space-y-2.5">
@@ -335,7 +335,7 @@ export default function RequestQuote() {
               </div>
 
               {/* Quick Contact */}
-              <div className="bg-white border border-gray-200 p-6">
+              <div className="bg-white border border-gray-200 p-5 sm:p-6">
                 <h4 className="font-semibold text-text-primary text-base mb-4">Quick Contact</h4>
                 <ul className="space-y-4">
                   <li className="flex items-start gap-3">
@@ -370,7 +370,7 @@ export default function RequestQuote() {
               </div>
 
               {/* Engineering Support */}
-              <div className="bg-white border border-gray-200 p-6">
+              <div className="bg-white border border-gray-200 p-5 sm:p-6">
                 <h4 className="font-semibold text-text-primary text-base mb-4">Engineering Support</h4>
                 <div className="overflow-hidden mb-4">
                   <img src="/images/engineering-support.jpg" alt="Engineering Support" className="w-full h-36 object-cover" />
@@ -394,8 +394,8 @@ export default function RequestQuote() {
           </div>
 
           {/* ═══════ BOTTOM HELPER SECTIONS ═══════ */}
-          <div className="grid md:grid-cols-2 gap-6 mt-8">
-            <div className="bg-white border border-gray-200 p-6 flex items-start gap-4">
+          <div className="grid gap-6 mt-8 md:grid-cols-2">
+            <div className="flex items-start gap-4 border border-gray-200 bg-white p-5 sm:p-6">
               <Upload className="w-8 h-8 text-brand-red flex-shrink-0" />
               <div>
                 <h4 className="font-semibold text-text-primary text-sm mb-1">Upload Drawings or Technical Files</h4>
@@ -403,12 +403,12 @@ export default function RequestQuote() {
                   Have detailed drawings or P&IDs? Upload them with your request or email directly to{' '}
                   <a href="mailto:sales@haiyuevalve.com" className="text-brand-red hover:underline">our team</a>.
                 </p>
-                <button type="button" onClick={() => document.getElementById('file-upload')?.click()} className="mt-3 inline-flex items-center gap-2 h-9 px-4 border border-gray-200 text-sm text-text-secondary hover:border-brand-red hover:text-brand-red transition-colors">
+                <button type="button" onClick={() => document.getElementById('file-upload')?.click()} className="mt-3 inline-flex h-10 w-full items-center justify-center gap-2 border border-gray-200 px-4 text-sm text-text-secondary transition-colors hover:border-brand-red hover:text-brand-red sm:w-auto sm:h-9">
                   <Upload className="w-4 h-4" /> Upload Files
                 </button>
               </div>
             </div>
-            <div className="relative bg-white border border-gray-200 p-6 flex items-start gap-4">
+            <div className="relative flex items-start gap-4 border border-gray-200 bg-white p-5 sm:p-6">
               <div className="absolute left-0 top-1/2 -translate-x-1/2 -translate-y-1/2 hidden md:block">
                 <div className="w-8 h-8 rounded-full bg-gray-100 border border-gray-200 flex items-center justify-center text-xs text-text-muted font-medium">OR</div>
               </div>
@@ -420,7 +420,7 @@ export default function RequestQuote() {
                 </p>
                 <Link
                   to="/contact"
-                  className="mt-3 inline-flex items-center gap-2 h-9 px-4 border border-gray-200 text-sm text-text-secondary hover:border-brand-red hover:text-brand-red transition-colors"
+                  className="mt-3 inline-flex h-10 w-full items-center justify-center gap-2 border border-gray-200 px-4 text-sm text-text-secondary transition-colors hover:border-brand-red hover:text-brand-red sm:w-auto sm:h-9"
                 >
                   Contact Engineering
                 </Link>
@@ -433,8 +433,8 @@ export default function RequestQuote() {
       {/* ═══════ BOTTOM CTA ═══════ */}
       <section className="bg-brand-red">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 py-8">
-          <div className="flex flex-col sm:flex-row items-center justify-between gap-4">
-            <div className="flex items-center gap-4">
+          <div className="flex flex-col items-start justify-between gap-4 sm:flex-row sm:items-center">
+            <div className="flex items-start gap-4">
               <svg className="w-10 h-10 text-white/90 flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
                 <path strokeLinecap="round" strokeLinejoin="round" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" />
               </svg>
@@ -445,7 +445,7 @@ export default function RequestQuote() {
             </div>
             <Link
               to="/request-quote"
-              className="inline-flex items-center gap-2 h-[48px] px-7 bg-white text-brand-red text-sm font-semibold hover:bg-gray-100 transition-colors flex-shrink-0"
+              className="inline-flex h-[48px] w-full items-center justify-center gap-2 bg-white px-7 text-sm font-semibold text-brand-red transition-colors hover:bg-gray-100 sm:w-auto flex-shrink-0"
             >
               Request a Quote <ArrowRight className="w-4 h-4" />
             </Link>

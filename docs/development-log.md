@@ -1,5 +1,14 @@
 # 项目开发日志
 
+## 2026-05-29 - Landing Page Mobile Hotfix
+
+1. 已保存计划：`docs/plans/2026-05-29-mobile-hotfix-plan.md`。
+2. 调整 `templates/industrial-valve-react/app/src/components/Header.tsx`，收紧移动端 header 高度、logo 尺寸、菜单抽屉宽度，并补上打开菜单时锁定页面滚动。
+3. 调整 `templates/industrial-valve-react/app/src/pages/Home.tsx`，压缩 hero 首屏按钮与 info bar 的移动端体量，并修正首页产品卡片的小屏单列表现。
+4. 调整 `templates/industrial-valve-react/app/src/pages/RequestQuote.tsx`、`templates/industrial-valve-react/app/src/pages/Contact.tsx`，优化表单栅格、上传区、提交按钮和底部 CTA 在手机宽度下的可填写性。
+5. 调整 `templates/industrial-valve-react/app/src/components/Footer.tsx`、`templates/industrial-valve-react/app/src/components/CTABanner.tsx`、`templates/industrial-valve-react/app/src/components/common.tsx`，统一移动端 CTA 宽度、页头高度与 footer 换行策略。
+6. 验证：`templates/industrial-valve-react/app/` 下执行 `npm run build` 通过。
+
 ## 2026-05-29 - Demo 站点分层与默认运行入口澄清
 
 1. 已保存计划：`docs/plans/2026-05-29-demo-mode-separation-plan.md`。

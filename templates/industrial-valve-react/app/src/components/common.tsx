@@ -31,7 +31,7 @@ export function CTAButton({
   return (
     <Link
       to={to}
-      className={`inline-flex items-center justify-center gap-2 font-semibold transition-colors whitespace-nowrap flex-shrink-0 ${sizes[size]} ${styles[variant]} ${className}`}
+      className={`inline-flex w-full items-center justify-center gap-2 font-semibold transition-colors whitespace-nowrap sm:w-auto flex-shrink-0 ${sizes[size]} ${styles[variant]} ${className}`}
     >
       {children} <ArrowRight className="w-4 h-4" />
     </Link>
@@ -49,17 +49,17 @@ type PageHeroProps = {
 
 export function PageHero({ title, description, image, ctas, className = '' }: PageHeroProps) {
   return (
-    <section className={`relative h-[420px] overflow-hidden ${className}`}>
+    <section className={`relative min-h-[320px] overflow-hidden sm:h-[420px] ${className}`}>
       <div className="absolute inset-0">
         <img src={image} alt="" className="h-full w-full object-cover brightness-[0.58]" />
         <div className="absolute inset-0 bg-gradient-to-r from-black/86 via-black/68 to-black/34" />
         <div className="absolute inset-y-0 left-0 w-full bg-gradient-to-r from-black/42 via-black/16 to-transparent sm:w-[72%]" />
       </div>
-      <div className="relative z-10 flex h-full flex-col justify-center ds-container py-12">
+      <div className="relative z-10 flex h-full flex-col justify-center ds-container py-10 sm:py-12">
         <div className="max-w-2xl">
           <h1 className="ds-page-title max-w-2xl font-bold text-white">{title}</h1>
-          <p className="mt-4 max-w-xl text-sm font-medium leading-relaxed text-white sm:text-base">{description}</p>
-          {ctas && <div className="flex flex-wrap gap-3 mt-7">{ctas}</div>}
+          <p className="mt-3 max-w-xl text-sm font-medium leading-relaxed text-white sm:mt-4 sm:text-base">{description}</p>
+          {ctas && <div className="mt-6 flex flex-wrap gap-3 sm:mt-7">{ctas}</div>}
         </div>
       </div>
     </section>
@@ -135,7 +135,7 @@ export function TextInput({
       placeholder={placeholder}
       required={required}
       defaultValue={defaultValue}
-      className="ds-input h-10 px-3"
+      className="ds-input h-11 px-3 sm:h-10"
     />
   );
 }
@@ -155,7 +155,7 @@ export function SelectInput({
 }) {
   return (
     <div className="relative">
-      <select name={name} required={required} defaultValue={defaultValue} className="ds-input h-10 px-3 appearance-none cursor-pointer text-text-secondary">
+      <select name={name} required={required} defaultValue={defaultValue} className="ds-input h-11 px-3 appearance-none cursor-pointer text-text-secondary sm:h-10">
         <option value="">{placeholder}</option>
         {options.map((option) => (
           <option key={option} value={option}>{option}</option>
