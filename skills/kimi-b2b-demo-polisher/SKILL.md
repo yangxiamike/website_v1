@@ -63,6 +63,9 @@ Apply changes in this order unless the repo clearly demands another order.
    - Add route-aware SEO, favicon, robots, sitemap, canonical/OG metadata, direct route handling, and no-surprise 404/thank-you pages.
    - Improve mobile layout, card spacing, logo sizing, hero consistency, and image alt text where it affects comprehension.
    - After any meaningful mobile pass, do one more system pass for design-token consistency, shared-component consolidation, screenshot-matrix QA, and template-vs-generated layer alignment.
+   - On mobile, use horizontal rails for product cards, case cards, resource cards, certificates, and other browseable card groups that would feel crowded or repetitive in a stacked list.
+   - Use marquee only for compact repeating highlight modules such as stat bars, result chips, or short support/value items; do not use marquee for dense reading content.
+   - Use timeline or step-sequence layouts for milestones, journey sections, process flows, and other content that is meant to be read in order, instead of flattening them into generic cards or grids.
 
 ## B2B Demo Quality Gates
 
@@ -76,6 +79,7 @@ Use the reference checklist for full details. These gates must pass before hando
 - Mobile pages have no horizontal overflow or clipped important text.
 - After mobile fixes, spacing, radius, typography, color, shadows, and interaction states are re-checked against the active design tokens so one-off overrides do not accumulate.
 - After mobile fixes, repeated adjustments that now appear across multiple pages are folded back into the appropriate shared component or data pattern instead of staying as page-level patches.
+- Mobile card groups, stat strips, marquees, and timeline/process sections still use the right layout pattern after refactor instead of all collapsing into the same generic mobile grid.
 - A screenshot matrix review covers the core routes and critical breakpoints so mobile polish does not introduce regressions on tablet or desktop.
 - The template layer and generated-site layer still have clear ownership boundaries: reusable template improvements live in the right shared layer, while site-specific content or mapping stays in the generated project layer.
 - SEO and routing behavior match the intended demo deployment.
