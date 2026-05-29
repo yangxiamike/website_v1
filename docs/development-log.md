@@ -1,5 +1,13 @@
 # 项目开发日志
 
+## 2026-05-29 - Demo 站点分层与默认运行入口澄清
+
+1. 已保存计划：`docs/plans/2026-05-29-demo-mode-separation-plan.md`。
+2. 新增 `docs/site-modes.md`，明确区分“完整版开发 demo”和“生成后的裁剪站”两类站点。
+3. 更新 `templates/industrial-valve-react/app/README.md`，标记其为默认开发 demo 入口。
+4. 更新 `sites/haiyue/app/README.md`、`sites/minimal-demo/app/README.md`、`sites/lean-demo/app/README.md`，标记其为生成结果站点而非主 demo。
+5. 验证：本地已切换并启动 `templates/industrial-valve-react/app/`，产品页显示 `21` 个产品，包含完整行业筛选项。
+
 ## 2026-05-28 - React 模板 + Python 数据生成系统
 
 1. 已保存计划：`docs/plans/2026-05-28-react-data-sitegen-plan.md`。

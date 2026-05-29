@@ -1,3 +1,20 @@
+# Full Demo Site
+
+This directory is the full-featured development demo for the project.
+
+- Role: primary demo site for design and frontend development
+- Data shape: fuller demo content for products, industries, cases, and resources
+- When someone says "run the demo website", use this app by default
+
+Run:
+
+```bash
+npm install
+npm run dev
+```
+
+For generated customer sites and cropped variants, see `/docs/site-modes.md`.
+
 # React + TypeScript + Vite
 
 This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.

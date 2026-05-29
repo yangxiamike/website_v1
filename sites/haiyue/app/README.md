@@ -1,3 +1,14 @@
+# Generated Customer Site
+
+This app is a generated site output for `content/companies/haiyue.yaml`.
+
+- Role: generated customer sample, not the primary full demo
+- Data shape: follows the company YAML and may be more cropped than the full template demo
+- Use this app to verify generation results, not as the default development demo
+
+The primary full demo lives at `/templates/industrial-valve-react/app/`.
+Mode details: `/docs/site-modes.md`
+
 # React + TypeScript + Vite
 
 This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.

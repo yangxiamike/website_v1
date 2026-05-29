@@ -1,3 +1,14 @@
+# Generated Customer Site
+
+This app is a generated site output for the lean sample.
+
+- Role: sample for disabled optional pages and lean content
+- Data shape: intentionally cropped compared with the full template demo
+- Do not use this as the default development demo
+
+The primary full demo lives at `/templates/industrial-valve-react/app/`.
+Mode details: `/docs/site-modes.md`
+
 # React + TypeScript + Vite
 
 This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
