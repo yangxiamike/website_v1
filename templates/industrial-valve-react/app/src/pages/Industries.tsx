@@ -1,9 +1,8 @@
 import { Link } from 'react-router-dom';
 import { ArrowRight } from 'lucide-react';
-import { motion } from 'framer-motion';
 import { industries, products } from '../data';
 import CTABanner from '../components/CTABanner';
-import { CTAButton, IndustryCard, PageHero } from '../components/common';
+import { CTAButton, IndustryCard, MobileCardShell, MobileMarquee, MobileRail, PageHero } from '../components/common';
 import { pageHeroes } from '../data/pageHeroes';
 
 /* Industry icons using simple SVGs */
@@ -145,24 +144,22 @@ export default function Industries() {
       {/* ═══════ INDUSTRY CARDS ═══════ */}
       <section className="bg-white py-12 lg:py-16">
         <div className="max-w-7xl mx-auto px-4 sm:px-6">
-          <div className="overflow-x-auto pb-1 md:hidden [scrollbar-width:none] [-ms-overflow-style:none] [touch-action:pan-x]">
-            <div className="flex w-max gap-4 pr-4">
-              {industries.map((ind) => {
-                const IconComp = industryIcons[ind.id];
-                return (
-                  <div key={ind.id} className="w-[82vw] min-w-[296px] max-w-[360px]">
-                    <IndustryCard
-                      to={ind.route || `/industries/${ind.id}`}
-                      image={ind.image}
-                      title={ind.name}
-                      description={ind.shortDesc}
-                      icon={IconComp ? <IconComp /> : undefined}
-                    />
-                  </div>
-                );
-              })}
-            </div>
-          </div>
+          <MobileRail className="md:hidden">
+            {industries.map((ind) => {
+              const IconComp = industryIcons[ind.id];
+              return (
+                <div key={`${ind.id}-mobile`} className="w-[82vw] min-w-[296px] max-w-[360px]">
+                  <IndustryCard
+                    to={ind.route || `/industries/${ind.id}`}
+                    image={ind.image}
+                    title={ind.name}
+                    description={ind.shortDesc}
+                    icon={IconComp ? <IconComp /> : undefined}
+                  />
+                </div>
+              );
+            })}
+          </MobileRail>
           <div className="hidden gap-6 md:grid md:grid-cols-2 lg:grid-cols-3">
             {industries.map((ind) => {
               const IconComp = industryIcons[ind.id];
@@ -187,24 +184,20 @@ export default function Industries() {
           <h2 className="text-xl lg:text-2xl font-bold text-text-primary tracking-tight mb-8">
             How Haiyue Supports Industrial Applications
           </h2>
-          <div className="overflow-x-auto pb-1 sm:hidden [scrollbar-width:none] [-ms-overflow-style:none] [touch-action:pan-x]">
-            <motion.div
-              className="flex w-max gap-4 pr-4"
-              animate={{ x: ['0%', '-50%'] }}
-              transition={{ duration: 18, ease: 'linear', repeat: Infinity }}
-            >
-              {[...supportItems, ...supportItems].map((item, index) => (
-                <div key={`${item.title}-${index}`} className="w-[78vw] min-w-[272px] max-w-[320px] border border-gray-200 bg-white p-5">
-                  <div className="mb-3">{item.icon}</div>
-                  <h3 className="font-semibold text-text-primary text-sm mb-2">{item.title}</h3>
-                  <p className="text-sm text-text-secondary leading-relaxed">{item.desc}</p>
-                </div>
-              ))}
-            </motion.div>
-          </div>
+          <MobileMarquee
+            items={supportItems}
+            getKey={(item) => item.title}
+            renderItem={(item) => (
+              <MobileCardShell className="w-[78vw] min-w-[272px] max-w-[320px] p-5">
+                <div className="mb-3">{item.icon}</div>
+                <h3 className="mb-2 text-sm font-semibold text-text-primary">{item.title}</h3>
+                <p className="text-sm leading-relaxed text-text-secondary">{item.desc}</p>
+              </MobileCardShell>
+            )}
+          />
           <div className="hidden gap-6 sm:grid sm:grid-cols-2 lg:grid-cols-4">
             {supportItems.map((item) => (
-              <div key={item.title}>
+              <div key={item.title} className="border border-gray-200 bg-white p-5">
                 <div className="mb-3">{item.icon}</div>
                 <h3 className="font-semibold text-text-primary text-sm mb-2">{item.title}</h3>
                 <p className="text-sm text-text-secondary leading-relaxed">{item.desc}</p>
@@ -220,28 +213,26 @@ export default function Industries() {
           <h2 className="text-xl lg:text-2xl font-bold text-text-primary tracking-tight mb-8">
             Recommended Product Groups
           </h2>
-          <div className="overflow-x-auto pb-1 md:hidden [scrollbar-width:none] [-ms-overflow-style:none] [touch-action:pan-x]">
-            <div className="flex w-max gap-3 pr-4">
-              {products.map((prod) => (
-                <Link
-                  key={prod.id}
-                  to={`/products?type=${prod.category}`}
-                  className="group flex w-[42vw] min-w-[144px] max-w-[168px] flex-col items-center border border-gray-200 p-3 text-center transition-all duration-300 hover:border-brand-red/40"
-                >
-                  <div className="mb-3 flex aspect-square w-full items-center justify-center bg-gray-50 p-3">
-                    <img
-                      src={prod.image}
-                      alt={prod.name}
-                      className="max-h-full max-w-full object-contain"
-                    />
-                  </div>
-                  <span className="text-sm font-semibold text-text-primary transition-colors group-hover:text-brand-red">
-                    {prod.name}
-                  </span>
-                </Link>
-              ))}
-            </div>
-          </div>
+          <MobileRail className="md:hidden" innerClassName="flex w-max gap-3 pr-4">
+            {products.map((prod) => (
+              <Link
+                key={`${prod.id}-mobile`}
+                to={`/products?type=${prod.category}`}
+                className="group flex w-[42vw] min-w-[144px] max-w-[168px] flex-col items-center border border-gray-200 p-3 text-center transition-all duration-300 hover:border-brand-red/40"
+              >
+                <div className="mb-3 flex aspect-square w-full items-center justify-center bg-gray-50 p-3">
+                  <img
+                    src={prod.image}
+                    alt={prod.name}
+                    className="max-h-full max-w-full object-contain"
+                  />
+                </div>
+                <span className="text-sm font-semibold text-text-primary transition-colors group-hover:text-brand-red">
+                  {prod.name}
+                </span>
+              </Link>
+            ))}
+          </MobileRail>
           <div className="hidden grid-cols-3 gap-4 md:grid md:grid-cols-6">
             {products.map((prod) => (
               <Link

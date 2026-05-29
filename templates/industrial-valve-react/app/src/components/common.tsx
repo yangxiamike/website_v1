@@ -1,6 +1,21 @@
+import { Fragment, useEffect, useRef, useState } from 'react';
+import { motion } from 'framer-motion';
 import { Link } from 'react-router-dom';
-import { ArrowRight, type LucideIcon } from 'lucide-react';
+import { ArrowRight, ChevronLeft, ChevronRight, type LucideIcon } from 'lucide-react';
 import type { Product } from '../data/productsCatalog';
+import { cn } from '../lib/utils';
+
+export const horizontalScrollAreaClassName =
+  'overflow-x-auto [scrollbar-width:none] [-ms-overflow-style:none] [touch-action:pan-x]';
+
+export const mobileCardShellClassName =
+  'overflow-hidden border border-gray-200 bg-white transition-all duration-300 hover:border-brand-red/40 hover:shadow-md';
+
+export const compactStatBarClassName =
+  'flex items-center gap-3 border border-slate-200 bg-white px-3.5 py-3 shadow-md';
+
+export const desktopStatCardClassName =
+  'flex items-center gap-3 bg-white px-4 sm:gap-3.5 sm:px-7';
 
 type CTAButtonProps = {
   to: string;
@@ -35,6 +50,39 @@ export function CTAButton({
     >
       {children} <ArrowRight className="w-4 h-4" />
     </Link>
+  );
+}
+
+export function SectionCTA({
+  to,
+  children,
+  className = '',
+}: {
+  to: string;
+  children: React.ReactNode;
+  className?: string;
+}) {
+  return (
+    <CTAButton to={to} className={cn('h-[48px] px-7', className)}>
+      {children}
+    </CTAButton>
+  );
+}
+
+export function CardCTA({
+  children,
+  className = '',
+  iconClassName = '',
+}: {
+  children: React.ReactNode;
+  className?: string;
+  iconClassName?: string;
+}) {
+  return (
+    <span className={cn('inline-flex items-center gap-1 text-sm font-semibold text-brand-red', className)}>
+      {children}
+      <ChevronRight className={cn('h-4 w-4', iconClassName)} />
+    </span>
   );
 }
 
@@ -104,6 +152,253 @@ export function IconFrame({ icon: Icon, size = 'md' }: { icon: LucideIcon; size?
     lg: 'w-8 h-8',
   };
   return <Icon className={`ds-icon ${sizes[size]}`} strokeWidth={1.6} />;
+}
+
+export function HorizontalScrollArea({
+  children,
+  className = '',
+  innerClassName = '',
+}: {
+  children: React.ReactNode;
+  className?: string;
+  innerClassName?: string;
+}) {
+  return (
+    <div className={cn(horizontalScrollAreaClassName, className)}>
+      <div className={innerClassName}>{children}</div>
+    </div>
+  );
+}
+
+export function MobileRail({
+  children,
+  className = '',
+  innerClassName = '',
+}: {
+  children: React.ReactNode;
+  className?: string;
+  innerClassName?: string;
+}) {
+  return (
+    <HorizontalScrollArea
+      className={cn('sm:hidden', className)}
+      innerClassName={cn('flex w-max gap-4 pr-4', innerClassName)}
+    >
+      {children}
+    </HorizontalScrollArea>
+  );
+}
+
+export function MobileMarquee<T>({
+  items,
+  getKey,
+  renderItem,
+  className = '',
+  innerClassName = '',
+  duration = 18,
+}: {
+  items: T[];
+  getKey: (item: T, index: number) => string;
+  renderItem: (item: T, index: number) => React.ReactNode;
+  className?: string;
+  innerClassName?: string;
+  duration?: number;
+}) {
+  return (
+    <div className={cn('overflow-hidden sm:hidden', className)}>
+      <motion.div
+        className={cn('flex w-max gap-4 pb-1', innerClassName)}
+        animate={{ x: ['0%', '-50%'] }}
+        transition={{ duration, ease: 'linear', repeat: Infinity }}
+      >
+        {items.map((item, index) => (
+          <Fragment key={`${getKey(item, index)}-base`}>{renderItem(item, index)}</Fragment>
+        ))}
+        {items.map((item, index) => (
+          <Fragment key={`${getKey(item, index)}-dup`}>{renderItem(item, index)}</Fragment>
+        ))}
+      </motion.div>
+    </div>
+  );
+}
+
+export function ScrollTrack({
+  children,
+  className = '',
+  viewportClassName = '',
+  trackClassName = '',
+  progressClassName = '',
+  buttonClassName = '',
+  scrollStep = 400,
+  showButtons = true,
+  showProgress = true,
+}: {
+  children: React.ReactNode;
+  className?: string;
+  viewportClassName?: string;
+  trackClassName?: string;
+  progressClassName?: string;
+  buttonClassName?: string;
+  scrollStep?: number;
+  showButtons?: boolean;
+  showProgress?: boolean;
+}) {
+  const ref = useRef<HTMLDivElement>(null);
+  const [progress, setProgress] = useState(0);
+  const [showLeft, setShowLeft] = useState(false);
+  const [showRight, setShowRight] = useState(true);
+
+  useEffect(() => {
+    const el = ref.current;
+    if (!el) return;
+
+    const update = () => {
+      const max = el.scrollWidth - el.clientWidth;
+      setProgress(max > 0 ? el.scrollLeft / max : 0);
+      setShowLeft(el.scrollLeft > 10);
+      setShowRight(el.scrollLeft < max - 10);
+    };
+
+    const frame = window.requestAnimationFrame(update);
+    el.addEventListener('scroll', update, { passive: true });
+    window.addEventListener('resize', update);
+
+    return () => {
+      window.cancelAnimationFrame(frame);
+      el.removeEventListener('scroll', update);
+      window.removeEventListener('resize', update);
+    };
+  }, []);
+
+  const scroll = (dir: number) => {
+    ref.current?.scrollBy({ left: dir * scrollStep, behavior: 'smooth' });
+  };
+
+  return (
+    <div className={cn('relative', className)}>
+      {showButtons && showLeft && (
+        <button
+          type="button"
+          onClick={() => scroll(-1)}
+          className={cn(
+            'absolute left-0 top-1/2 z-10 flex h-10 w-10 -translate-y-1/2 items-center justify-center border border-gray-200 bg-white shadow transition-colors hover:bg-brand-red hover:text-white',
+            buttonClassName
+          )}
+          aria-label="Scroll left"
+        >
+          <ChevronLeft className="h-5 w-5" />
+        </button>
+      )}
+      {showButtons && showRight && (
+        <button
+          type="button"
+          onClick={() => scroll(1)}
+          className={cn(
+            'absolute right-0 top-1/2 z-10 flex h-10 w-10 -translate-y-1/2 items-center justify-center border border-gray-200 bg-white shadow transition-colors hover:bg-brand-red hover:text-white',
+            buttonClassName
+          )}
+          aria-label="Scroll right"
+        >
+          <ChevronRight className="h-5 w-5" />
+        </button>
+      )}
+      <div
+        ref={ref}
+        className={cn(horizontalScrollAreaClassName, 'flex gap-5 pb-2', viewportClassName)}
+        style={{ scrollbarWidth: 'none' }}
+      >
+        {children}
+      </div>
+      {showProgress && (
+        <div className={cn('mt-2 h-0.5 bg-gray-200', trackClassName)}>
+          <div
+            className={cn('h-full bg-brand-red transition-all duration-300', progressClassName)}
+            style={{ width: `${Math.max(8, progress * 100)}%` }}
+          />
+        </div>
+      )}
+    </div>
+  );
+}
+
+export function MobileCardShell({
+  children,
+  className = '',
+}: {
+  children: React.ReactNode;
+  className?: string;
+}) {
+  return <div className={cn(mobileCardShellClassName, className)}>{children}</div>;
+}
+
+export function StatCard({
+  icon: Icon,
+  value,
+  label,
+  description,
+  className = '',
+  iconClassName = '',
+  valueClassName = '',
+  labelClassName = '',
+  descriptionClassName = '',
+}: {
+  icon: LucideIcon;
+  value: React.ReactNode;
+  label: React.ReactNode;
+  description?: React.ReactNode;
+  className?: string;
+  iconClassName?: string;
+  valueClassName?: string;
+  labelClassName?: string;
+  descriptionClassName?: string;
+}) {
+  return (
+    <div className={cn(desktopStatCardClassName, className)}>
+      <Icon className={cn('h-8 w-8 flex-shrink-0 text-brand-red', iconClassName)} strokeWidth={1.5} />
+      <div>
+        <div className={cn('text-2xl font-bold leading-none text-text-primary sm:text-[32px]', valueClassName)}>{value}</div>
+        <div className={cn('mt-1 text-[13px] font-medium leading-tight text-text-secondary', labelClassName)}>{label}</div>
+        {description && (
+          <div className={cn('text-[11px] leading-tight text-text-muted', descriptionClassName)}>{description}</div>
+        )}
+      </div>
+    </div>
+  );
+}
+
+export function StatBar({
+  icon: Icon,
+  value,
+  label,
+  description,
+  className = '',
+  iconClassName = '',
+  valueClassName = '',
+  labelClassName = '',
+  descriptionClassName = '',
+}: {
+  icon: LucideIcon;
+  value: React.ReactNode;
+  label: React.ReactNode;
+  description?: React.ReactNode;
+  className?: string;
+  iconClassName?: string;
+  valueClassName?: string;
+  labelClassName?: string;
+  descriptionClassName?: string;
+}) {
+  return (
+    <div className={cn(compactStatBarClassName, className)}>
+      <Icon className={cn('h-[18px] w-[18px] flex-shrink-0 text-brand-red', iconClassName)} strokeWidth={1.7} />
+      <div className="min-w-0">
+        <div className={cn('text-base font-bold leading-none text-text-primary', valueClassName)}>{value}</div>
+        <div className={cn('mt-1 text-[11px] font-semibold leading-tight text-text-secondary', labelClassName)}>{label}</div>
+        {description && (
+          <div className={cn('mt-0.5 text-[10px] leading-tight text-text-muted', descriptionClassName)}>{description}</div>
+        )}
+      </div>
+    </div>
+  );
 }
 
 export function FormLabel({ children, required }: { children: React.ReactNode; required?: boolean }) {

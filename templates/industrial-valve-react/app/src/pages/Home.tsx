@@ -1,12 +1,20 @@
-import { useRef, useEffect, useState } from 'react';
+import { useEffect, useRef } from 'react';
 import { Link } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import {
-  ArrowRight, ChevronRight, ChevronLeft,
+  ArrowRight,
   ShieldCheck, FileCheck, ClipboardCheck, PackageCheck,
 } from 'lucide-react';
 import { products, industries, newsArticles } from '../data';
 import CTABanner from '../components/CTABanner';
+import {
+  CardCTA,
+  MobileCardShell,
+  SectionCTA,
+  StatBar,
+  StatCard,
+  ScrollTrack,
+} from '../components/common';
 
 const fadeInUp = {
   initial: { opacity: 0, y: 24 },
@@ -75,79 +83,6 @@ const caseStudiesData = [
     products: ['Ball Valve', 'Globe Valve'],
   },
 ];
-
-/* ═══ Section CTA Button ═══ */
-function SectionCTA({ to, children }: { to: string; children: React.ReactNode }) {
-  return (
-    <Link
-      to={to}
-      className="inline-flex h-[48px] w-full items-center justify-center gap-2 bg-brand-red px-7 text-sm font-semibold text-white transition-colors hover:bg-dark-red sm:w-auto"
-    >
-      {children} <ArrowRight className="w-4 h-4" />
-    </Link>
-  );
-}
-
-function CardCTA({ children }: { children: React.ReactNode }) {
-  return (
-    <span className="inline-flex items-center gap-1 text-sm font-semibold text-brand-red">
-      {children} <ChevronRight className="h-4 w-4" />
-    </span>
-  );
-}
-
-/* ═══ Industries Scroll Track ═══ */
-function ScrollTrack({ children }: { children: React.ReactNode }) {
-  const ref = useRef<HTMLDivElement>(null);
-  const [progress, setProgress] = useState(0);
-  const [showLeft, setShowLeft] = useState(false);
-  const [showRight, setShowRight] = useState(true);
-
-  const update = () => {
-    const el = ref.current;
-    if (!el) return;
-    const max = el.scrollWidth - el.clientWidth;
-    setProgress(max > 0 ? el.scrollLeft / max : 0);
-    setShowLeft(el.scrollLeft > 10);
-    setShowRight(el.scrollLeft < max - 10);
-  };
-
-  useEffect(() => {
-    const el = ref.current;
-    if (!el) return;
-    const frame = window.requestAnimationFrame(update);
-    el.addEventListener('scroll', update, { passive: true });
-    return () => {
-      window.cancelAnimationFrame(frame);
-      el.removeEventListener('scroll', update);
-    };
-  }, []);
-
-  const scroll = (dir: number) => {
-    ref.current?.scrollBy({ left: dir * 400, behavior: 'smooth' });
-  };
-
-  return (
-    <div className="relative">
-      {showLeft && (
-        <button onClick={() => scroll(-1)} className="absolute left-0 top-1/2 -translate-y-1/2 z-10 w-10 h-10 bg-white shadow border border-gray-200 flex items-center justify-center hover:bg-brand-red hover:text-white transition-colors" aria-label="Scroll left">
-          <ChevronLeft className="w-5 h-5" />
-        </button>
-      )}
-      {showRight && (
-        <button onClick={() => scroll(1)} className="absolute right-0 top-1/2 -translate-y-1/2 z-10 w-10 h-10 bg-white shadow border border-gray-200 flex items-center justify-center hover:bg-brand-red hover:text-white transition-colors" aria-label="Scroll right">
-          <ChevronRight className="w-5 h-5" />
-        </button>
-      )}
-      <div ref={ref} className="flex gap-5 overflow-x-auto pb-2" style={{ scrollbarWidth: 'none' }}>
-        {children}
-      </div>
-      <div className="h-0.5 bg-gray-200 mt-2">
-        <div className="h-full bg-brand-red transition-all duration-300" style={{ width: `${Math.max(8, progress * 100)}%` }} />
-      </div>
-    </div>
-  );
-}
 
 /* ═══════════════════════════ HOME ═══════════════════════════ */
 export default function Home() {
@@ -231,7 +166,7 @@ export default function Home() {
                 {heroStats.map((stat, i) => (
                   <div
                     key={stat.label}
-                    className={`flex-1 flex items-center gap-3 px-4 sm:gap-3.5 sm:px-7 ${
+                    className={`flex-1 ${
                       i < heroStats.length - 1 ? 'sm:border-r sm:border-gray-100' : ''
                     } ${
                       i % 2 === 0 && i < heroStats.length - 1 ? 'border-r border-gray-100' : ''
@@ -240,14 +175,16 @@ export default function Home() {
                     } ${
                       i === heroStats.length - 1 ? 'col-span-2 justify-center border-r-0 sm:justify-start' : ''
                     }`}
-                    style={{ minHeight: 104 }}
                   >
-                    <stat.icon className="w-8 h-8 text-brand-red flex-shrink-0" strokeWidth={1.5} />
-                    <div>
-                      <div className="text-2xl sm:text-[32px] font-bold text-text-primary leading-none">{stat.value}</div>
-                      <div className="text-[13px] font-medium text-text-secondary mt-1 leading-tight">{stat.label}</div>
-                      <div className="text-[11px] text-text-muted leading-tight">{stat.desc}</div>
-                    </div>
+                    <StatCard
+                      icon={stat.icon}
+                      value={stat.value}
+                      label={stat.label}
+                      description={stat.desc}
+                      className={`min-h-[104px] ${
+                        i === heroStats.length - 1 ? 'justify-center sm:justify-start' : ''
+                      }`}
+                    />
                   </div>
                 ))}
               </div>
@@ -264,19 +201,14 @@ export default function Home() {
             transition={{ duration: 18, ease: 'linear', repeat: Infinity }}
           >
             {[...heroStats, ...heroStats].map((stat, index) => (
-              <div
+              <StatBar
                 key={`${stat.label}-${index}`}
-                className="min-w-[180px] border border-slate-200 bg-white px-3.5 py-3 shadow-md"
-              >
-                <div className="flex items-start gap-2.5">
-                  <stat.icon className="h-4.5 w-4.5 flex-shrink-0 text-brand-red" strokeWidth={1.7} />
-                  <div className="min-w-0">
-                    <div className="text-base font-bold leading-none text-text-primary">{stat.value}</div>
-                    <div className="mt-1 text-[11px] font-semibold leading-tight text-text-secondary">{stat.label}</div>
-                    <div className="mt-0.5 text-[10px] leading-tight text-text-muted">{stat.desc}</div>
-                  </div>
-                </div>
-              </div>
+                icon={stat.icon}
+                value={stat.value}
+                label={stat.label}
+                description={stat.desc}
+                className="min-w-[180px]"
+              />
             ))}
           </motion.div>
         </div>
@@ -310,7 +242,7 @@ export default function Home() {
                   transition={{ duration: 0.5, delay: i * 0.06 }}
                   className="w-[78vw] min-w-[272px] max-w-[332px]"
                 >
-                  <div className="group grid grid-cols-1 overflow-hidden border border-gray-200 bg-white transition-all duration-300 hover:border-brand-red/40 hover:shadow-md">
+                  <MobileCardShell className="group grid grid-cols-1">
                     <Link
                       to={`/products?type=${product.id}`}
                       aria-label={`View ${product.name}`}
@@ -338,7 +270,7 @@ export default function Home() {
                         </Link>
                       </div>
                     </div>
-                  </div>
+                  </MobileCardShell>
                 </motion.div>
               ))}
             </div>
@@ -558,7 +490,8 @@ export default function Home() {
                   transition={{ duration: 0.5, delay: i * 0.07 }}
                   className="w-[84vw] min-w-[296px] max-w-[360px]"
                 >
-                  <Link to={`/cases/${cs.id}`} className="group block h-full border border-gray-200 bg-white transition-all duration-300 hover:border-brand-red/40 hover:shadow-md">
+                  <Link to={`/cases/${cs.id}`} className="group block h-full">
+                    <MobileCardShell className="h-full">
                     <div className="h-[220px] overflow-hidden">
                       <img
                         src={cs.image}
@@ -583,6 +516,7 @@ export default function Home() {
                         <CardCTA>Read Case Study</CardCTA>
                       </div>
                     </div>
+                    </MobileCardShell>
                   </Link>
                 </motion.div>
               ))}
@@ -658,7 +592,8 @@ export default function Home() {
                   transition={{ duration: 0.5, delay: i * 0.07 }}
                   className="group w-[84vw] min-w-[296px] max-w-[360px]"
                 >
-                  <Link to="/resources" className="block h-full overflow-hidden border border-gray-200 bg-white transition-all duration-300 hover:-translate-y-1 hover:shadow-md">
+                  <Link to="/resources" className="block h-full">
+                    <MobileCardShell className="h-full hover:-translate-y-1">
                     <div className="h-[220px] overflow-hidden">
                       <img
                         src={article.image}
@@ -676,6 +611,7 @@ export default function Home() {
                         <CardCTA>Read More</CardCTA>
                       </div>
                     </div>
+                    </MobileCardShell>
                   </Link>
                 </motion.article>
               ))}

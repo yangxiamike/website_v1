@@ -2,7 +2,7 @@ import { Link, useParams } from 'react-router-dom';
 import { ArrowRight, Factory, MapPin, FileText } from 'lucide-react';
 import { getIndustryDetail } from '../data/industryDetails';
 import CTABanner from '../components/CTABanner';
-import { CTAButton, PageHero, SectionHeading } from '../components/common';
+import { CTAButton, MobileRail, PageHero, SectionHeading } from '../components/common';
 
 function SnapshotIcon({ type }: { type: string }) {
   if (type === 'valve') {
@@ -84,24 +84,22 @@ export default function IndustryDetail() {
       <section className="bg-white py-10 lg:py-14">
         <div className="max-w-7xl mx-auto px-4 sm:px-6">
           <SectionHeading title="Industry Snapshot" className="mb-6" />
-          <div className="flex flex-col lg:flex-row gap-8">
+          <div className="flex flex-col gap-8 lg:flex-row">
             <div className="lg:w-[45%]">
               <p className="text-text-secondary text-sm sm:text-[15px] leading-[1.7]">{ind.snapshotText}</p>
             </div>
-            <div className="overflow-x-auto pb-1 lg:hidden [scrollbar-width:none] [-ms-overflow-style:none] [touch-action:pan-x]">
-              <div className="flex w-max gap-4 pr-4">
-                {ind.snapshotPoints.map((pt) => (
-                  <div key={pt.title} className="flex w-[78vw] min-w-[268px] max-w-[320px] items-start gap-3 border border-gray-200 bg-white p-4">
-                    <SnapshotIcon type={ind.snapshotPoints.indexOf(pt) === 0 ? 'valve' : ind.snapshotPoints.indexOf(pt) === 1 ? 'check' : ind.snapshotPoints.indexOf(pt) === 2 ? 'shield' : 'filter'} />
-                    <div>
-                      <h4 className="font-semibold text-text-primary text-sm">{pt.title}</h4>
-                      <p className="text-xs text-text-secondary mt-0.5 leading-relaxed">{pt.desc}</p>
-                    </div>
+            <MobileRail className="lg:hidden">
+              {ind.snapshotPoints.map((pt) => (
+                <div key={`${pt.title}-mobile`} className="flex w-[78vw] min-w-[268px] max-w-[320px] items-start gap-3 border border-gray-200 bg-white p-4">
+                  <SnapshotIcon type={ind.snapshotPoints.indexOf(pt) === 0 ? 'valve' : ind.snapshotPoints.indexOf(pt) === 1 ? 'check' : ind.snapshotPoints.indexOf(pt) === 2 ? 'shield' : 'filter'} />
+                  <div>
+                    <h4 className="font-semibold text-text-primary text-sm">{pt.title}</h4>
+                    <p className="mt-0.5 text-xs leading-relaxed text-text-secondary">{pt.desc}</p>
                   </div>
-                ))}
-              </div>
-            </div>
-            <div className="hidden lg:w-[55%] lg:grid lg:grid-cols-2 lg:gap-4">
+                </div>
+              ))}
+            </MobileRail>
+            <div className="hidden gap-4 lg:w-[55%] lg:grid lg:grid-cols-2">
               {ind.snapshotPoints.map((pt) => (
                 <div key={pt.title} className="flex items-start gap-3">
                   <SnapshotIcon type={ind.snapshotPoints.indexOf(pt) === 0 ? 'valve' : ind.snapshotPoints.indexOf(pt) === 1 ? 'check' : ind.snapshotPoints.indexOf(pt) === 2 ? 'shield' : 'filter'} />
@@ -120,21 +118,19 @@ export default function IndustryDetail() {
       <section className="bg-gray-50 py-10 lg:py-14">
         <div className="max-w-7xl mx-auto px-4 sm:px-6">
           <SectionHeading title="Application Areas" className="mb-6" />
-          <div className="overflow-x-auto pb-1 sm:hidden [scrollbar-width:none] [-ms-overflow-style:none] [touch-action:pan-x]">
-            <div className="flex w-max gap-4 pr-4">
-              {ind.applications.map((app) => (
-                <div key={app.title} className="flex w-[86vw] min-w-[304px] max-w-[360px] border border-gray-200 bg-white overflow-hidden">
-                  <div className="w-[42%] flex-shrink-0">
-                    <img src={app.image} alt={app.title} className="h-full min-h-[180px] w-full object-cover" />
-                  </div>
-                  <div className="flex flex-col justify-center p-4">
-                    <h4 className="font-semibold text-text-primary text-[15px] mb-2">{app.title}</h4>
-                    <p className="text-sm text-text-secondary leading-relaxed">{app.desc}</p>
-                  </div>
+          <MobileRail>
+            {ind.applications.map((app) => (
+              <div key={`${app.title}-mobile`} className="flex w-[86vw] min-w-[304px] max-w-[360px] overflow-hidden border border-gray-200 bg-white">
+                <div className="w-[42%] flex-shrink-0">
+                  <img src={app.image} alt={app.title} className="h-full min-h-[180px] w-full object-cover" />
                 </div>
-              ))}
-            </div>
-          </div>
+                <div className="flex flex-col justify-center p-4">
+                  <h4 className="mb-2 text-[15px] font-semibold text-text-primary">{app.title}</h4>
+                  <p className="text-sm leading-relaxed text-text-secondary">{app.desc}</p>
+                </div>
+              </div>
+            ))}
+          </MobileRail>
           <div className="hidden gap-6 sm:grid sm:grid-cols-2">
             {ind.applications.map((app, i) => (
               <div key={app.title} className={`flex gap-0 border border-gray-200 bg-white overflow-hidden ${i >= 2 ? '' : ''}`}>
@@ -155,26 +151,24 @@ export default function IndustryDetail() {
       <section className="bg-white py-10 lg:py-14">
         <div className="max-w-7xl mx-auto px-4 sm:px-6">
           <SectionHeading title="Recommended Valve Solutions" className="mb-6" />
-          <div className="overflow-x-auto pb-1 sm:hidden [scrollbar-width:none] [-ms-overflow-style:none] [touch-action:pan-x]">
-            <div className="flex w-max gap-4 pr-4">
-              {ind.recommendedProducts.map((rp) => (
-                <div key={rp.id} className="w-[74vw] min-w-[248px] max-w-[288px] border border-gray-200 p-5 hover:border-brand-red/30 transition-colors bg-white">
-                  <div className="h-32 bg-gray-50 flex items-center justify-center p-3 mb-4">
-                    <img src={rp.image} alt={rp.name} className="max-h-full max-w-full object-contain" />
-                  </div>
-                  <h4 className="font-semibold text-text-primary text-[15px] mb-1">{rp.name}</h4>
-                  <p className="text-xs text-text-secondary leading-relaxed">{rp.desc}</p>
-                  <Link
-                    to={`/products/${rp.id}`}
-                    className="inline-flex items-center gap-1 text-brand-red text-sm font-semibold mt-3 hover:underline"
-                  >
-                    View Product <ArrowRight className="w-3.5 h-3.5" />
-                  </Link>
+          <MobileRail>
+            {ind.recommendedProducts.map((rp) => (
+              <div key={`${rp.id}-mobile`} className="w-[74vw] min-w-[248px] max-w-[288px] border border-gray-200 bg-white p-5 transition-colors hover:border-brand-red/30">
+                <div className="mb-4 flex h-32 items-center justify-center bg-gray-50 p-3">
+                  <img src={rp.image} alt={rp.name} className="max-h-full max-w-full object-contain" />
                 </div>
-              ))}
-            </div>
-          </div>
-          <div className="hidden gap-5 sm:grid sm:grid-cols-4">
+                <h4 className="mb-1 text-[15px] font-semibold text-text-primary">{rp.name}</h4>
+                <p className="text-xs leading-relaxed text-text-secondary">{rp.desc}</p>
+                <Link
+                  to={`/products/${rp.id}`}
+                  className="mt-3 inline-flex items-center gap-1 text-sm font-semibold text-brand-red hover:underline"
+                >
+                  View Product <ArrowRight className="h-3.5 w-3.5" />
+                </Link>
+              </div>
+            ))}
+          </MobileRail>
+          <div className="hidden gap-5 sm:grid sm:grid-cols-2 lg:grid-cols-4">
             {ind.recommendedProducts.map((rp) => (
               <div key={rp.id} className="border border-gray-200 p-5 hover:border-brand-red/30 transition-colors">
                 <div className="h-32 bg-gray-50 flex items-center justify-center p-3 mb-4">

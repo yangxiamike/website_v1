@@ -62,6 +62,7 @@ Apply changes in this order unless the repo clearly demands another order.
 6. Finish launch polish:
    - Add route-aware SEO, favicon, robots, sitemap, canonical/OG metadata, direct route handling, and no-surprise 404/thank-you pages.
    - Improve mobile layout, card spacing, logo sizing, hero consistency, and image alt text where it affects comprehension.
+   - After any meaningful mobile pass, do one more system pass for design-token consistency, shared-component consolidation, screenshot-matrix QA, and template-vs-generated layer alignment.
 
 ## B2B Demo Quality Gates
 
@@ -73,6 +74,10 @@ Use the reference checklist for full details. These gates must pass before hando
 - Case studies and resource downloads do not claim real proof unless the underlying assets are real.
 - Product, industry, and company facts are not duplicated inconsistently across pages.
 - Mobile pages have no horizontal overflow or clipped important text.
+- After mobile fixes, spacing, radius, typography, color, shadows, and interaction states are re-checked against the active design tokens so one-off overrides do not accumulate.
+- After mobile fixes, repeated adjustments that now appear across multiple pages are folded back into the appropriate shared component or data pattern instead of staying as page-level patches.
+- A screenshot matrix review covers the core routes and critical breakpoints so mobile polish does not introduce regressions on tablet or desktop.
+- The template layer and generated-site layer still have clear ownership boundaries: reusable template improvements live in the right shared layer, while site-specific content or mapping stays in the generated project layer.
 - SEO and routing behavior match the intended demo deployment.
 - Build/typecheck/lint status is known, and any remaining issue is documented with impact.
 
@@ -82,6 +87,7 @@ Before final response:
 
 - Run the strongest available local checks without modifying unrelated files.
 - Preview or inspect key routes when frontend behavior changed.
+- If mobile layouts changed, re-check token consistency, shared component opportunities, screenshot coverage, and template-vs-generated boundaries before handoff.
 - Test contact/RFQ happy path and failure path when forms changed.
 - Verify direct URLs and refresh behavior if routing changed.
 - Summarize what became launch-ready, what remains sample/demo-only, and any assets or credentials still needed from the user.

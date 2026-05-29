@@ -1,6 +1,5 @@
-import { useState, useEffect, useRef } from 'react';
+import { useState, useEffect } from 'react';
 import { Link, useParams } from 'react-router-dom';
-import { motion } from 'framer-motion';
 import {
   IconReliableSealing, IconLowTorque, IconVersatileOptions, IconLongServiceLife,
   IconWaterTreatment, IconChemicalProcessing, IconOilGas, IconGeneralPipeline,
@@ -9,7 +8,7 @@ import {
 } from '../components/icons';
 import { getProductDetail } from '../data/productDetails';
 import CTABanner from '../components/CTABanner';
-import { CTAButton, SectionHeading } from '../components/common';
+import { CardCTA, CTAButton, MobileMarquee, MobileRail, SectionHeading } from '../components/common';
 
 const iconMap: Record<string, React.FC<{ className?: string; size?: number; strokeWidth?: number }>> = {
   IconReliableSealing, IconLowTorque, IconVersatileOptions, IconLongServiceLife,
@@ -26,19 +25,9 @@ const tabs = [
   { id: 'documents', label: 'Documents' },
 ];
 
-/* ─── Card-level CTA Link ─── */
-function CardCTA({ children }: { children: React.ReactNode }) {
-  return (
-    <span className="inline-flex items-center gap-1 text-brand-red text-sm font-semibold">
-      {children} <IconArrowRight size={16} strokeWidth={2} />
-    </span>
-  );
-}
-
 export default function ProductDetail() {
   const { id } = useParams<{ id: string }>();
   const [activeTab, setActiveTab] = useState('overview');
-  const tabRef = useRef<HTMLDivElement>(null);
 
   const detail = id ? getProductDetail(id) : undefined;
 
@@ -171,8 +160,8 @@ export default function ProductDetail() {
       </section>
 
       {/* ═══════ ANCHOR TABS ═══════ */}
-      <div ref={tabRef} className="sticky top-0 z-40 bg-white border-b border-gray-200 shadow-sm">
-        <div className="max-w-7xl mx-auto grid grid-cols-2 px-4 sm:px-6 sm:flex sm:overflow-x-auto" style={{ scrollbarWidth: 'none' }}>
+      <div className="sticky top-0 z-40 bg-white border-b border-gray-200 shadow-sm">
+        <div className="max-w-7xl mx-auto grid grid-cols-2 px-4 sm:flex sm:overflow-x-auto sm:px-6" style={{ scrollbarWidth: 'none' }}>
           {tabs.map((tab) => (
             <button
               key={tab.id}
@@ -205,25 +194,21 @@ export default function ProductDetail() {
               {/* ── FEATURES ── */}
               <section id="features" className="scroll-mt-40 mb-14">
                 <SectionHeading title="Features & Benefits" />
-                <div className="overflow-x-auto pb-1 sm:hidden [scrollbar-width:none] [-ms-overflow-style:none] [touch-action:pan-x]">
-                  <motion.div
-                    className="flex w-max gap-4 pr-4"
-                    animate={{ x: ['0%', '-50%'] }}
-                    transition={{ duration: 18, ease: 'linear', repeat: Infinity }}
-                  >
-                    {[...detail.features, ...detail.features].map((f, index) => {
-                      const IconComp = iconMap[f.icon];
-                      return (
-                        <div key={`${f.title}-${index}`} className="w-[80vw] min-w-[276px] max-w-[320px] bg-white border border-gray-200 p-5">
-                          {IconComp && <IconComp size={32} strokeWidth={1.75} className="text-brand-red mb-3" />}
-                          <h3 className="font-semibold text-text-primary text-[15px] mb-1.5">{f.title}</h3>
-                          <p className="text-sm text-text-muted leading-relaxed">{f.description}</p>
-                        </div>
-                      );
-                    })}
-                  </motion.div>
-                </div>
-                <div className="hidden gap-5 mt-6 sm:grid sm:grid-cols-2">
+                <MobileMarquee
+                  items={detail.features}
+                  getKey={(feature) => feature.title}
+                  renderItem={(f) => {
+                    const IconComp = iconMap[f.icon];
+                    return (
+                      <div className="w-[80vw] min-w-[276px] max-w-[320px] border border-gray-200 bg-white p-5">
+                        {IconComp && <IconComp size={32} strokeWidth={1.75} className="mb-3 text-brand-red" />}
+                        <h3 className="mb-1.5 text-[15px] font-semibold text-text-primary">{f.title}</h3>
+                        <p className="text-sm leading-relaxed text-text-muted">{f.description}</p>
+                      </div>
+                    );
+                  }}
+                />
+                <div className="mt-6 hidden gap-5 sm:grid sm:grid-cols-2">
                   {detail.features.map((f) => {
                     const IconComp = iconMap[f.icon];
                     return (
@@ -240,25 +225,23 @@ export default function ProductDetail() {
               {/* ── APPLICATIONS ── */}
               <section id="applications" className="scroll-mt-40 mb-14">
                 <SectionHeading title="Applications" />
-                <div className="overflow-x-auto pb-1 sm:hidden [scrollbar-width:none] [-ms-overflow-style:none] [touch-action:pan-x]">
-                  <div className="flex w-max gap-4 pr-4">
-                    {detail.applications.map((a) => {
-                      const IconComp = iconMap[a.icon];
-                      return (
-                        <div key={a.title} className="w-[80vw] min-w-[276px] max-w-[320px] bg-white border border-gray-200 p-5">
-                          {IconComp && <IconComp size={36} strokeWidth={1.75} className="text-brand-red mb-3" />}
-                          <h3 className="font-semibold text-text-primary text-[15px]">{a.title}</h3>
-                          <p className="text-sm text-text-muted mt-1 leading-relaxed">{a.description}</p>
-                        </div>
-                      );
-                    })}
-                  </div>
-                </div>
-                <div className="hidden gap-5 mt-6 sm:grid sm:grid-cols-2">
+                <MobileRail>
                   {detail.applications.map((a) => {
                     const IconComp = iconMap[a.icon];
                     return (
-                      <div key={a.title} className="flex items-start gap-4">
+                      <div key={a.title} className="w-[80vw] min-w-[276px] max-w-[320px] border border-gray-200 bg-white p-5">
+                        {IconComp && <IconComp size={36} strokeWidth={1.75} className="mb-3 text-brand-red" />}
+                        <h3 className="text-[15px] font-semibold text-text-primary">{a.title}</h3>
+                        <p className="mt-1 text-sm leading-relaxed text-text-muted">{a.description}</p>
+                      </div>
+                    );
+                  })}
+                </MobileRail>
+                <div className="mt-6 hidden gap-5 sm:grid sm:grid-cols-2">
+                  {detail.applications.map((a) => {
+                    const IconComp = iconMap[a.icon];
+                    return (
+                      <div key={a.title} className="flex items-start gap-4 border border-gray-200 bg-white p-5">
                         {IconComp && <IconComp size={36} strokeWidth={1.75} className="text-brand-red flex-shrink-0 mt-0.5" />}
                         <div>
                           <h3 className="font-semibold text-text-primary text-[15px]">{a.title}</h3>
@@ -291,29 +274,25 @@ export default function ProductDetail() {
               {/* ── QUALITY ── */}
               <section id="quality" className="scroll-mt-40 mb-14">
                 <SectionHeading title="Quality & Testing" />
-                <div className="overflow-x-auto pb-1 sm:hidden [scrollbar-width:none] [-ms-overflow-style:none] [touch-action:pan-x]">
-                  <motion.div
-                    className="flex w-max gap-4 pr-4"
-                    animate={{ x: ['0%', '-50%'] }}
-                    transition={{ duration: 18, ease: 'linear', repeat: Infinity }}
-                  >
-                    {[...detail.quality, ...detail.quality].map((q, index) => {
-                      const IconComp = iconMap[q.icon];
-                      return (
-                        <div key={`${q.title}-${index}`} className="w-[80vw] min-w-[276px] max-w-[320px] bg-white border border-gray-200 p-5">
-                          {IconComp && <IconComp size={36} strokeWidth={1.75} className="text-brand-red mb-3" />}
-                          <h3 className="font-semibold text-text-primary text-[15px]">{q.title}</h3>
-                          <p className="text-sm text-text-muted mt-1 leading-relaxed">{q.description}</p>
-                        </div>
-                      );
-                    })}
-                  </motion.div>
-                </div>
-                <div className="hidden gap-5 mt-6 sm:grid sm:grid-cols-2">
+                <MobileMarquee
+                  items={detail.quality}
+                  getKey={(item) => item.title}
+                  renderItem={(q) => {
+                    const IconComp = iconMap[q.icon];
+                    return (
+                      <div className="w-[80vw] min-w-[276px] max-w-[320px] border border-gray-200 bg-white p-5">
+                        {IconComp && <IconComp size={36} strokeWidth={1.75} className="mb-3 text-brand-red" />}
+                        <h3 className="text-[15px] font-semibold text-text-primary">{q.title}</h3>
+                        <p className="mt-1 text-sm leading-relaxed text-text-muted">{q.description}</p>
+                      </div>
+                    );
+                  }}
+                />
+                <div className="mt-6 hidden gap-5 sm:grid sm:grid-cols-2">
                   {detail.quality.map((q) => {
                     const IconComp = iconMap[q.icon];
                     return (
-                      <div key={q.title} className="flex items-start gap-4">
+                      <div key={q.title} className="flex items-start gap-4 border border-gray-200 bg-white p-5">
                         {IconComp && <IconComp size={36} strokeWidth={1.75} className="text-brand-red flex-shrink-0 mt-0.5" />}
                         <div>
                           <h3 className="font-semibold text-text-primary text-[15px]">{q.title}</h3>
@@ -328,25 +307,23 @@ export default function ProductDetail() {
               {/* ── DOCUMENTS ── */}
               <section id="documents" className="scroll-mt-40 mb-14">
                 <SectionHeading title="Documents & Downloads" />
-                <div className="overflow-x-auto pb-1 sm:hidden [scrollbar-width:none] [-ms-overflow-style:none] [touch-action:pan-x]">
-                  <div className="flex w-max gap-4 pr-4">
-                    {detail.documents.map((doc) => (
-                      <div key={doc.title} className="w-[72vw] min-w-[236px] max-w-[272px] bg-white border border-gray-200 p-5 hover:border-brand-red/30 transition-colors">
-                        <div className="flex items-start gap-3">
-                          <IconDocument size={32} strokeWidth={1.75} className="text-brand-red flex-shrink-0" />
-                          <div className="min-w-0">
-                            <h4 className="font-semibold text-text-primary text-sm leading-snug">{doc.title}</h4>
-                            <p className="text-xs text-text-muted mt-1">{doc.type} &middot; {doc.size}</p>
-                          </div>
+                <MobileRail>
+                  {detail.documents.map((doc) => (
+                    <div key={doc.title} className="w-[72vw] min-w-[236px] max-w-[272px] border border-gray-200 bg-white p-5 transition-colors hover:border-brand-red/30">
+                      <div className="flex items-start gap-3">
+                        <IconDocument size={32} strokeWidth={1.75} className="flex-shrink-0 text-brand-red" />
+                        <div className="min-w-0">
+                          <h4 className="text-sm font-semibold leading-snug text-text-primary">{doc.title}</h4>
+                          <p className="mt-1 text-xs text-text-muted">{doc.type} &middot; {doc.size}</p>
                         </div>
-                        <Link to={`/request-quote?source=${encodeURIComponent(doc.title)}&product=${detail.id}`} className="inline-flex items-center gap-1.5 text-brand-red text-sm font-semibold mt-4 hover:underline">
-                          <span>Download</span> <IconDownload size={16} strokeWidth={2} />
-                        </Link>
                       </div>
-                    ))}
-                  </div>
-                </div>
-                <div className="hidden gap-5 mt-6 sm:grid sm:grid-cols-3">
+                      <Link to={`/request-quote?source=${encodeURIComponent(doc.title)}&product=${detail.id}`} className="mt-4 inline-flex items-center gap-1.5 text-sm font-semibold text-brand-red hover:underline">
+                        <span>Download</span> <IconDownload size={16} strokeWidth={2} />
+                      </Link>
+                    </div>
+                  ))}
+                </MobileRail>
+                <div className="mt-6 hidden gap-5 sm:grid sm:grid-cols-2 lg:grid-cols-3">
                   {detail.documents.map((doc) => (
                     <div key={doc.title} className="bg-white border border-gray-200 p-5 hover:border-brand-red/30 transition-colors">
                       <div className="flex items-start gap-3">
@@ -367,27 +344,25 @@ export default function ProductDetail() {
               {/* ── RELATED PRODUCTS ── */}
               <section className="mb-14">
                 <SectionHeading title="Related Products" />
-                <div className="overflow-x-auto pb-1 sm:hidden [scrollbar-width:none] [-ms-overflow-style:none] [touch-action:pan-x]">
-                  <div className="flex w-max gap-4 pr-4">
-                    {detail.relatedProducts.map((rp) => (
-                      <Link
-                        key={rp.id}
-                        to={`/products/${rp.id}`}
-                        className="group flex w-[80vw] min-w-[276px] max-w-[320px] items-start gap-4 bg-white border border-gray-200 p-4 hover:border-brand-red/30 transition-colors"
-                      >
-                        <div className="w-20 h-20 bg-gray-50 flex-shrink-0 flex items-center justify-center p-2">
-                          <img src={rp.image} alt={rp.title} className="max-h-full max-w-full object-contain" />
-                        </div>
-                        <div className="min-w-0">
-                          <h4 className="font-semibold text-text-primary text-sm group-hover:text-brand-red transition-colors">{rp.title}</h4>
-                          <p className="text-xs text-text-muted mt-1 line-clamp-2">{rp.description}</p>
-                          <CardCTA>View Product</CardCTA>
-                        </div>
-                      </Link>
-                    ))}
-                  </div>
-                </div>
-                <div className="hidden gap-5 mt-6 sm:grid sm:grid-cols-3">
+                <MobileRail>
+                  {detail.relatedProducts.map((rp) => (
+                    <Link
+                      key={rp.id}
+                      to={`/products/${rp.id}`}
+                      className="group flex w-[80vw] min-w-[276px] max-w-[320px] items-start gap-4 border border-gray-200 bg-white p-4 transition-colors hover:border-brand-red/30"
+                    >
+                      <div className="flex h-20 w-20 flex-shrink-0 items-center justify-center bg-gray-50 p-2">
+                        <img src={rp.image} alt={rp.title} className="max-h-full max-w-full object-contain" />
+                      </div>
+                      <div className="min-w-0">
+                        <h4 className="text-sm font-semibold text-text-primary transition-colors group-hover:text-brand-red">{rp.title}</h4>
+                        <p className="mt-1 line-clamp-2 text-xs text-text-muted">{rp.description}</p>
+                        <CardCTA>View Product</CardCTA>
+                      </div>
+                    </Link>
+                  ))}
+                </MobileRail>
+                <div className="mt-6 hidden gap-5 sm:grid sm:grid-cols-2 lg:grid-cols-3">
                   {detail.relatedProducts.map((rp) => (
                     <Link
                       key={rp.id}

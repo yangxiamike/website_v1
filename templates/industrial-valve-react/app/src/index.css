@@ -33,6 +33,32 @@
     --text-muted: #737373;
     --space-section-y: 4.5rem;
     --shadow-card: 0 8px 24px rgb(0 0 0 / 0.08);
+    --mobile-section-y: 4rem;
+    --mobile-section-gap: 1.25rem;
+    --mobile-title-gap: 0.75rem;
+    --mobile-card-gap: 1rem;
+    --mobile-card-width: 78vw;
+    --mobile-card-min: 16.75rem;
+    --mobile-card-max: 20.75rem;
+    --mobile-stat-card-min: 11.25rem;
+    --mobile-stat-card-max: 14rem;
+    --mobile-stat-bar-min-h: 6.5rem;
+    --mobile-button-height: 3rem;
+    --mobile-button-height-lg: 3.125rem;
+    --mobile-image-ratio-landscape: 16 / 10;
+    --mobile-image-ratio-photo: 4 / 3;
+    --mobile-image-ratio-square: 1 / 1;
+    --mobile-title-xl: 2rem;
+    --mobile-title-lg: 1.5rem;
+    --mobile-title-md: 1.125rem;
+    --mobile-body-md: 0.875rem;
+    --mobile-body-sm: 0.75rem;
+  }
+
+  @media (max-width: 767px) {
+    :root {
+      --space-section-y: var(--mobile-section-y);
+    }
   }
 
   * {
@@ -61,19 +87,33 @@
   }
 
   .ds-section {
-    @apply py-12 lg:py-16;
+    padding-block: var(--space-section-y);
+  }
+
+  @media (min-width: 1024px) {
+    .ds-section {
+      @apply py-16;
+    }
   }
 
   .ds-section-lg {
-    @apply py-14 lg:py-20;
+    padding-block: calc(var(--space-section-y) + 0.5rem);
+  }
+
+  @media (min-width: 1024px) {
+    .ds-section-lg {
+      @apply py-20;
+    }
   }
 
   .ds-page-title {
-    @apply text-3xl lg:text-[2.75rem] font-bold leading-[1.1] tracking-tight;
+    font-size: var(--mobile-title-xl);
+    @apply font-bold leading-[1.08] tracking-tight lg:text-[2.75rem];
   }
 
   .ds-section-title {
-    @apply text-xl lg:text-2xl font-bold text-text-primary tracking-tight;
+    font-size: var(--mobile-title-lg);
+    @apply font-bold leading-[1.12] text-text-primary tracking-tight lg:text-2xl;
   }
 
   .ds-card {
@@ -94,6 +134,199 @@
 
   .ds-icon {
     @apply text-brand-red flex-shrink-0;
+  }
+
+  .ds-mobile-scroll {
+    @apply overflow-x-auto;
+    padding-inline: 0;
+    padding-bottom: 0.25rem;
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+    touch-action: pan-x;
+    overscroll-behavior-x: contain;
+    scroll-snap-type: x proximity;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  .ds-mobile-scroll::-webkit-scrollbar {
+    display: none;
+  }
+
+  .ds-mobile-scroll-track {
+    @apply flex w-max;
+    gap: var(--mobile-card-gap);
+    padding-right: 1rem;
+  }
+
+  .ds-mobile-card {
+    flex: 0 0 auto;
+    width: var(--mobile-card-width);
+    min-width: var(--mobile-card-min);
+    max-width: var(--mobile-card-max);
+    scroll-snap-align: start;
+  }
+
+  .ds-mobile-card-sm {
+    flex: 0 0 auto;
+    min-width: var(--mobile-stat-card-min);
+    max-width: var(--mobile-stat-card-max);
+    scroll-snap-align: start;
+  }
+
+  .ds-mobile-stat-card {
+    @apply border border-gray-200 bg-white;
+    min-height: var(--mobile-stat-bar-min-h);
+    padding: 0.875rem;
+  }
+
+  .ds-mobile-stat-bar {
+    @apply grid grid-cols-2 bg-white;
+  }
+
+  .ds-mobile-stat-bar > * {
+    min-height: var(--mobile-stat-bar-min-h);
+    padding: 1rem;
+  }
+
+  .ds-btn-mobile {
+    min-height: var(--mobile-button-height);
+    @apply inline-flex items-center justify-center;
+  }
+
+  .ds-btn-mobile-lg {
+    min-height: var(--mobile-button-height-lg);
+    @apply inline-flex items-center justify-center;
+  }
+
+  .ds-media-landscape {
+    aspect-ratio: var(--mobile-image-ratio-landscape);
+  }
+
+  .ds-media-photo {
+    aspect-ratio: var(--mobile-image-ratio-photo);
+  }
+
+  .ds-media-square {
+    aspect-ratio: var(--mobile-image-ratio-square);
+  }
+
+  .ds-title-lg {
+    font-size: var(--mobile-title-lg);
+    @apply font-semibold leading-[1.12] tracking-tight text-text-primary;
+  }
+
+  .ds-title-md {
+    font-size: var(--mobile-title-md);
+    @apply font-semibold leading-[1.2] tracking-tight text-text-primary;
+  }
+
+  .ds-body-md {
+    font-size: var(--mobile-body-md);
+    @apply leading-relaxed text-text-secondary;
+  }
+
+  .ds-body-sm {
+    font-size: var(--mobile-body-sm);
+    @apply leading-relaxed text-text-muted;
+  }
+
+  .ds-section-stack {
+    gap: var(--mobile-section-gap);
+  }
+}
+
+@media (max-width: 767px) {
+  .ds-page-title {
+    max-width: 14ch;
+  }
+
+  .ds-section-title + p,
+  .ds-page-title + p {
+    margin-top: var(--mobile-title-gap);
+  }
+
+  .ds-mobile-scroll,
+  [class*="overflow-x-auto"][class*="[touch-action:pan-x]"] {
+    padding-bottom: 0.25rem;
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+    touch-action: pan-x;
+    overscroll-behavior-x: contain;
+    scroll-snap-type: x proximity;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  .ds-mobile-scroll::-webkit-scrollbar,
+  [class*="overflow-x-auto"][class*="[touch-action:pan-x]"]::-webkit-scrollbar {
+    display: none;
+  }
+
+  [class*="w-[78vw]"][class*="min-w-[272px]"],
+  [class*="w-[78vw]"][class*="min-w-[268px]"],
+  .ds-mobile-card {
+    flex: 0 0 auto;
+    width: var(--mobile-card-width);
+    min-width: var(--mobile-card-min);
+    max-width: var(--mobile-card-max);
+    scroll-snap-align: start;
+  }
+
+  [class*="min-w-[180px]"][class*="shadow-md"],
+  .ds-mobile-card-sm,
+  .ds-mobile-stat-card {
+    min-width: var(--mobile-stat-card-min);
+    max-width: var(--mobile-stat-card-max);
+    min-height: var(--mobile-stat-bar-min-h);
+  }
+
+  [class*="grid-cols-2"][class*="sm:flex"][class*="sm:overflow-x-auto"],
+  .ds-mobile-stat-bar {
+    grid-auto-rows: minmax(var(--mobile-stat-bar-min-h), auto);
+  }
+
+  [class*="grid-cols-2"][class*="sm:flex"][class*="sm:overflow-x-auto"] > *,
+  .ds-mobile-stat-bar > * {
+    min-height: var(--mobile-stat-bar-min-h);
+  }
+
+  [class*="h-[48px]"],
+  .ds-btn-mobile {
+    min-height: var(--mobile-button-height);
+  }
+
+  [class*="h-[50px]"],
+  .ds-btn-mobile-lg {
+    min-height: var(--mobile-button-height-lg);
+  }
+
+  [class*="aspect-[16/10]"],
+  .ds-media-landscape {
+    aspect-ratio: var(--mobile-image-ratio-landscape);
+  }
+
+  [class*="aspect-[4/3]"],
+  .ds-media-photo {
+    aspect-ratio: var(--mobile-image-ratio-photo);
+  }
+
+  [class*="aspect-square"],
+  .ds-media-square {
+    aspect-ratio: var(--mobile-image-ratio-square);
+  }
+
+  [class*="text-[13px]"] {
+    font-size: 0.8125rem;
+    line-height: 1.35;
+  }
+
+  [class*="text-[11px]"] {
+    font-size: var(--mobile-body-sm);
+    line-height: 1.45;
+  }
+
+  [class*="text-[10px]"] {
+    font-size: 0.6875rem;
+    line-height: 1.45;
   }
 }
 

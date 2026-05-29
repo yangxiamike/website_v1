@@ -1,8 +1,6 @@
-import { useEffect, useRef } from 'react';
 import CTABanner from '../components/CTABanner';
-import { CTAButton, PageHero, SectionHeading } from '../components/common';
+import { CTAButton, MobileMarquee, MobileRail, MobileCardShell, PageHero, SectionHeading, StatBar } from '../components/common';
 import { pageHeroes } from '../data/pageHeroes';
-import { motion } from 'framer-motion';
 import { Factory as FactoryIcon, PackageCheck, ClipboardCheck, ShieldCheck } from 'lucide-react';
 
 const stats = [
@@ -64,42 +62,6 @@ const capabilities = [
 ];
 
 export default function Factory() {
-  const processCarouselRef = useRef<HTMLDivElement>(null);
-  const processCarouselPauseUntilRef = useRef(0);
-
-  useEffect(() => {
-    const el = processCarouselRef.current;
-    if (!el) return;
-
-    let frame = 0;
-
-    const tick = () => {
-      if (window.innerWidth < 1024) {
-        const halfway = el.scrollWidth / 2;
-
-        if (Date.now() >= processCarouselPauseUntilRef.current) {
-          if (el.scrollLeft >= halfway) {
-            el.scrollLeft -= halfway;
-          } else {
-            el.scrollLeft += 0.4;
-          }
-        }
-      }
-
-      frame = window.requestAnimationFrame(tick);
-    };
-
-    frame = window.requestAnimationFrame(tick);
-
-    return () => {
-      window.cancelAnimationFrame(frame);
-    };
-  }, []);
-
-  const pauseProcessCarousel = () => {
-    processCarouselPauseUntilRef.current = Date.now() + 1600;
-  };
-
   return (
     <div className="overflow-x-hidden pt-[80px]">
       <PageHero
@@ -114,29 +76,25 @@ export default function Factory() {
       {/* ═══════ STATS BAR ═══════ */}
       <section className="relative z-10 -mt-10">
         <div className="max-w-5xl mx-auto px-4 sm:px-6">
-          <div className="overflow-hidden sm:hidden">
-            <motion.div
-              className="flex w-max gap-2.5 pb-1"
-              animate={{ x: ['0%', '-50%'] }}
-              transition={{ duration: 18, ease: 'linear', repeat: Infinity }}
-            >
-              {[...stats, ...stats].map((s, index) => (
-                <div key={`${s.label}-${index}`} className="min-w-[158px] border border-slate-200 bg-white px-3 py-3 shadow-md">
-                  <div className="flex items-start gap-2.5 text-left">
-                    <s.icon className="h-5 w-5 flex-shrink-0 text-brand-red" strokeWidth={1.7} />
-                    <div className="min-w-0">
-                      <div className="text-base font-bold leading-none text-text-primary">
-                        {s.value}
-                        {s.unit && <span className="ml-0.5 text-[10px] font-normal text-text-muted">{s.unit}</span>}
-                      </div>
-                      <div className="mt-1 text-[11px] font-semibold leading-tight text-text-secondary">{s.label}</div>
-                      <div className="mt-0.5 text-[10px] leading-tight text-text-muted">{s.desc}</div>
-                    </div>
-                  </div>
-                </div>
-              ))}
-            </motion.div>
-          </div>
+          <MobileMarquee
+            items={stats}
+            getKey={(stat) => stat.label}
+            innerClassName="gap-2.5"
+            renderItem={(s) => (
+              <StatBar
+                icon={s.icon}
+                value={
+                  <>
+                    {s.value}
+                    {s.unit && <span className="ml-0.5 text-[10px] font-normal text-text-muted">{s.unit}</span>}
+                  </>
+                }
+                label={s.label}
+                description={s.desc}
+                className="min-w-[158px] px-3 py-3"
+              />
+            )}
+          />
           <div className="hidden bg-white shadow-lg sm:grid sm:grid-cols-2 md:grid-cols-4">
             {stats.map((s) => (
               <div key={s.label} className="text-center py-6 px-4 border-r border-gray-100 last:border-r-0">
@@ -156,22 +114,20 @@ export default function Factory() {
         <div className="max-w-7xl mx-auto px-4 sm:px-6">
           <div className="sm:hidden">
             <SectionHeading title="Certificates & Standards" description="Our quality management system and products are certified by international authorities, ensuring consistent performance, safety and compliance in every delivery." />
-            <div className="mt-8 overflow-x-auto pb-1 [scrollbar-width:none] [-ms-overflow-style:none] [touch-action:pan-x]">
-              <div className="flex w-max gap-4 pr-4">
-                {certificates.map((cert) => (
-                  <div key={cert.label} className="w-[46vw] min-w-[168px] max-w-[196px] text-center">
-                    <div className="overflow-hidden border border-gray-200 bg-white">
-                      <img
-                        src={cert.image}
-                        alt={cert.label}
-                        className="aspect-[2/3] w-full object-cover"
-                      />
-                    </div>
-                    <p className="mt-2 text-[11px] font-medium text-text-muted">{cert.label}</p>
+            <MobileRail className="mt-8">
+              {certificates.map((cert) => (
+                <div key={cert.label} className="w-[46vw] min-w-[168px] max-w-[196px] text-center">
+                  <div className="overflow-hidden border border-gray-200 bg-white">
+                    <img
+                      src={cert.image}
+                      alt={cert.label}
+                      className="aspect-[2/3] w-full object-cover"
+                    />
                   </div>
-                ))}
-              </div>
-            </div>
+                  <p className="mt-2 text-[11px] font-medium text-text-muted">{cert.label}</p>
+                </div>
+              ))}
+            </MobileRail>
           </div>
           <div className="hidden flex-col items-start gap-10 sm:flex lg:flex-row">
             {/* Left: Text */}
@@ -307,27 +263,18 @@ export default function Factory() {
       <section className="bg-white py-12 lg:py-16">
         <div className="max-w-7xl mx-auto px-4 sm:px-6">
           <SectionHeading title="Production Process" align="center" className="mb-8" />
-          <div
-            ref={processCarouselRef}
-            onTouchStart={pauseProcessCarousel}
-            onTouchEnd={pauseProcessCarousel}
-            onPointerDown={pauseProcessCarousel}
-            onPointerUp={pauseProcessCarousel}
-            className="-mx-4 overflow-x-auto px-4 pb-2 lg:hidden [scrollbar-width:none] [-ms-overflow-style:none] [touch-action:pan-x]"
-          >
-            <div className="flex w-max snap-x snap-mandatory gap-4 pr-4">
-              {[...processSteps, ...processSteps].map((step, index) => (
-                <div
-                  key={`${step.num}-${index}`}
-                  className="flex w-[64vw] min-w-[210px] max-w-[240px] snap-start flex-col items-center border border-gray-200 bg-white px-4 py-6 text-center"
-                >
-                  <div className="mb-3 flex justify-center">{step.icon}</div>
-                  <div className="mb-1 text-xs font-bold text-brand-red">{step.num}</div>
-                  <div className="text-sm font-semibold text-text-primary">{step.title}</div>
-                </div>
-              ))}
-            </div>
-          </div>
+          <MobileRail className="-mx-4 px-4 pb-2 lg:hidden">
+            {processSteps.map((step) => (
+              <div
+                key={step.num}
+                className="flex w-[64vw] min-w-[210px] max-w-[240px] snap-start flex-col items-center border border-gray-200 bg-white px-4 py-6 text-center"
+              >
+                <div className="mb-3 flex justify-center">{step.icon}</div>
+                <div className="mb-1 text-xs font-bold text-brand-red">{step.num}</div>
+                <div className="text-sm font-semibold text-text-primary">{step.title}</div>
+              </div>
+            ))}
+          </MobileRail>
           <div className="hidden grid-cols-1 gap-0 border border-gray-200 lg:grid lg:grid-cols-5">
             {processSteps.map((step, i) => (
               <div
@@ -347,29 +294,27 @@ export default function Factory() {
       <section className="bg-gray-50 py-12 lg:py-16">
         <div className="max-w-7xl mx-auto px-4 sm:px-6">
           <SectionHeading title="Core Factory Capabilities" className="mb-8" />
-          <div className="overflow-x-auto pb-1 sm:hidden [scrollbar-width:none] [-ms-overflow-style:none] [touch-action:pan-x]">
-            <div className="flex w-max gap-4 pr-4">
-              {capabilities.map((cap) => (
-                <div key={cap.title} className="w-[86vw] min-w-[304px] max-w-[360px] overflow-hidden border border-gray-200 bg-white">
-                  <img src={cap.image} alt={cap.title} className="h-48 w-full object-cover" />
-                  <div className="p-5">
-                    <h3 className="mb-2 text-[15px] font-bold text-text-primary">{cap.title}</h3>
-                    <p className="mb-3 text-sm leading-relaxed text-text-secondary">{cap.desc}</p>
-                    <ul className="space-y-1.5">
-                      {cap.bullets.map((b) => (
-                        <li key={b} className="flex items-center gap-2 text-sm text-text-secondary">
-                          <svg className="h-3.5 w-3.5 flex-shrink-0 text-brand-red" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={3}>
-                            <path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" />
-                          </svg>
-                          {b}
-                        </li>
-                      ))}
-                    </ul>
-                  </div>
+          <MobileRail>
+            {capabilities.map((cap) => (
+              <MobileCardShell key={`${cap.title}-mobile`} className="w-[86vw] min-w-[304px] max-w-[360px]">
+                <img src={cap.image} alt={cap.title} className="h-48 w-full object-cover" />
+                <div className="p-5">
+                  <h3 className="mb-2 text-[15px] font-bold text-text-primary">{cap.title}</h3>
+                  <p className="mb-3 text-sm leading-relaxed text-text-secondary">{cap.desc}</p>
+                  <ul className="space-y-1.5">
+                    {cap.bullets.map((b) => (
+                      <li key={b} className="flex items-center gap-2 text-sm text-text-secondary">
+                        <svg className="h-3.5 w-3.5 flex-shrink-0 text-brand-red" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={3}>
+                          <path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" />
+                        </svg>
+                        {b}
+                      </li>
+                    ))}
+                  </ul>
                 </div>
-              ))}
-            </div>
-          </div>
+              </MobileCardShell>
+            ))}
+          </MobileRail>
           <div className="hidden gap-5 sm:grid sm:grid-cols-2">
             {capabilities.map((cap) => (
               <div key={cap.title} className="flex flex-col gap-0 border border-gray-200 bg-white overflow-hidden sm:flex-row">

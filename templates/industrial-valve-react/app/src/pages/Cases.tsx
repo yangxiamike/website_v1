@@ -2,7 +2,7 @@ import { useMemo } from 'react';
 import { Link, useSearchParams } from 'react-router-dom';
 import { ArrowRight, Factory, Search } from 'lucide-react';
 import { caseStudies, filterCategories } from '../data/cases';
-import { CTAButton, PageHero } from '../components/common';
+import { CTAButton, MobileRail, PageHero } from '../components/common';
 import { pageHeroes } from '../data/pageHeroes';
 
 export default function Cases() {
@@ -58,7 +58,7 @@ export default function Cases() {
       {/* ═══════ CASE CARDS ═══════ */}
       <section className="bg-white py-10 lg:py-14">
         <div className="max-w-7xl mx-auto px-4 sm:px-6">
-          <div className="space-y-10 hidden md:block">
+          <div className="hidden space-y-10 md:block">
             {filtered.map((cs) => (
               <div
                 key={cs.id}
@@ -140,46 +140,44 @@ export default function Cases() {
             ))}
           </div>
 
-          <div className="overflow-x-auto pb-1 md:hidden [scrollbar-width:none] [-ms-overflow-style:none] [touch-action:pan-x]">
-            <div className="flex w-max gap-4 pr-4">
-              {filtered.map((cs) => (
-                <div key={cs.id} className="w-[86vw] min-w-[304px] max-w-[360px] border border-gray-200 bg-white">
-                  <div className="overflow-hidden">
-                    <img
-                      src={cs.image}
-                      alt={cs.title}
-                      className="h-52 w-full object-cover"
-                    />
+          <MobileRail className="md:hidden">
+            {filtered.map((cs) => (
+              <div key={`${cs.id}-mobile`} className="w-[86vw] min-w-[304px] max-w-[360px] border border-gray-200 bg-white">
+                <div className="overflow-hidden">
+                  <img
+                    src={cs.image}
+                    alt={cs.title}
+                    className="h-52 w-full object-cover"
+                  />
+                </div>
+                <div className="p-5">
+                  <span className="text-brand-red text-xs font-semibold tracking-wider uppercase">
+                    {cs.industry}
+                  </span>
+                  <h3 className="mt-2 text-lg font-bold leading-snug text-text-primary">
+                    {cs.title}
+                  </h3>
+                  <p className="mt-1 text-sm font-medium text-text-muted">{cs.subtitle}</p>
+                  <p className="mt-3 line-clamp-4 text-sm leading-relaxed text-text-secondary">
+                    {cs.description}
+                  </p>
+                  <div className="mt-4 flex flex-wrap gap-2">
+                    {cs.productsSupplied.slice(0, 3).map((p) => (
+                      <span key={p} className="border border-gray-200 bg-gray-50 px-2.5 py-1 text-xs text-text-secondary">{p}</span>
+                    ))}
                   </div>
-                  <div className="p-5">
-                    <span className="text-brand-red text-xs font-semibold tracking-wider uppercase">
-                      {cs.industry}
-                    </span>
-                    <h3 className="mt-2 text-lg font-bold leading-snug text-text-primary">
-                      {cs.title}
-                    </h3>
-                    <p className="mt-1 text-sm font-medium text-text-muted">{cs.subtitle}</p>
-                    <p className="mt-3 line-clamp-4 text-sm leading-relaxed text-text-secondary">
-                      {cs.description}
-                    </p>
-                    <div className="mt-4 flex flex-wrap gap-2">
-                      {cs.productsSupplied.slice(0, 3).map((p) => (
-                        <span key={p} className="border border-gray-200 bg-gray-50 px-2.5 py-1 text-xs text-text-secondary">{p}</span>
-                      ))}
-                    </div>
-                    <div className="mt-5">
-                      <Link
-                        to={`/cases/${cs.id}`}
-                        className="inline-flex items-center gap-2 h-[40px] px-5 bg-brand-red text-white text-sm font-semibold hover:bg-dark-red transition-colors"
-                      >
-                        Read Case Study <ArrowRight className="w-4 h-4" />
-                      </Link>
-                    </div>
+                  <div className="mt-5">
+                    <Link
+                      to={`/cases/${cs.id}`}
+                      className="inline-flex items-center gap-2 h-[40px] px-5 bg-brand-red text-white text-sm font-semibold hover:bg-dark-red transition-colors"
+                    >
+                      Read Case Study <ArrowRight className="w-4 h-4" />
+                    </Link>
                   </div>
                 </div>
-              ))}
-            </div>
-          </div>
+              </div>
+            ))}
+          </MobileRail>
 
           <div className="mt-10 pt-6 border-t border-gray-100 text-center text-sm text-text-muted">
             Showing {filtered.length} sample project scenario{filtered.length === 1 ? '' : 's'}.

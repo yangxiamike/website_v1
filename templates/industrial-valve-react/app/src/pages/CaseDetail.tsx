@@ -1,9 +1,8 @@
 import { Link, useParams } from 'react-router-dom';
-import { motion } from 'framer-motion';
 import { ArrowRight, Shield, TrendingUp, Clock, Route } from 'lucide-react';
 import { getCaseById } from '../data/cases';
 import CTABanner from '../components/CTABanner';
-import { PageHero, SectionHeading } from '../components/common';
+import { MobileMarquee, MobileRail, PageHero, SectionHeading } from '../components/common';
 
 const iconMap: Record<string, React.ReactNode> = {
   shield: <Shield className="w-8 h-8 text-brand-red" />,
@@ -56,22 +55,20 @@ export default function CaseDetail() {
       {/* ═══════ PROJECT SNAPSHOT ROW ═══════ */}
       <section className="bg-white border-b border-gray-100">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 py-6">
-          <div className="overflow-x-auto pb-1 md:hidden [scrollbar-width:none] [-ms-overflow-style:none] [touch-action:pan-x]">
-            <div className="flex w-max gap-3 pr-4">
-              {[
-                { label: 'Industry', value: cs.industry },
-                { label: 'Location', value: cs.location },
-                { label: 'Application', value: cs.application },
-                { label: 'Products Supplied', value: cs.productsSupplied.join(', ') },
-                { label: 'Service', value: cs.service },
-              ].map((item) => (
-                <div key={item.label} className="w-[68vw] min-w-[220px] max-w-[260px] border border-gray-200 bg-white px-4 py-4">
-                  <div className="mb-1 text-[11px] uppercase tracking-wider text-text-muted">{item.label}</div>
-                  <div className="text-sm font-semibold text-text-primary">{item.value}</div>
-                </div>
-              ))}
-            </div>
-          </div>
+          <MobileRail className="md:hidden" innerClassName="flex w-max gap-3 pr-4">
+            {[
+              { label: 'Industry', value: cs.industry },
+              { label: 'Location', value: cs.location },
+              { label: 'Application', value: cs.application },
+              { label: 'Products Supplied', value: cs.productsSupplied.join(', ') },
+              { label: 'Service', value: cs.service },
+            ].map((item) => (
+              <div key={item.label} className="w-[68vw] min-w-[220px] max-w-[260px] border border-gray-200 bg-white px-4 py-4">
+                <div className="mb-1 text-[11px] uppercase tracking-wider text-text-muted">{item.label}</div>
+                <div className="text-sm font-semibold text-text-primary">{item.value}</div>
+              </div>
+            ))}
+          </MobileRail>
           <div className="hidden gap-6 md:grid md:grid-cols-5">
             <div>
               <div className="text-[11px] text-text-muted uppercase tracking-wider mb-1 flex items-center gap-1.5">
@@ -142,22 +139,20 @@ export default function CaseDetail() {
       <section className="bg-gray-50 py-10 lg:py-14">
         <div className="max-w-7xl mx-auto px-4 sm:px-6">
           <SectionHeading title="Project Challenges" />
-          <div className="overflow-x-auto pb-1 sm:hidden [scrollbar-width:none] [-ms-overflow-style:none] [touch-action:pan-x]">
-            <div className="flex w-max gap-4 pr-4">
-              {cs.challenges.map((ch, i) => (
-                <div key={ch.title} className="w-[80vw] min-w-[276px] max-w-[320px] bg-white border border-gray-200 p-5">
-                  <div className="flex items-center gap-3 mb-3">
-                    <span className="w-7 h-7 bg-brand-red text-white text-xs font-bold flex items-center justify-center flex-shrink-0">
-                      {i + 1}
-                    </span>
-                    <h3 className="font-semibold text-text-primary text-[15px]">{ch.title}</h3>
-                  </div>
-                  <p className="text-sm text-text-secondary leading-relaxed">{ch.desc}</p>
+          <MobileRail>
+            {cs.challenges.map((ch, i) => (
+              <div key={`${ch.title}-mobile`} className="w-[80vw] min-w-[276px] max-w-[320px] border border-gray-200 bg-white p-5">
+                <div className="mb-3 flex items-center gap-3">
+                  <span className="flex h-7 w-7 flex-shrink-0 items-center justify-center bg-brand-red text-xs font-bold text-white">
+                    {i + 1}
+                  </span>
+                  <h3 className="text-[15px] font-semibold text-text-primary">{ch.title}</h3>
                 </div>
-              ))}
-            </div>
-          </div>
-          <div className="hidden gap-5 sm:grid sm:grid-cols-3 mt-6">
+                <p className="text-sm leading-relaxed text-text-secondary">{ch.desc}</p>
+              </div>
+            ))}
+          </MobileRail>
+          <div className="mt-6 hidden gap-5 sm:grid sm:grid-cols-2 lg:grid-cols-3">
             {cs.challenges.map((ch, i) => (
               <div key={ch.title} className="bg-white border border-gray-200 p-6">
                 <div className="flex items-center gap-3 mb-3">
@@ -205,28 +200,26 @@ export default function CaseDetail() {
               View All Products <ArrowRight className="w-4 h-4" />
             </Link>
           </div>
-          <div className="overflow-x-auto pb-1 sm:hidden [scrollbar-width:none] [-ms-overflow-style:none] [touch-action:pan-x]">
-            <div className="flex w-max gap-4 pr-4">
-              {cs.productsUsed.map((pu) => (
-                <div key={pu.id} className="w-[74vw] min-w-[248px] max-w-[288px] bg-white border border-gray-200 p-5 hover:border-brand-red/30 transition-colors">
-                  <div className="h-32 bg-gray-50 flex items-center justify-center p-4 mb-4">
-                    <img src={pu.image} alt={pu.name} className="max-h-full max-w-full object-contain" />
-                  </div>
-                  <h4 className="font-semibold text-text-primary text-[15px]">{pu.name}</h4>
-                  <p className="text-xs text-text-muted mt-1">{pu.series}</p>
-                  <p className="text-xs text-text-muted">{pu.size}</p>
-                  <p className="text-xs text-text-muted">{pu.pressure}</p>
-                  <Link
-                    to={`/products/${pu.id}`}
-                    className="inline-flex items-center gap-1 text-brand-red text-sm font-semibold mt-3 hover:underline"
-                  >
-                    View Product <ArrowRight className="w-3.5 h-3.5" />
-                  </Link>
+          <MobileRail>
+            {cs.productsUsed.map((pu) => (
+              <div key={`${pu.id}-mobile`} className="w-[74vw] min-w-[248px] max-w-[288px] border border-gray-200 bg-white p-5 transition-colors hover:border-brand-red/30">
+                <div className="mb-4 flex h-32 items-center justify-center bg-gray-50 p-4">
+                  <img src={pu.image} alt={pu.name} className="max-h-full max-w-full object-contain" />
                 </div>
-              ))}
-            </div>
-          </div>
-          <div className="hidden gap-5 sm:grid sm:grid-cols-3">
+                <h4 className="text-[15px] font-semibold text-text-primary">{pu.name}</h4>
+                <p className="mt-1 text-xs text-text-muted">{pu.series}</p>
+                <p className="text-xs text-text-muted">{pu.size}</p>
+                <p className="text-xs text-text-muted">{pu.pressure}</p>
+                <Link
+                  to={`/products/${pu.id}`}
+                  className="mt-3 inline-flex items-center gap-1 text-sm font-semibold text-brand-red hover:underline"
+                >
+                  View Product <ArrowRight className="h-3.5 w-3.5" />
+                </Link>
+              </div>
+            ))}
+          </MobileRail>
+          <div className="hidden gap-5 sm:grid sm:grid-cols-2 lg:grid-cols-3">
             {cs.productsUsed.map((pu) => (
               <div key={pu.id} className="bg-white border border-gray-200 p-5 hover:border-brand-red/30 transition-colors">
                 <div className="h-32 bg-gray-50 flex items-center justify-center p-4 mb-4">
@@ -252,25 +245,21 @@ export default function CaseDetail() {
       <section className="bg-white py-10 lg:py-14">
         <div className="max-w-7xl mx-auto px-4 sm:px-6">
           <SectionHeading title="Result / Outcome" />
-          <div className="overflow-x-auto pb-1 sm:hidden [scrollbar-width:none] [-ms-overflow-style:none] [touch-action:pan-x]">
-            <motion.div
-              className="flex w-max gap-4 pr-4"
-              animate={{ x: ['0%', '-50%'] }}
-              transition={{ duration: 18, ease: 'linear', repeat: Infinity }}
-            >
-              {[...cs.results, ...cs.results].map((r, index) => (
-                <div key={`${r.label}-${index}`} className="w-[78vw] min-w-[268px] max-w-[320px] bg-white border border-gray-200 p-5">
-                  <div className="mb-3">{iconMap[r.icon]}</div>
-                  {r.value && (
-                    <div className="text-2xl font-bold text-text-primary">{r.value}</div>
-                  )}
-                  <div className="mt-1 text-[15px] font-semibold text-text-primary">{r.label}</div>
-                  <p className="mt-1 text-sm leading-relaxed text-text-secondary">{r.desc}</p>
-                </div>
-              ))}
-            </motion.div>
-          </div>
-          <div className="hidden gap-5 sm:grid sm:grid-cols-3 mt-6">
+          <MobileMarquee
+            items={cs.results}
+            getKey={(result) => result.label}
+            renderItem={(r) => (
+              <div className="w-[78vw] min-w-[268px] max-w-[320px] border border-gray-200 bg-white p-5">
+                <div className="mb-3">{iconMap[r.icon]}</div>
+                {r.value && (
+                  <div className="text-2xl font-bold text-text-primary">{r.value}</div>
+                )}
+                <div className="mt-1 text-[15px] font-semibold text-text-primary">{r.label}</div>
+                <p className="mt-1 text-sm leading-relaxed text-text-secondary">{r.desc}</p>
+              </div>
+            )}
+          />
+          <div className="mt-6 hidden gap-5 sm:grid sm:grid-cols-2 lg:grid-cols-3">
             {cs.results.map((r) => (
               <div key={r.label} className="bg-white border border-gray-200 p-6">
                 <div className="mb-3">{iconMap[r.icon]}</div>
@@ -294,24 +283,22 @@ export default function CaseDetail() {
               View All Industries <ArrowRight className="w-4 h-4" />
             </Link>
           </div>
-          <div className="overflow-x-auto pb-1 lg:hidden [scrollbar-width:none] [-ms-overflow-style:none] [touch-action:pan-x]">
-            <div className="flex w-max gap-4 pr-4">
-              {cs.relatedIndustries.map((ri) => (
-                <Link
-                  key={ri.slug}
-                  to={`/industries/${ri.slug}`}
-                  className="group relative h-44 w-[58vw] min-w-[188px] max-w-[228px] overflow-hidden"
-                >
-                  <img src={ri.image} alt={ri.name} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" />
-                  <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/20 to-transparent" />
-                  <div className="absolute bottom-0 left-0 right-0 p-4">
-                    <span className="text-white font-semibold text-sm">{ri.name}</span>
-                  </div>
-                </Link>
-              ))}
-            </div>
-          </div>
-          <div className="hidden grid-cols-2 gap-4 lg:grid lg:grid-cols-4">
+          <MobileRail className="lg:hidden">
+            {cs.relatedIndustries.map((ri) => (
+              <Link
+                key={`${ri.slug}-mobile`}
+                to={`/industries/${ri.slug}`}
+                className="group relative h-44 w-[58vw] min-w-[188px] max-w-[228px] overflow-hidden"
+              >
+                <img src={ri.image} alt={ri.name} className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-105" />
+                <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/20 to-transparent" />
+                <div className="absolute bottom-0 left-0 right-0 p-4">
+                  <span className="text-sm font-semibold text-white">{ri.name}</span>
+                </div>
+              </Link>
+            ))}
+          </MobileRail>
+          <div className="hidden gap-4 sm:grid-cols-2 lg:grid lg:grid-cols-4">
             {cs.relatedIndustries.map((ri) => (
               <Link
                 key={ri.slug}

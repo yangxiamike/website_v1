@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react';
 import { useLocation } from 'react-router-dom';
 import { ChevronDown } from 'lucide-react';
 import { faqs } from '../data';
-import { CTAButton, PageHero, ResourceCard, SectionHeading } from '../components/common';
+import { CTAButton, MobileRail, PageHero, ResourceCard, SectionHeading } from '../components/common';
 import { pageHeroes } from '../data/pageHeroes';
 
 /* ─── Scroll to section helper ─── */
@@ -101,7 +101,7 @@ export default function Resources() {
                   activeSection === tab.id
                     ? 'border-brand-red text-brand-red'
                     : 'border-transparent text-text-secondary hover:text-text-primary'
-                } ${tab.id === 'downloads' ? 'col-span-2 sm:col-span-1' : ''}`}
+                } ${tab.id === 'faqs' ? 'col-span-2 sm:col-span-1' : ''}`}
               >
                 {tab.icon}
                 {tab.label}
@@ -115,11 +115,10 @@ export default function Resources() {
       <section id="downloads" className="bg-white py-10 lg:py-14 scroll-mt-36">
         <div className="max-w-7xl mx-auto px-4 sm:px-6">
           <SectionHeading title="Catalogs & Datasheets" description="Product catalogs, technical datasheets, certificates, and installation guides." className="mb-6" />
-          <div className="overflow-x-auto pb-4 [scrollbar-width:none] [-ms-overflow-style:none] [touch-action:pan-x]" style={{ scrollbarWidth: 'thin' }}>
-            <div className="flex w-max gap-4 pr-4 sm:gap-5">
-              {downloads.map((dl) => (
+          <MobileRail>
+            {downloads.map((dl) => (
+              <div key={`${dl.title}-mobile`} className="w-[80vw] min-w-[276px] max-w-[320px]">
                 <ResourceCard
-                  key={dl.title}
                   title={dl.title}
                   meta={dl.size}
                   image={dl.image}
@@ -130,8 +129,24 @@ export default function Resources() {
                     </span>
                   )}
                 />
-              ))}
-            </div>
+              </div>
+            ))}
+          </MobileRail>
+          <div className="hidden gap-4 sm:grid sm:grid-cols-2 lg:grid-cols-3">
+            {downloads.map((dl) => (
+              <ResourceCard
+                key={dl.title}
+                title={dl.title}
+                meta={dl.size}
+                image={dl.image}
+                to={`/request-quote?source=${encodeURIComponent(dl.title)}`}
+                badge={(
+                  <span className={`mb-2 inline-block px-2 py-0.5 text-[10px] font-semibold tracking-wider ${dl.typeColor}`}>
+                    {dl.type}
+                  </span>
+                )}
+              />
+            ))}
           </div>
         </div>
       </section>
@@ -140,18 +155,28 @@ export default function Resources() {
       <section id="articles" className="bg-gray-50 py-10 lg:py-14 scroll-mt-36">
         <div className="max-w-7xl mx-auto px-4 sm:px-6">
           <SectionHeading title="Technical Articles" description="Expert insights and practical guidance on valve selection, operation, and maintenance." className="mb-6" />
-          <div className="overflow-x-auto pb-4 [scrollbar-width:none] [-ms-overflow-style:none] [touch-action:pan-x]" style={{ scrollbarWidth: 'thin' }}>
-            <div className="flex w-max gap-4 pr-4 sm:gap-5">
-              {articles.map((article) => (
+          <MobileRail>
+            {articles.map((article) => (
+              <div key={`${article.title}-mobile`} className="w-[80vw] min-w-[276px] max-w-[320px]">
                 <ResourceCard
-                  key={article.title}
                   title={article.title}
                   meta={`${article.date} · ${article.readTime}`}
                   image={article.image}
                   to={`/contact?topic=${encodeURIComponent(article.title)}`}
                 />
-              ))}
-            </div>
+              </div>
+            ))}
+          </MobileRail>
+          <div className="hidden gap-4 sm:grid sm:grid-cols-2 lg:grid-cols-3">
+            {articles.map((article) => (
+              <ResourceCard
+                key={article.title}
+                title={article.title}
+                meta={`${article.date} · ${article.readTime}`}
+                image={article.image}
+                to={`/contact?topic=${encodeURIComponent(article.title)}`}
+              />
+            ))}
           </div>
         </div>
       </section>

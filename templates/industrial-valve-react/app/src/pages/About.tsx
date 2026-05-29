@@ -1,5 +1,11 @@
 import CTABanner from '../components/CTABanner';
-import { CTAButton, PageHero, SectionHeading } from '../components/common';
+import {
+  CTAButton,
+  MobileRail,
+  MobileCardShell,
+  PageHero,
+  SectionHeading,
+} from '../components/common';
 import { pageHeroes } from '../data/pageHeroes';
 import { WORLD_LAND_PATH } from '../data/worldLandPath';
 
@@ -169,12 +175,10 @@ export default function About() {
             Our Journey
           </h2>
           <div className="relative hidden sm:block">
-            {/* Horizontal line */}
             <div className="hidden lg:block absolute top-[6px] left-[3%] right-[3%] h-px bg-gray-300" />
             <div className="grid grid-cols-2 sm:grid-cols-4 lg:grid-cols-7 gap-y-8 gap-x-4">
               {milestones.map((m) => (
                 <div key={m.year} className="relative text-center">
-                  {/* Red circle on line */}
                   <div className="hidden lg:block absolute -top-[1px] left-1/2 -translate-x-1/2 w-3.5 h-3.5 rounded-full bg-brand-red border-2 border-gray-50 z-10" />
                   <div className="pt-0 lg:pt-7">
                     <div className="text-brand-red font-bold text-sm mb-1.5">{m.year}</div>
@@ -185,23 +189,21 @@ export default function About() {
               ))}
             </div>
           </div>
-          <div className="-mx-4 overflow-x-auto px-4 pb-3 sm:hidden [scrollbar-width:none] [-ms-overflow-style:none] [touch-action:pan-x]">
-            <div className="relative flex w-max items-start gap-4 pr-10">
-              <div className="pointer-events-none absolute left-6 right-8 top-4 h-px bg-gray-300" />
-              <div className="pointer-events-none absolute right-4 top-[8px] h-3 w-3 rotate-45 border-r border-t border-gray-300" />
-              {milestones.map((m) => (
-                <div key={m.year} className="relative w-[31vw] min-w-[168px] max-w-[196px] flex-shrink-0 snap-start pt-10">
-                  <div className="absolute left-6 top-[8px] z-10 h-4 w-4 rounded-full border-[3px] border-white bg-brand-red shadow-sm" />
-                  <div className="absolute left-[31px] top-[24px] h-10 border-l border-dashed border-gray-300" />
-                  <div className="flex min-h-[268px] flex-col border border-gray-200 bg-white px-4 py-5 shadow-sm">
-                    <div className="mb-3 text-[1.35rem] font-bold leading-none text-brand-red">{m.year}</div>
-                    <div className="mb-4 text-[0.95rem] font-semibold leading-snug text-text-primary">{m.title}</div>
-                    <p className="text-[13px] leading-7 text-text-muted">{m.desc}</p>
-                  </div>
+          <MobileRail className="-mx-4 px-4 pb-3" innerClassName="relative flex w-max items-start gap-4 pr-10">
+            <div className="pointer-events-none absolute left-6 right-8 top-4 h-px bg-gray-300" />
+            <div className="pointer-events-none absolute right-4 top-[8px] h-3 w-3 rotate-45 border-r border-t border-gray-300" />
+            {milestones.map((m) => (
+              <div key={m.year} className="relative w-[31vw] min-w-[168px] max-w-[196px] flex-shrink-0 snap-start pt-10">
+                <div className="absolute left-6 top-[8px] z-10 h-4 w-4 rounded-full border-[3px] border-white bg-brand-red shadow-sm" />
+                <div className="absolute left-[31px] top-[24px] h-10 border-l border-dashed border-gray-300" />
+                <div className="flex min-h-[268px] flex-col border border-gray-200 bg-white px-4 py-5 shadow-sm">
+                  <div className="mb-3 text-[1.35rem] font-bold leading-none text-brand-red">{m.year}</div>
+                  <div className="mb-4 text-[0.95rem] font-semibold leading-snug text-text-primary">{m.title}</div>
+                  <p className="text-[13px] leading-7 text-text-muted">{m.desc}</p>
                 </div>
-              ))}
-            </div>
-          </div>
+              </div>
+            ))}
+          </MobileRail>
         </div>
       </section>
 
@@ -211,24 +213,22 @@ export default function About() {
           <h2 className="text-xl lg:text-[1.4rem] font-bold text-text-primary tracking-tight mb-10">
             People Behind Haiyue
           </h2>
-          <div className="overflow-x-auto pb-1 sm:hidden [scrollbar-width:none] [-ms-overflow-style:none] [touch-action:pan-x]">
-            <div className="flex w-max gap-4 pr-4">
-              {people.map((p) => (
-                <div key={p.title} className="w-[82vw] min-w-[296px] max-w-[360px] overflow-hidden rounded-sm border border-gray-200 bg-white">
-                  <div className="relative aspect-[4/3]">
-                    <img src={p.image} alt={p.title} className="h-full w-full object-cover" />
-                  </div>
-                  <div className="p-5">
-                    <h4 className="mb-2 text-xs font-bold tracking-wider text-brand-red uppercase">{p.title}</h4>
-                    <p className="text-sm leading-relaxed text-text-secondary">{p.desc}</p>
-                  </div>
+          <MobileRail>
+            {people.map((p) => (
+              <MobileCardShell key={`${p.title}-mobile`} className="w-[82vw] min-w-[296px] max-w-[360px]">
+                <div className="relative aspect-[4/3]">
+                  <img src={p.image} alt={p.title} className="h-full w-full object-cover" />
                 </div>
-              ))}
-            </div>
-          </div>
+                <div className="p-5">
+                  <h4 className="mb-2 text-xs font-bold tracking-wider text-brand-red uppercase">{p.title}</h4>
+                  <p className="text-sm leading-relaxed text-text-secondary">{p.desc}</p>
+                </div>
+              </MobileCardShell>
+            ))}
+          </MobileRail>
           <div className="hidden gap-5 sm:grid sm:grid-cols-3">
             {people.map((p) => (
-              <div key={p.title} className="rounded-sm overflow-hidden">
+              <div key={p.title} className="overflow-hidden rounded-sm border border-gray-200 bg-white">
                 {/* Image */}
                 <div className="relative" style={{ aspectRatio: '4/3' }}>
                   <img src={p.image} alt={p.title} className="w-full h-full object-cover" />
